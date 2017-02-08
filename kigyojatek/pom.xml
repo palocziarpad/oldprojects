@@ -76,7 +76,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>GameRunner</mainClass>
+                            <mainClass>com.snakegame.control.GameRunner</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Class-Path>.</Class-Path>

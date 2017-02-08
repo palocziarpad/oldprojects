@@ -1,5 +1,4 @@
 
-public class WinDifficult
-{
-	
+public class WinDifficult {
+
 }
