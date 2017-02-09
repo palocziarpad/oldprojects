@@ -6,6 +6,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Representation of a Snake Game Theme
+ *
+ */
 public class SnakeTheme {
     public Image[] BIARRAY;
     private static String designPrefix;
@@ -13,11 +17,31 @@ public class SnakeTheme {
         designPrefix = getStdDesign();
     }
 
-    public static String getDesignPrefix() {
+    /**
+     * Constructor.
+     */
+    public SnakeTheme() {
+        designPrefix = getStdDesign();
+        BIARRAY = new BufferedImage[21];
+
+        resetTheme();
+    }
+
+    /***
+     * Get selected theme
+     * 
+     * @return
+     */
+    public static String getSelectedTheme() {
         return designPrefix;
     }
 
-    public void setDesignPrefix(String designPrefix) {
+    /**
+     * Set the theme
+     * 
+     * @param designPrefix
+     */
+    public void setTheme(String designPrefix) {
         SnakeTheme.designPrefix = designPrefix;
         resetTheme();
     }
@@ -51,21 +75,10 @@ public class SnakeTheme {
         }
     }
 
-    public SnakeTheme() {
-        designPrefix = getStdDesign();
-        BIARRAY = new BufferedImage[21];
-
-        resetTheme();
-    }
-
     public static String getStdDesign() {
         return "/resources/mira/";
     }
 
-    /*
-     * public String getDesign() { return designPrefix; } public void
-     * setDesign(String design) { SnakePic.designPrefix = design; }
-     */
     public enum PIC {
         EMPTY, TAILLEFT, TAILUP, TAILRIGHT, TAILDOWN, HEADUP, HEADRIGHT, HEADDOWN, HEADLEFT, BODYHOR, BODYVER, FOOD, GAMEBG, TABLE, HIGHSCORE, SLANTRD, SLANTLD, SLANTLU, SLANTRU, FOOD2
     }

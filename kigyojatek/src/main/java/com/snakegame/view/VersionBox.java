@@ -9,15 +9,25 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+/**
+ * Window for showing version information.
+ *
+ */
 @SuppressWarnings("serial")
 public class VersionBox extends JDialog {
     private JButton closeButton;
 
+    /***
+     * Constructor.
+     */
     public VersionBox() {
         initComponents();
         getRootPane().setDefaultButton(closeButton);
     }
 
+    /**
+     * Close the box.
+     */
     public void closeAboutBox() {
         dispose();
     }
@@ -49,6 +59,11 @@ public class VersionBox extends JDialog {
 
     }
 
+    /**
+     * Get the close button
+     * 
+     * @return the close button
+     */
     public JButton getCloseButton() {
         return closeButton;
     }

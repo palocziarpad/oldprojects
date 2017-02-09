@@ -6,36 +6,34 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.snakegame.model.ThemeOptions;
 import com.snakegame.model.SnakeTheme;
+import com.snakegame.model.ThemeOptions;
 
 /***
  * Window to show the options of the game.
  *
  */
 public class OptionsWin extends JFrame {
+    private static final String CLOSE_TEXT = "close";
     JPanel panel, theme;
     JButton save, close, cancel;
     ButtonGroup themeopt;
     JComboBox<String> themelist;
 
+    /**
+     * Constructor.
+     */
     public OptionsWin() {
         super("Options");
         setSize(200, 200);
         ThemeOptions opt = new ThemeOptions();
         themeopt = new ButtonGroup();
-        // rbuttons= new JRadioButton[opt.themes.length];
         panel = new JPanel();
         themelist = new JComboBox<String>(opt.getThemes());
 
-        // themelist.setEnabled(true);
         panel.add(themelist);
-        // save=new JButton("Save");
-        // panel.add(save);
-        close = new JButton("close");
+        close = new JButton(CLOSE_TEXT);
         panel.add(close);
-        // cancel=new JButton("cancel");
-        // panel.add(cancel);
 
         setResizable(false);
         add(panel);
@@ -49,10 +47,10 @@ public class OptionsWin extends JFrame {
      *            snakePic that will be used to change the theme.
      */
     public void setTheme(SnakeTheme snakePic) {
-        // create memory pool to optimize it.
+        // @TODO create memory pool to optimize it.
         String s = themelist.getSelectedItem().toString();
-        if (SnakeTheme.getDesignPrefix().equals(s))
+        if (SnakeTheme.getSelectedTheme().equals(s))
             return;
-        snakePic.setDesignPrefix(s);
+        snakePic.setTheme(s);
     }
 }

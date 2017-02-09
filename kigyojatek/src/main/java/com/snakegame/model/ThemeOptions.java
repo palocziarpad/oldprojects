@@ -1,8 +1,16 @@
 package com.snakegame.model;
 
+/***
+ * Stores the different theme options
+ * 
+ *
+ */
 public class ThemeOptions {
     private String[] themes;
 
+    /***
+     * Constructor.
+     */
     public ThemeOptions() {
         super();
         this.themes = new String[4];

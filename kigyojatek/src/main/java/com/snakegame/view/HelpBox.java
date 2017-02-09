@@ -8,6 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+/**
+ * Help window.
+ *
+ */
 public class HelpBox extends JDialog {
     /**
      * Constructor.

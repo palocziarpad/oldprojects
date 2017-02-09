@@ -17,7 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import com.snakegame.control.Game;
-import com.snakegame.model.SnakeBodyPart;
+import com.snakegame.model.Direction;
 import com.snakegame.model.SnakeTheme;
 
 @SuppressWarnings("serial")
@@ -50,9 +50,9 @@ public class MainWindow extends JFrame {
         for (int k = 3; k < meret; k++) {
             getTable().getSnakegame().getSnake().removeLast();
         }
-        table.getSnakegame().getSnake().get(0).setState((byte) 4, (byte) 2, SnakeBodyPart.Direction.RIGHT);
-        table.getSnakegame().getSnake().get(1).setState((byte) 3, (byte) 2, SnakeBodyPart.Direction.RIGHT);
-        table.getSnakegame().getSnake().get(2).setState((byte) 2, (byte) 2, SnakeBodyPart.Direction.RIGHT);
+        table.getSnakegame().getSnake().get(0).setState((byte) 4, (byte) 2, Direction.RIGHT);
+        table.getSnakegame().getSnake().get(1).setState((byte) 3, (byte) 2, Direction.RIGHT);
+        table.getSnakegame().getSnake().get(2).setState((byte) 2, (byte) 2, Direction.RIGHT);
         repaint();
         if (table.getSnakegame().getGameover() == Game.GameOver.BITE
                 || table.getSnakegame().getGameover() == Game.GameOver.WALL) {
@@ -77,7 +77,7 @@ public class MainWindow extends JFrame {
         init();
         backGround = new JLabel();
         backGround.setIcon(
-                new ImageIcon(getClass().getResource(SnakeTheme.getDesignPrefix() + SnakeTheme.PicFile.OPENBG)));
+                new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + SnakeTheme.PicFile.OPENBG)));
         // bg.setSize(200, 200);
         clickListener = new ClickListener();
         panel = new JPanel();
@@ -125,43 +125,40 @@ public class MainWindow extends JFrame {
     public class MyKeyListener extends KeyAdapter {
         public void keyPressed(KeyEvent ke) {
             char i = ke.getKeyChar();
-            // System.out.println("\' " + i +" \'");
 
             if (ke.getKeyCode() == KeyEvent.VK_UP) {
-                getTable().getSnakegame().setDirection(SnakeBodyPart.Direction.UP);
+                getTable().getSnakegame().setDirection(Direction.UP);
                 return;
 
             } else if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
-                getTable().getSnakegame().setDirection(SnakeBodyPart.Direction.DOWN);
+                getTable().getSnakegame().setDirection(Direction.DOWN);
                 return;
 
             } else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
-                getTable().getSnakegame().setDirection(SnakeBodyPart.Direction.LEFT);
+                getTable().getSnakegame().setDirection(Direction.LEFT);
                 return;
 
             } else if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
-                getTable().getSnakegame().setDirection(SnakeBodyPart.Direction.RIGHT);
+                getTable().getSnakegame().setDirection(Direction.RIGHT);
                 return;
 
             } else
                 switch (i) {
 
                 case 'w':
-                    getTable().getSnakegame().setDirection(SnakeBodyPart.Direction.UP);
+                    getTable().getSnakegame().setDirection(Direction.UP);
                     break;
                 case 'a':
-                    getTable().getSnakegame().setDirection(SnakeBodyPart.Direction.LEFT);
+                    getTable().getSnakegame().setDirection(Direction.LEFT);
                     break;
                 case 's':
-                    getTable().getSnakegame().setDirection(SnakeBodyPart.Direction.DOWN);
+                    getTable().getSnakegame().setDirection(Direction.DOWN);
                     break;
                 case 'd':
-                    getTable().getSnakegame().setDirection(SnakeBodyPart.Direction.RIGHT);
+                    getTable().getSnakegame().setDirection(Direction.RIGHT);
                     break;
                 case 'p':
-                    // pause=!pause;
                     table.pauseSwitch();
-                    // System.out.println("pause: "+ table.pause);
                     break;
                 }
 
@@ -186,8 +183,7 @@ public class MainWindow extends JFrame {
                     opts.setTheme(table.getSp());
                     opts.setVisible(false);
                     backGround.setIcon(new ImageIcon(
-                            getClass().getResource(SnakeTheme.getDesignPrefix() + SnakeTheme.PicFile.OPENBG)));
-                    // bg.setSize(200, 200);
+                            getClass().getResource(SnakeTheme.getSelectedTheme() + SnakeTheme.PicFile.OPENBG)));
                     return;
                 }
                 if (e.getSource() == opts.save) {
@@ -231,7 +227,7 @@ public class MainWindow extends JFrame {
 
     public void gameOverBite() {
         backGround.setIcon(
-                new ImageIcon(getClass().getResource(SnakeTheme.getDesignPrefix() + SnakeTheme.PicFile.GAMEOVERBITE)));
+                new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + SnakeTheme.PicFile.GAMEOVERBITE)));
         panel.remove(getTable());
         panel.add(backGround);
 
@@ -241,7 +237,7 @@ public class MainWindow extends JFrame {
 
     public void gameOverStun() {
         backGround.setIcon(
-                new ImageIcon(getClass().getResource(SnakeTheme.getDesignPrefix() + SnakeTheme.PicFile.GAMEOVERSTUN)));
+                new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + SnakeTheme.PicFile.GAMEOVERSTUN)));
         panel.remove(getTable());
         panel.add(backGround);
         repaint();

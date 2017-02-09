@@ -24,8 +24,6 @@ public class Board extends JPanel {
     // az �ssz pixel m�ret ami kell az eg�sz megrajzol�shoz
     final int maxsize = squarecount * squarepixsize;
     private Game snakegame;
-    // private Point startPoint;
-    // private Point scorecoord;
     private SnakeTheme sp;
     private Point point;
     private boolean pause;
@@ -34,7 +32,7 @@ public class Board extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        point.x = (640 - 421) / 8;// point.y=(480-421)/2;
+        point.x = (640 - 421) / 8;
         point.y = 10;
         g2d.drawImage(sp.BIARRAY[12], 0, 00, null);
         g2d.drawImage(sp.BIARRAY[13], point.x, point.y, null);
@@ -53,7 +51,7 @@ public class Board extends JPanel {
     }
 
     public void reinit() {
-        snakegame.reinit();
+        snakegame.reInit();
     }
 
     public Board() {

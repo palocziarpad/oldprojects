@@ -64,7 +64,6 @@ public class SnakeBodyPart {
                 return true;
         }
         return false;
-        // return (x==food[0].x&&y==food[0].y);
     }
 
     public boolean isAt(LinkedList<SnakeBodyPart> foods) {
@@ -98,7 +97,6 @@ public class SnakeBodyPart {
                 return i;
         }
         return -1;
-        // return (x==food[0].x&&y==food[0].y);
     }
 
     public void setState(byte x, byte y, Direction dir) {
@@ -119,22 +117,4 @@ public class SnakeBodyPart {
         HEAD, TORSO, TAIL, FOOD, NEWPART
     }
 
-    public enum Direction {
-        UP, RIGHT, DOWN, LEFT;
-
-        public Direction opposite() {
-
-            switch (this) {
-            case UP:
-                return DOWN;
-            case RIGHT:
-                return LEFT;
-            case LEFT:
-                return RIGHT;
-            case DOWN:
-                return UP;
-            }
-            return null;
-        }
-    }
 }

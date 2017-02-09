@@ -4,9 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import com.snakegame.model.Direction;
 import com.snakegame.model.SnakeBodyPart;
 import com.snakegame.view.MainWindow;
 
+/**
+ * The game runner class
+ *
+ */
 public class GameRunner {
 
     private static final int SNAKE_INITIAL_SIZE = 3;
@@ -57,7 +62,6 @@ public class GameRunner {
     }
 
     public static void main(String[] args) {
-        // System.out.println("STart");
         new GameRunner().run();
         /**
          * @TODO 1. legyen egy j�t�k start gomb. pipa 2. pontsz�ml�l� pipa 3.
@@ -92,9 +96,9 @@ public class GameRunner {
         for (int k = SNAKE_INITIAL_SIZE; k < size; k++) {
             mainwin.getTable().getSnakegame().getSnake().removeLast();
         }
-        mainwin.getTable().getSnakegame().getSnake().get(0).setState((byte) 4, (byte) 2, SnakeBodyPart.Direction.RIGHT);
-        mainwin.getTable().getSnakegame().getSnake().get(1).setState((byte) 3, (byte) 2, SnakeBodyPart.Direction.RIGHT);
-        mainwin.getTable().getSnakegame().getSnake().get(2).setState((byte) 2, (byte) 2, SnakeBodyPart.Direction.RIGHT);
+        mainwin.getTable().getSnakegame().getSnake().get(0).setState((byte) 4, (byte) 2, Direction.RIGHT);
+        mainwin.getTable().getSnakegame().getSnake().get(1).setState((byte) 3, (byte) 2, Direction.RIGHT);
+        mainwin.getTable().getSnakegame().getSnake().get(2).setState((byte) 2, (byte) 2, Direction.RIGHT);
         mainwin.repaint();
         game();
 
