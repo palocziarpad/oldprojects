@@ -65,48 +65,49 @@ public class Game {
         return (byte) ((Math.random() * (to - from)) + from);
     }
 
-    public void step() {
+    public void doStep() {
         /**
          * We use the snake tail (last element) to be the new head, thats how it
          * moves.
          */
         // Kigyotestresz uj=new Kigyotestresz
         // (kigyotest.getFirst().getX(),kigyotest.getFirst().y);
-        SnakeBodyPart uj = getSnake().getLast();
-        uj.setX(getSnake().getFirst().getX());
-        uj.setY(getSnake().getFirst().getY());
-        uj.setPartKind(SnakeBodyPart.Parts.HEAD);
+        SnakeBodyPart newBodyPart = getSnake().getLast();
+        newBodyPart.setX(getSnake().getFirst().getX());
+        newBodyPart.setY(getSnake().getFirst().getY());
+        newBodyPart.setPartKind(SnakeBodyPart.Parts.HEAD);
         if (getDirection() != null) {
             if (getSnake().get(1).getIrany().equals(getDirection().opposite())) {
                 // System.out.println(snake.get(1).getIrany()+"
                 // dir:"+direction+" opp:"+direction.opposite());
-            } else
+            } else {
                 getSnake().getFirst().setIrany(getDirection());
+            }
             setDirection(null);
         }
         switch (getSnake().getFirst().getIrany()) {
         // go to left
         case LEFT: {
-            uj.setX((byte) (uj.getX() - 1));
-            uj.setDir(SnakeBodyPart.Direction.LEFT);
+            newBodyPart.setX((byte) (newBodyPart.getX() - 1));
+            newBodyPart.setDir(SnakeBodyPart.Direction.LEFT);
         }
             break;
         // go to right
         case RIGHT: {
-            uj.setX((byte) (uj.getX() + 1));
-            uj.setDir(SnakeBodyPart.Direction.RIGHT);
+            newBodyPart.setX((byte) (newBodyPart.getX() + 1));
+            newBodyPart.setDir(SnakeBodyPart.Direction.RIGHT);
         }
             break;
         // go down
         case DOWN: {
-            uj.setY((byte) (uj.getY() + 1));
-            uj.setDir(SnakeBodyPart.Direction.DOWN);
+            newBodyPart.setY((byte) (newBodyPart.getY() + 1));
+            newBodyPart.setDir(SnakeBodyPart.Direction.DOWN);
         }
             break;
         // go up
         case UP: {
-            uj.setY((byte) (uj.getY() - 1));
-            uj.setDir(SnakeBodyPart.Direction.UP);
+            newBodyPart.setY((byte) (newBodyPart.getY() - 1));
+            newBodyPart.setDir(SnakeBodyPart.Direction.UP);
         }
             break;
         }
@@ -115,21 +116,20 @@ public class Game {
 
         eating2food();
         getSnake().removeLast();
-        getSnake().addFirst(uj);
+        getSnake().addFirst(newBodyPart);
 
     }
 
     public void step_foodsver() {
         /**
          * We use the snake tail (last element) to be the new head, thats how it
-         * moves.
+         * moves. First we set it to the exact place, then we will adjust it
+         * depending on the user input direction.
          */
-        // Kigyotestresz uj=new Kigyotestresz
-        // (kigyotest.getFirst().getX(),kigyotest.getFirst().y);
-        SnakeBodyPart uj = getSnake().getLast();
-        uj.setX(getSnake().getFirst().getX());
-        uj.setY(getSnake().getFirst().getY());
-        uj.setPartKind(SnakeBodyPart.Parts.HEAD);
+        SnakeBodyPart newBodyPart = getSnake().getLast();
+        newBodyPart.setX(getSnake().getFirst().getX());
+        newBodyPart.setY(getSnake().getFirst().getY());
+        newBodyPart.setPartKind(SnakeBodyPart.Parts.HEAD);
         if (getDirection() != null) {
             if (getSnake().get(1).getIrany().equals(getDirection().opposite())) {
                 // System.out.println(snake.get(1).getIrany()+"
@@ -141,26 +141,26 @@ public class Game {
         switch (getSnake().getFirst().getIrany()) {
         // go to left
         case LEFT: {
-            uj.setX((byte) (uj.getX() - 1));
-            uj.setDir(SnakeBodyPart.Direction.LEFT);
+            newBodyPart.setX((byte) (newBodyPart.getX() - 1));
+            newBodyPart.setDir(SnakeBodyPart.Direction.LEFT);
         }
             break;
         // go to right
         case RIGHT: {
-            uj.setX((byte) (uj.getX() + 1));
-            uj.setDir(SnakeBodyPart.Direction.RIGHT);
+            newBodyPart.setX((byte) (newBodyPart.getX() + 1));
+            newBodyPart.setDir(SnakeBodyPart.Direction.RIGHT);
         }
             break;
         // go down
         case DOWN: {
-            uj.setY((byte) (uj.getY() + 1));
-            uj.setDir(SnakeBodyPart.Direction.DOWN);
+            newBodyPart.setY((byte) (newBodyPart.getY() + 1));
+            newBodyPart.setDir(SnakeBodyPart.Direction.DOWN);
         }
             break;
         // go up
         case UP: {
-            uj.setY((byte) (uj.getY() - 1));
-            uj.setDir(SnakeBodyPart.Direction.UP);
+            newBodyPart.setY((byte) (newBodyPart.getY() - 1));
+            newBodyPart.setDir(SnakeBodyPart.Direction.UP);
         }
             break;
         }
@@ -169,7 +169,7 @@ public class Game {
 
         eatingfoods();
         getSnake().removeLast();
-        getSnake().addFirst(uj);
+        getSnake().addFirst(newBodyPart);
 
     }
 
@@ -503,7 +503,13 @@ public class Game {
         this.gameover = gameover;
     }
 
+    /**
+     * Types of Game over.
+     *
+     */
     public enum GameOver {
-        INGAME, BITE, WALL
+        INGAME, // No Game over
+        BITE, // Snake bitten its tail.
+        WALL // Snake hits the wall.
     }
 }

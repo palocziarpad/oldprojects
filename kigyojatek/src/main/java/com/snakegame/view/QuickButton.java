@@ -131,7 +131,7 @@ public class QuickButton extends Canvas {
         // Call the disable() method of super class java.awt.Component from
         // which
         // the Canvas is derived and our QuickButton is derived from Canvas
-        super.disable();
+        super.setEnabled(false);
         // set the boolean to true indicating that parent asked that the button
         // be disabled.
         you_want_to_disableMe = true;
@@ -148,7 +148,7 @@ public class QuickButton extends Canvas {
         // Call the disable() method of super class java.awt.Component from
         // which
         // the Canvas is derived and our QuickButton is derived from Canvas
-        super.enable();
+        super.setEnabled(true);
         // set boolean to false that you set to true in disablebutton()
         you_want_to_disableMe = false;
         // Call repaint to refresh button display
@@ -274,4 +274,4 @@ public class QuickButton extends Canvas {
         postEvent(theEvent);
     }
 
-} // All ends :)
+}

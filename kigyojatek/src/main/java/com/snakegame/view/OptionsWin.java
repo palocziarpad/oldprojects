@@ -9,13 +9,15 @@ import javax.swing.JPanel;
 import com.snakegame.model.Options;
 import com.snakegame.model.SnakePic;
 
-@SuppressWarnings("serial")
+/***
+ * Window to show the options of the game.
+ *
+ */
 public class OptionsWin extends JFrame {
-    public JPanel panel, theme;
-    public JButton save, close, cancel;
-    public ButtonGroup themeopt;
-    // JRadioButton rbuttons[];
-    JComboBox themelist;
+    JPanel panel, theme;
+    JButton save, close, cancel;
+    ButtonGroup themeopt;
+    JComboBox<String> themelist;
 
     public OptionsWin() {
         super("Options");
@@ -24,7 +26,7 @@ public class OptionsWin extends JFrame {
         themeopt = new ButtonGroup();
         // rbuttons= new JRadioButton[opt.themes.length];
         panel = new JPanel();
-        themelist = new JComboBox(opt.getThemes());
+        themelist = new JComboBox<String>(opt.getThemes());
 
         // themelist.setEnabled(true);
         panel.add(themelist);
@@ -40,11 +42,17 @@ public class OptionsWin extends JFrame {
 
     }
 
-    public void setTheme(SnakePic sp) {
+    /**
+     * Set the theme to the desired one.
+     * 
+     * @param snakePic
+     *            snakePic that will be used to change the theme.
+     */
+    public void setTheme(SnakePic snakePic) {
         // create memory pool to optimize it.
         String s = themelist.getSelectedItem().toString();
         if (SnakePic.getDesignPrefix().equals(s))
             return;
-        sp.setDesignPrefix(s);
+        snakePic.setDesignPrefix(s);
     }
 }

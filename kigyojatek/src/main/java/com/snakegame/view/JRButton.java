@@ -1,12 +1,21 @@
 package com.snakegame.view;
-import javax.swing.*;
-import java.awt.*;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 
+import javax.swing.JButton;
+
+@SuppressWarnings("serial")
 public class JRButton extends JButton {
 
-    private int w;
-    private int h;
+    private int width;
+    private int height;
     private RoundRectangle2D re;
     private final BasicStroke st = new BasicStroke(2f);
     private double wRatio = 200 / 15;
@@ -26,15 +35,15 @@ public class JRButton extends JButton {
 
     @Override
     public void paintComponent(Graphics g) {
-        this.w = getWidth();
-        this.h = getHeight();
+        this.width = getWidth();
+        this.height = getHeight();
         this.arcw = getWidth() / wRatio;
         this.arch = getHeight() / hRatio;
-        re = new RoundRectangle2D.Double(st.getLineWidth() / 2, st.getLineWidth() / 2, w - (st.getLineWidth() / 0.5),
-                h - (st.getLineWidth() / 0.5), arcw, arch);
+        re = new RoundRectangle2D.Double(st.getLineWidth() / 2, st.getLineWidth() / 2, width - (st.getLineWidth() / 0.5),
+                height - (st.getLineWidth() / 0.5), arcw, arch);
 
-        GradientPaint push = new GradientPaint((w / 2), (h / 2), Color.LIGHT_GRAY, (w / 2), h, Color.WHITE, false);
-        GradientPaint up = new GradientPaint((w / 2), (h / 2), Color.WHITE, (w / 2), h, Color.LIGHT_GRAY, false);
+        GradientPaint push = new GradientPaint((width / 2), (height / 2), Color.LIGHT_GRAY, (width / 2), height, Color.WHITE, false);
+        GradientPaint up = new GradientPaint((width / 2), (height / 2), Color.WHITE, (width / 2), height, Color.LIGHT_GRAY, false);
 
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -59,20 +68,6 @@ public class JRButton extends JButton {
         g2.setStroke(st);
         g2.draw(re);
         g2.dispose();
-
-    }
-
-    // Test
-    public static void main(String[] args) {
-
-        JFrame j = new JFrame();
-        JButton po = new JRButton("JRButton", 200, 28);
-        j.setLayout(new FlowLayout(FlowLayout.CENTER));
-        j.getContentPane().add(po);
-        j.getRootPane().setDefaultButton(po);
-        j.setSize(400, 400);
-        j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        j.setVisible(true);
 
     }
 

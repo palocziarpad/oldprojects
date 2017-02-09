@@ -202,7 +202,7 @@ public class GameRunner {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            mainwin.getTable().getSnakegame().step();
+            mainwin.getTable().getSnakegame().doStep();
             mainwin.getTable().repaint();
             if (mainwin.getNewgame() == true)
                 return;
