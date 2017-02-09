@@ -30,7 +30,6 @@ public class JRButton extends JButton {
         setContentAreaFilled(false);
         setPreferredSize(new Dimension(w, h));
         setFocusable(false);
-        ;
     }
 
     @Override
@@ -39,11 +38,13 @@ public class JRButton extends JButton {
         this.height = getHeight();
         this.arcw = getWidth() / wRatio;
         this.arch = getHeight() / hRatio;
-        re = new RoundRectangle2D.Double(st.getLineWidth() / 2, st.getLineWidth() / 2, width - (st.getLineWidth() / 0.5),
-                height - (st.getLineWidth() / 0.5), arcw, arch);
+        re = new RoundRectangle2D.Double(st.getLineWidth() / 2, st.getLineWidth() / 2,
+                width - (st.getLineWidth() / 0.5), height - (st.getLineWidth() / 0.5), arcw, arch);
 
-        GradientPaint push = new GradientPaint((width / 2), (height / 2), Color.LIGHT_GRAY, (width / 2), height, Color.WHITE, false);
-        GradientPaint up = new GradientPaint((width / 2), (height / 2), Color.WHITE, (width / 2), height, Color.LIGHT_GRAY, false);
+        GradientPaint push = new GradientPaint((width / 2), (height / 2), Color.LIGHT_GRAY, (width / 2), height,
+                Color.WHITE, false);
+        GradientPaint up = new GradientPaint((width / 2), (height / 2), Color.WHITE, (width / 2), height,
+                Color.LIGHT_GRAY, false);
 
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

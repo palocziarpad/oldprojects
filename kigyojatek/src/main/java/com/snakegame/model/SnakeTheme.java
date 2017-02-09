@@ -6,9 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class SnakePic {
+public class SnakeTheme {
     public Image[] BIARRAY;
-    // static String designPrefix="resources/basic/";
     private static String designPrefix;
     static {
         designPrefix = getStdDesign();
@@ -19,11 +18,11 @@ public class SnakePic {
     }
 
     public void setDesignPrefix(String designPrefix) {
-        SnakePic.designPrefix = designPrefix;
-        resetBi();
+        SnakeTheme.designPrefix = designPrefix;
+        resetTheme();
     }
 
-    public void resetBi() {
+    public void resetTheme() {
         try {
             BIARRAY[0] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.EMPTY));
             BIARRAY[1] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.TAILLEFT));
@@ -48,17 +47,15 @@ public class SnakePic {
             BIARRAY[19] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.FOOD2));
             BIARRAY[20] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.NEWPART));
         } catch (IOException e) {
-            getClass().getName();
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    public SnakePic() {
+    public SnakeTheme() {
         designPrefix = getStdDesign();
         BIARRAY = new BufferedImage[21];
 
-        resetBi();
+        resetTheme();
     }
 
     public static String getStdDesign() {

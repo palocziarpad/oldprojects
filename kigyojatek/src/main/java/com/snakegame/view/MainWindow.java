@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 
 import com.snakegame.control.Game;
 import com.snakegame.model.SnakeBodyPart;
-import com.snakegame.model.SnakePic;
+import com.snakegame.model.SnakeTheme;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
@@ -50,12 +50,9 @@ public class MainWindow extends JFrame {
         for (int k = 3; k < meret; k++) {
             getTable().getSnakegame().getSnake().removeLast();
         }
-        // System.out.println(mainwin.getTable().getSnakegame().snake.size());
         table.getSnakegame().getSnake().get(0).setState((byte) 4, (byte) 2, SnakeBodyPart.Direction.RIGHT);
         table.getSnakegame().getSnake().get(1).setState((byte) 3, (byte) 2, SnakeBodyPart.Direction.RIGHT);
         table.getSnakegame().getSnake().get(2).setState((byte) 2, (byte) 2, SnakeBodyPart.Direction.RIGHT);
-        // mainwin.setVisible(false);
-        // mainwin=new MainWindow();
         repaint();
         if (table.getSnakegame().getGameover() == Game.GameOver.BITE
                 || table.getSnakegame().getGameover() == Game.GameOver.WALL) {
@@ -79,35 +76,29 @@ public class MainWindow extends JFrame {
         this.setResizable(false);
         init();
         backGround = new JLabel();
-        backGround.setIcon(new ImageIcon(getClass().getResource(SnakePic.getDesignPrefix() + SnakePic.PicFile.OPENBG)));
+        backGround.setIcon(
+                new ImageIcon(getClass().getResource(SnakeTheme.getDesignPrefix() + SnakeTheme.PicFile.OPENBG)));
         // bg.setSize(200, 200);
         clickListener = new ClickListener();
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.add(backGround, BorderLayout.CENTER);
         startButton = new JButton("Start");
-        // startButton.set
         startButton.addActionListener(clickListener);
 
         panel.add(startButton, BorderLayout.SOUTH);
-        // panel.addKeyListener(new MyKeyListener());
         this.add(panel);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // addMenu();
 
         table = new Board();
 
-        // setLayout(new FlowLayout(FlowLayout.LEADING));
         this.addKeyListener(new MyKeyListener());
-        // rajz.addKeyListener(new MyKeyListener());
         this.setFocusable(true);
         this.addMenu();
 
         // make this frame visible
         this.setVisible(true);
-        // this.pack();
-        // pause = false;
     }
 
     private void addMenu() {
@@ -116,9 +107,7 @@ public class MainWindow extends JFrame {
 
         mb.add(file);
         file.add(new JMenuItem("New Game", 'N'));
-        // file.getItem(0).addActionListener(new MenuClickListener());
         file.add(new JMenuItem("Exit", 'E'));
-        // file.getItem(1).addActionListener(new MenuClickListener());
         JMenu settings = new JMenu("Settings");
         mb.add(settings);
         settings.add(new JMenuItem("Difficulty"));
@@ -185,13 +174,7 @@ public class MainWindow extends JFrame {
             if (e.getSource() == startButton) {
                 panel.remove(startButton);
                 panel.remove(backGround);
-                // bg.setIcon(new
-                // ImageIcon(getClass().getResource("resources/mira/"+PicPath.GAMEBG)));
-                // panel.add(bg);
-                // rajz.addKeyListener(new MyKeyListener());
                 panel.add(getTable());
-
-                // panel.addKeyListener(new MyKeyListener());
                 panel.repaint();
                 panel.setFocusable(false);
                 getTable().setFocusable(false);
@@ -203,7 +186,7 @@ public class MainWindow extends JFrame {
                     opts.setTheme(table.getSp());
                     opts.setVisible(false);
                     backGround.setIcon(new ImageIcon(
-                            getClass().getResource(SnakePic.getDesignPrefix() + SnakePic.PicFile.OPENBG)));
+                            getClass().getResource(SnakeTheme.getDesignPrefix() + SnakeTheme.PicFile.OPENBG)));
                     // bg.setSize(200, 200);
                     return;
                 }
@@ -218,9 +201,6 @@ public class MainWindow extends JFrame {
     public void showAboutBox() {
         if (aboutBox == null) {
             aboutBox = new AboutBox();
-            // JFrame mainFrame = MainWindow.getApplication().getMainFrame();
-            // aboutBox = new VmiAboutBox(mainFrame);
-            // aboutBox.setLocationRelativeTo(mainFrame);
         }
         aboutBox.setVisible(true);
     }
@@ -245,15 +225,13 @@ public class MainWindow extends JFrame {
         if (opts == null) {
             opts = new OptionsWin();
             opts.close.addActionListener(clickListener);
-            // opts.save.addActionListener(clickListener);
-
         }
         opts.setVisible(true);
     }
 
     public void gameOverBite() {
         backGround.setIcon(
-                new ImageIcon(getClass().getResource(SnakePic.getDesignPrefix() + SnakePic.PicFile.GAMEOVERBITE)));
+                new ImageIcon(getClass().getResource(SnakeTheme.getDesignPrefix() + SnakeTheme.PicFile.GAMEOVERBITE)));
         panel.remove(getTable());
         panel.add(backGround);
 
@@ -263,7 +241,7 @@ public class MainWindow extends JFrame {
 
     public void gameOverStun() {
         backGround.setIcon(
-                new ImageIcon(getClass().getResource(SnakePic.getDesignPrefix() + SnakePic.PicFile.GAMEOVERSTUN)));
+                new ImageIcon(getClass().getResource(SnakeTheme.getDesignPrefix() + SnakeTheme.PicFile.GAMEOVERSTUN)));
         panel.remove(getTable());
         panel.add(backGround);
         repaint();

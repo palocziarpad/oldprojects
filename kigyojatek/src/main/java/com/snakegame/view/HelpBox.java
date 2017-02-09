@@ -2,14 +2,16 @@ package com.snakegame.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-@SuppressWarnings("serial")
 public class HelpBox extends JDialog {
-
+    /**
+     * Constructor.
+     */
     public HelpBox() {
         // super(parent);
         initComponents();

@@ -6,8 +6,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.snakegame.model.Options;
-import com.snakegame.model.SnakePic;
+import com.snakegame.model.ThemeOptions;
+import com.snakegame.model.SnakeTheme;
 
 /***
  * Window to show the options of the game.
@@ -22,7 +22,7 @@ public class OptionsWin extends JFrame {
     public OptionsWin() {
         super("Options");
         setSize(200, 200);
-        Options opt = new Options();
+        ThemeOptions opt = new ThemeOptions();
         themeopt = new ButtonGroup();
         // rbuttons= new JRadioButton[opt.themes.length];
         panel = new JPanel();
@@ -48,10 +48,10 @@ public class OptionsWin extends JFrame {
      * @param snakePic
      *            snakePic that will be used to change the theme.
      */
-    public void setTheme(SnakePic snakePic) {
+    public void setTheme(SnakeTheme snakePic) {
         // create memory pool to optimize it.
         String s = themelist.getSelectedItem().toString();
-        if (SnakePic.getDesignPrefix().equals(s))
+        if (SnakeTheme.getDesignPrefix().equals(s))
             return;
         snakePic.setDesignPrefix(s);
     }

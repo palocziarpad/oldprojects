@@ -15,7 +15,7 @@ public class Game {
     private boolean showfood2;
     private SnakeBodyPart.Direction direction;
     private SnakeBodyPart newpart;
-    private LinkedList<SnakeBodyPart> kaja2;
+    private LinkedList<SnakeBodyPart> food2;
     private LinkedList<SnakeBodyPart> eatenFood;
     private GameOver gameover;
 
@@ -25,28 +25,16 @@ public class Game {
         food[1] = new SnakeBodyPart((byte) 20, (byte) 20);
     }
     {
-        kaja2 = new LinkedList<SnakeBodyPart>();
+        food2 = new LinkedList<SnakeBodyPart>();
         eatenFood = new LinkedList<SnakeBodyPart>();
-        kaja2.add(new SnakeBodyPart((byte) 5, (byte) 8));
+        food2.add(new SnakeBodyPart((byte) 5, (byte) 8));
     }
-
-    /*
-     * public void initPosition(byte tablameret) { this.tablesize = tablameret;
-     * snake=new LinkedList<SnakeBodyPart>(); // 3 hossz�s�g� lesz a k�gy�
-     * getSnake().add(new SnakeBodyPart((byte) 5, (byte) 5)); getSnake().add(new
-     * SnakeBodyPart((byte) 5, (byte) 6)); getSnake().add(new
-     * SnakeBodyPart((byte) 5, (byte) 7)); }
-     */
 
     public void reinit() {
 
-        /*
-         * kaja2.removeAll(null); kaja2.add(new SnakeBodyPart((byte) 5, (byte)
-         * 8)); eatenFood.removeAll(null);
-         */
-        kaja2 = new LinkedList<SnakeBodyPart>();
+        food2 = new LinkedList<SnakeBodyPart>();
         eatenFood = new LinkedList<SnakeBodyPart>();
-        kaja2.add(new SnakeBodyPart((byte) 5, (byte) 8));
+        food2.add(new SnakeBodyPart((byte) 5, (byte) 8));
         score = 0;
         gameover = GameOver.INGAME;
     }
@@ -58,11 +46,6 @@ public class Game {
         this.setSnake(new LinkedList<SnakeBodyPart>());
         score = tablesize = 0;
         newpart = new SnakeBodyPart((byte) 5, (byte) 8);
-        // food[0] = new SnakeBodyPart((byte) 5, (byte) 8);
-    }
-
-    public static byte random(byte from, byte to) {
-        return (byte) ((Math.random() * (to - from)) + from);
     }
 
     public void doStep() {
@@ -70,16 +53,12 @@ public class Game {
          * We use the snake tail (last element) to be the new head, thats how it
          * moves.
          */
-        // Kigyotestresz uj=new Kigyotestresz
-        // (kigyotest.getFirst().getX(),kigyotest.getFirst().y);
         SnakeBodyPart newBodyPart = getSnake().getLast();
         newBodyPart.setX(getSnake().getFirst().getX());
         newBodyPart.setY(getSnake().getFirst().getY());
         newBodyPart.setPartKind(SnakeBodyPart.Parts.HEAD);
         if (getDirection() != null) {
             if (getSnake().get(1).getIrany().equals(getDirection().opposite())) {
-                // System.out.println(snake.get(1).getIrany()+"
-                // dir:"+direction+" opp:"+direction.opposite());
             } else {
                 getSnake().getFirst().setIrany(getDirection());
             }
@@ -258,10 +237,10 @@ public class Game {
     }
 
     public boolean eatingfoods() {
-        int whichfood = getSnake().getFirst().isAt(kaja2, 1);
+        int whichfood = getSnake().getFirst().isAt(food2, 1);
         SnakeBodyPart sbp;
         if (whichfood > -1) {
-            sbp = kaja2.get(whichfood);
+            sbp = food2.get(whichfood);
             // System.out.println("hablaty");
             sbp.setDir(snake.getLast().getIrany());
             // food[getSnake().getFirst().isAt(food,1)].setDir(getSnake().getFirst().getIrany());
@@ -275,14 +254,14 @@ public class Game {
             if (whichfood == 0)
                 newFoodsPlace(whichfood);
             else if (whichfood == 1)
-                kaja2.removeLast();
+                food2.removeLast();
             scoreInc();
             /**
              * food2
              */
             /**/
             if (score == 20) {
-                kaja2.addLast(new SnakeBodyPart(snake.getLast().getX(), snake.getLast().getY()));
+                food2.addLast(new SnakeBodyPart(snake.getLast().getX(), snake.getLast().getY()));
                 newFoodsPlace(1);
 
             }
@@ -308,8 +287,8 @@ public class Game {
     }
 
     public void newFoodPlace_old() {
-        food[0].setX(random((byte) 0, tablesize));
-        food[0].setY(random((byte) 0, tablesize));
+        food[0].setX(Util.random((byte) 0, tablesize));
+        food[0].setY(Util.random((byte) 0, tablesize));
         for (int k = 0; k < getSnake().size(); k++) {
             if (getSnake().get(k).isAt(food)) {
                 newFoodPlace();
@@ -319,8 +298,8 @@ public class Game {
     }
 
     public void newFoodPlace_old(SnakeBodyPart food) {
-        food.setX(random((byte) 0, tablesize));
-        food.setY(random((byte) 0, tablesize));
+        food.setX(Util.random((byte) 0, tablesize));
+        food.setY(Util.random((byte) 0, tablesize));
         for (int k = 0; k < getSnake().size(); k++) {
             if (getSnake().get(k).isAt(food)) {
                 newFoodPlace_old(food);
@@ -333,22 +312,22 @@ public class Game {
 
         boolean collison = false;
         do {
-            kaja2.get(which).setState(random((byte) 0, tablesize), random((byte) 0, tablesize), null);
+            food2.get(which).setState(Util.random((byte) 0, tablesize), Util.random((byte) 0, tablesize), null);
             collison = false;
             // System.out.println("random x" +kaja2.get(which).getX()+"
             // y:"+kaja2.get(which).getY());
             for (int k = 0; k < getSnake().size(); k++) {
-                if (snake.get(k).isAt(kaja2.get(which))) {
+                if (snake.get(k).isAt(food2.get(which))) {
                     collison = true;
                     break;
                 }
             }
             if (collison)
                 continue;
-            for (int k = 0; k < kaja2.size(); k++) {
+            for (int k = 0; k < food2.size(); k++) {
                 if (k == which)
                     continue;
-                if (kaja2.get(k).isAt(kaja2.get(which))) {
+                if (food2.get(k).isAt(food2.get(which))) {
                     collison = true;
                     break;
                 }
@@ -360,8 +339,8 @@ public class Game {
 
         boolean collison = false;
         do {
-            food[0].setX(random((byte) 0, tablesize));
-            food[0].setY(random((byte) 0, tablesize));
+            food[0].setX(Util.random((byte) 0, tablesize));
+            food[0].setY(Util.random((byte) 0, tablesize));
 
             collison = false;
             for (int k = 0; k < getSnake().size(); k++) {
@@ -380,8 +359,8 @@ public class Game {
     public void newFoodPlace(SnakeBodyPart food) {
         boolean collison = false;
         do {
-            food.setX(random((byte) 0, tablesize));
-            food.setY(random((byte) 0, tablesize));
+            food.setX(Util.random((byte) 0, tablesize));
+            food.setY(Util.random((byte) 0, tablesize));
             collison = false;
             for (int k = 0; k < getSnake().size(); k++) {
                 if (getSnake().get(k).isAt(food)) {
@@ -480,11 +459,11 @@ public class Game {
     }
 
     public LinkedList<SnakeBodyPart> getKaja2() {
-        return kaja2;
+        return food2;
     }
 
     public void setKaja2(LinkedList<SnakeBodyPart> kaja2) {
-        this.kaja2 = kaja2;
+        this.food2 = kaja2;
     }
 
     public LinkedList<SnakeBodyPart> getEatenFood() {

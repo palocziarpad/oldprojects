@@ -3,8 +3,8 @@ package com.snakegame.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JDialog;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -28,7 +28,7 @@ public class VersionBox extends JDialog {
         this.setTitle("Version changes");
 
         JPanel panel = new JPanel();
-        add(panel);
+
         JTextArea ta = new JTextArea();
         ta.setEditable(false);
         ta.setSize(250, 100);
@@ -45,7 +45,7 @@ public class VersionBox extends JDialog {
         panel.setLayout(new BorderLayout());
         panel.add(areaScrollPane, BorderLayout.CENTER);
 
-        // panel.add(closeButton);
+        add(panel);
 
     }
 
