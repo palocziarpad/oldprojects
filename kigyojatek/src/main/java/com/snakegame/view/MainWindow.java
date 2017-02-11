@@ -270,11 +270,11 @@ public class MainWindow extends JFrame {
 
     private void addMenu() {
         setMenuBar(new JMenuBar());
-        JMenu file = new JMenu("File");
+        JMenu fileMenu = new JMenu("File");
 
-        mb.add(file);
-        file.add(new JMenuItem("New Game", 'N'));
-        file.add(new JMenuItem("Exit", 'E'));
+        mb.add(fileMenu);
+        fileMenu.add(new JMenuItem("New Game", 'N'));
+        fileMenu.add(new JMenuItem("Exit", 'E'));
         JMenu settings = new JMenu("Settings");
         mb.add(settings);
         settings.add(new JMenuItem("Difficulty"));

@@ -99,7 +99,7 @@ public class GameRunner {
      * nem figyeli, hogy ha a m�sik kaj�val volt �tk�z�s fixed 4. nincs ny� g�m
      * 5.
      */
-    public void newGame() {
+    private void newGame() {
         sleepTime = DEFAULTDELAY;
         LinkedList<SnakeBodyPart> snake = mainwin.getTable().getSnakegame().getSnake();
         int size = snake.size();
@@ -114,7 +114,7 @@ public class GameRunner {
 
     }
 
-    public void game() {
+    private void game() {
         delayUntilPlayerStart();
         snakeMover();
     }
@@ -188,6 +188,7 @@ public class GameRunner {
         public void actionPerformed(ActionEvent actionEvent) {
             mainwin.getTable().setPause(true);
             if (actionEvent.getSource().equals(mainwin.getjMenuBar().getMenu(0).getItem(1))) {
+                logger.info("Exiting from game via File/Exit.");
                 System.exit(0);
                 return;
             }
