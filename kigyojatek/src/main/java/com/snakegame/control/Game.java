@@ -72,10 +72,13 @@ public class Game {
         newBodyPart.setX(getSnake().getFirst().getX());
         newBodyPart.setY(getSnake().getFirst().getY());
         newBodyPart.setPartKind(BodyPartType.HEAD);
-        if (getDirection() != null) {
-            if (getSnake().get(1).getDirection().equals(getDirection().getOppositeDirection())) {
-            } else
-                getSnake().getFirst().setIrany(getDirection());
+        if (direction != null) {
+            if (getSnake().get(1).getDirection().equals(direction.getOppositeDirection())) {
+                // if user trying to move to the opposite direction, then do
+                // nothing.
+            } else {
+                getSnake().getFirst().setDirection(direction);
+            }
             setDirection(null);
         }
         switch (getSnake().getFirst().getDirection()) {

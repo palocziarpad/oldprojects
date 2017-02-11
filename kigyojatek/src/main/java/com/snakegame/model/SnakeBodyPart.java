@@ -69,7 +69,7 @@ public class SnakeBodyPart {
         return getDir();
     }
 
-    public void setIrany(Direction direction) {
+    public void setDirection(Direction direction) {
         this.setDir(direction);
     }
 

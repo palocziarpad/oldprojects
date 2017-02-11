@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.snakegame.Direction;
 import com.snakegame.model.SnakeBodyPart;
+import com.snakegame.view.Board;
 import com.snakegame.view.MainWindow;
 
 /**
@@ -25,39 +26,39 @@ public class GameRunner {
     // Size of the grid
     final static byte gridsize = 20;
     // the main window
-    private MainWindow mainwin;
+    private MainWindow mainWindow;
 
     private int sleepTime;
     private final static int DEFAULTDELAY = 250;
+    private boolean isGameGoing;
 
     public GameRunner() {
         super();
+        isGameGoing = true;
         sleepTime = DEFAULTDELAY;
     }
 
     public void run() {
-        LinkedList<SnakeBodyPart> snake = initSnake();
-        MenuClickListener clistener = new MenuClickListener();
-        initMainWindow(snake, clistener);
+        initMainWindow(initSnake(), new MenuClickListener());
 
         game();
 
     }
 
-    private void initMainWindow(LinkedList<SnakeBodyPart> snake, MenuClickListener clistener) {
-        mainwin = new MainWindow();
-        JMenuBar jmenubar = mainwin.getjMenuBar();
-        jmenubar.getMenu(0).getItem(0).addActionListener(clistener);
-        jmenubar.getMenu(0).getItem(1).addActionListener(clistener);
-        jmenubar.getMenu(1).getItem(0).addActionListener(clistener);
-        jmenubar.getMenu(1).getItem(1).addActionListener(clistener);
-        jmenubar.getMenu(2).getItem(0).addActionListener(clistener);
-        jmenubar.getMenu(2).getItem(1).addActionListener(clistener);
-        jmenubar.getMenu(2).getItem(2).addActionListener(clistener);
+    private void initMainWindow(LinkedList<SnakeBodyPart> snake, MenuClickListener clickListener) {
+        mainWindow = new MainWindow();
+        JMenuBar jmenubar = mainWindow.getjMenuBar();
+        jmenubar.getMenu(0).getItem(0).addActionListener(clickListener);
+        jmenubar.getMenu(0).getItem(1).addActionListener(clickListener);
+        jmenubar.getMenu(1).getItem(0).addActionListener(clickListener);
+        jmenubar.getMenu(1).getItem(1).addActionListener(clickListener);
+        jmenubar.getMenu(2).getItem(0).addActionListener(clickListener);
+        jmenubar.getMenu(2).getItem(1).addActionListener(clickListener);
+        jmenubar.getMenu(2).getItem(2).addActionListener(clickListener);
 
-        mainwin.getTable().repaint();
-        mainwin.getTable().getSnakegame().setSnake(snake);
-        mainwin.getTable().getSnakegame().setTablesize(gridsize);
+        mainWindow.getTable().repaint();
+        mainWindow.getTable().getSnakegame().setSnake(snake);
+        mainWindow.getTable().getSnakegame().setTablesize(gridsize);
     }
 
     private LinkedList<SnakeBodyPart> initSnake() {
@@ -101,7 +102,8 @@ public class GameRunner {
      */
     private void newGame() {
         sleepTime = DEFAULTDELAY;
-        LinkedList<SnakeBodyPart> snake = mainwin.getTable().getSnakegame().getSnake();
+        mainWindow.setNewgame(true);
+        LinkedList<SnakeBodyPart> snake = mainWindow.getTable().getSnakegame().getSnake();
         int size = snake.size();
         for (int k = SNAKE_INITIAL_SIZE; k < size; k++) {
             snake.removeLast();
@@ -109,7 +111,7 @@ public class GameRunner {
         snake.get(0).setState((byte) 4, (byte) 2, Direction.RIGHT);
         snake.get(1).setState((byte) 3, (byte) 2, Direction.RIGHT);
         snake.get(2).setState((byte) 2, (byte) 2, Direction.RIGHT);
-        mainwin.repaint();
+        mainWindow.repaint();
         game();
 
     }
@@ -123,48 +125,58 @@ public class GameRunner {
         /**
          * The snake mover.
          */
-        while (true) {
+        while (isGameGoing) {
             sleep(sleepTime);
-            mainwin.getTable().getSnakegame().doStep();
-            mainwin.getTable().repaint();
-            mainwin.getTable().getSnakegame().eatenFoodAtTail();
+            Board table = mainWindow.getTable();
+            table.getSnakegame().doStep();
+            table.repaint();
+            table.getSnakegame().eatenFoodAtTail();
 
-            if (mainwin.getNewgame() == true)
+            if (mainWindow.getNewgame() == true) {
+                mainWindow.setNewgame(false);
+                isGameGoing = false;
                 break;
-            if (mainwin.getTable().getSnakegame().isEaten()) {
-                mainwin.getTable().getSnakegame().setEaten(false);
+            }
+            if (table.getSnakegame().isEaten()) {
+                table.getSnakegame().setEaten(false);
             } else {
-                if (mainwin.getTable().getSnakegame().isHeadInBody()) {
-                    mainwin.gameOverBite();
+                if (table.getSnakegame().isHeadInBody()) {
+                    mainWindow.gameOverBite();
                     break;
                 }
             }
 
-            if (!mainwin.getTable().getSnakegame().isThereNextStep()) {
-                mainwin.gameOverStun();
+            if (!table.getSnakegame().isThereNextStep()) {
+                mainWindow.gameOverStun();
 
                 break;
 
             }
-            if (mainwin.getTable().getSnakegame().getScore() == 100
-                    && mainwin.getTable().getSnakegame().isScorerised()) {
-                sleepTime /= 2;
-                mainwin.getTable().getSnakegame().setScoreRised(false);
-            } else if (mainwin.getTable().getSnakegame().getScore() == 200
-                    && mainwin.getTable().getSnakegame().isScorerised()) {
-                sleepTime /= 2;
-                mainwin.getTable().getSnakegame().setScoreRised(false);
-            }
-            while (mainwin.getTable().isPause()) {
-                sleep(sleepTime);
-            }
+            makeFasterIfScoreRised();
+            waitIfPause();
+        }
+    }
+
+    private void waitIfPause() {
+        while (mainWindow.getTable().isPause()) {
+            sleep(sleepTime);
+        }
+    }
+
+    private void makeFasterIfScoreRised() {
+        Board table = mainWindow.getTable();
+        if (table.getSnakegame().getScore() == 100 && table.getSnakegame().isScorerised()) {
+            sleepTime /= 2;
+            table.getSnakegame().setScoreRised(false);
+        } else if (table.getSnakegame().getScore() == 200 && table.getSnakegame().isScorerised()) {
+            sleepTime /= 2;
+            table.getSnakegame().setScoreRised(false);
         }
     }
 
     private void sleep(int millisec) {
         try {
             Thread.sleep(millisec);
-
         } catch (InterruptedException e) {
             logger.error(e.getMessage(), e);
         }
@@ -175,7 +187,7 @@ public class GameRunner {
          * Wait until the player click on the start.
          */
         while (true) {
-            if (mainwin.getStarted() == true) {
+            if (mainWindow.getStarted() == true) {
                 break;
             }
             sleep(sleepTime);
@@ -186,33 +198,34 @@ public class GameRunner {
     private class MenuClickListener implements ActionListener {
 
         public void actionPerformed(ActionEvent actionEvent) {
-            mainwin.getTable().setPause(true);
-            if (actionEvent.getSource().equals(mainwin.getjMenuBar().getMenu(0).getItem(1))) {
+            mainWindow.getTable().setPause(true);
+            if (actionEvent.getSource().equals(mainWindow.getjMenuBar().getMenu(0).getItem(1))) {
                 logger.info("Exiting from game via File/Exit.");
+                isGameGoing = false;
                 System.exit(0);
                 return;
             }
-            if (actionEvent.getSource().equals(mainwin.getjMenuBar().getMenu(0).getItem(0))) {
+            if (actionEvent.getSource().equals(mainWindow.getjMenuBar().getMenu(0).getItem(0))) {
                 newGame();
                 return;
             }
-            if (actionEvent.getSource().equals(mainwin.getjMenuBar().getMenu(2).getItem(1))) {
-                mainwin.showAboutBox();
+            if (actionEvent.getSource().equals(mainWindow.getjMenuBar().getMenu(2).getItem(1))) {
+                mainWindow.showAboutBox();
                 return;
             }
-            if (actionEvent.getSource().equals(mainwin.getjMenuBar().getMenu(2).getItem(0))) {
-                mainwin.showHelpBox();
+            if (actionEvent.getSource().equals(mainWindow.getjMenuBar().getMenu(2).getItem(0))) {
+                mainWindow.showHelpBox();
                 return;
             }
-            if (actionEvent.getSource().equals(mainwin.getjMenuBar().getMenu(2).getItem(2))) {
-                mainwin.showVersionBox();
+            if (actionEvent.getSource().equals(mainWindow.getjMenuBar().getMenu(2).getItem(2))) {
+                mainWindow.showVersionBox();
                 return;
             }
-            if (actionEvent.getSource().equals(mainwin.getjMenuBar().getMenu(1).getItem(1))) {
-                mainwin.showOptionsWin();
+            if (actionEvent.getSource().equals(mainWindow.getjMenuBar().getMenu(1).getItem(1))) {
+                mainWindow.showOptionsWin();
                 return;
             }
-            if (actionEvent.getSource().equals(mainwin.getjMenuBar().getMenu(1).getItem(0))) {
+            if (actionEvent.getSource().equals(mainWindow.getjMenuBar().getMenu(1).getItem(0))) {
                 return;
             }
 

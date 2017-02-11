@@ -21,7 +21,6 @@ import com.snakegame.PictureFiles;
 import com.snakegame.control.Game;
 import com.snakegame.model.SnakeTheme;
 
-@SuppressWarnings("serial")
 public class MainWindow extends JFrame {
     private static final String GAME_WINDOW_TITLE = "Snake Game";
     private Board table;
@@ -32,8 +31,8 @@ public class MainWindow extends JFrame {
     private JLabel backGround;
     private Boolean newgame;
     private JDialog versionBox, aboutBox, helpBox;
-    private OptionsWin opts;
-    private ClickListener clickListener;
+    private OptionsWin options;
+    private SnakeClickListener clickListener;
 
     /***
      * Constructor.
@@ -42,8 +41,8 @@ public class MainWindow extends JFrame {
 
         // set frame's title
         super(GAME_WINDOW_TITLE);
-        // set frame size
 
+        // set frame size
         this.setSize(640, 500);
         this.setResizable(false);
         init();
@@ -51,7 +50,7 @@ public class MainWindow extends JFrame {
         backGround.setIcon(
                 new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
         // bg.setSize(200, 200);
-        clickListener = new ClickListener();
+        clickListener = new SnakeClickListener();
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.add(backGround, BorderLayout.CENTER);
@@ -82,31 +81,9 @@ public class MainWindow extends JFrame {
 
     }
 
-    /**
-     * Initialize the game again to run with clean.
-     */
-    public void reinit() {
-        int meret = table.getSnakegame().getSnake().size();
-        for (int k = 3; k < meret; k++) {
-            getTable().getSnakegame().getSnake().removeLast();
-        }
-        table.getSnakegame().getSnake().get(0).setState((byte) 4, (byte) 2, Direction.RIGHT);
-        table.getSnakegame().getSnake().get(1).setState((byte) 3, (byte) 2, Direction.RIGHT);
-        table.getSnakegame().getSnake().get(2).setState((byte) 2, (byte) 2, Direction.RIGHT);
-        repaint();
-        if (table.getSnakegame().getGameover() == Game.GameOver.BITE
-                || table.getSnakegame().getGameover() == Game.GameOver.WALL) {
-            System.out.println("newgame bite");
-            remove(backGround);
-            add(table);
-        }
+    private class MyKeyListener extends KeyAdapter {
 
-        table.getSnakegame().setScore(0);
-        table.reInitialize();
-
-    }
-
-    public class MyKeyListener extends KeyAdapter {
+        @Override
         public void keyPressed(KeyEvent ke) {
             char i = ke.getKeyChar();
 
@@ -130,18 +107,23 @@ public class MainWindow extends JFrame {
                 switch (i) {
 
                 case 'w':
+                case 'W':
                     getTable().getSnakegame().setDirection(Direction.UP);
                     break;
                 case 'a':
+                case 'A':
                     getTable().getSnakegame().setDirection(Direction.LEFT);
                     break;
                 case 's':
+                case 'S':
                     getTable().getSnakegame().setDirection(Direction.DOWN);
                     break;
                 case 'd':
+                case 'D':
                     getTable().getSnakegame().setDirection(Direction.RIGHT);
                     break;
                 case 'p':
+                case 'P':
                     table.pauseSwitch();
                     break;
                 }
@@ -149,8 +131,9 @@ public class MainWindow extends JFrame {
         }
     }
 
-    private class ClickListener implements ActionListener {
+    private class SnakeClickListener implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == startButton) {
                 panel.remove(startButton);
@@ -162,16 +145,16 @@ public class MainWindow extends JFrame {
                 setStarted(true);
                 return;
             }
-            if (opts != null) {
-                if (e.getSource() == opts.close) {
-                    opts.setTheme(table.getSp());
-                    opts.setVisible(false);
+            if (options != null) {
+                if (e.getSource() == options.close) {
+                    options.setTheme(table.getSp());
+                    options.setVisible(false);
                     backGround.setIcon(new ImageIcon(
                             getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
                     return;
                 }
-                if (e.getSource() == opts.save) {
-                    opts.setTheme(table.getSp());
+                if (e.getSource() == options.save) {
+                    options.setTheme(table.getSp());
                     return;
                 }
             }
@@ -202,11 +185,11 @@ public class MainWindow extends JFrame {
     }
 
     public void showOptionsWin() {
-        if (opts == null) {
-            opts = new OptionsWin();
-            opts.close.addActionListener(clickListener);
+        if (options == null) {
+            options = new OptionsWin();
+            options.close.addActionListener(clickListener);
         }
-        opts.setVisible(true);
+        options.setVisible(true);
     }
 
     public void gameOverBite() {

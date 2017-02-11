@@ -48,6 +48,7 @@ public class Board extends JPanel {
         this.sp = new SnakeTheme();
     }
 
+    @Override
     public void paint(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
