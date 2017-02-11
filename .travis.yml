@@ -2,7 +2,7 @@ language: java
 sudo: false
 jdk:
   - oraclejdk8
-script: cd kigyojatek; mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: cd kigyojatek; mvn install -Dmaven.javadoc.skip=true -B -V
 # safelist
 branches:
   only:
