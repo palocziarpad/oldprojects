@@ -7,13 +7,12 @@ import com.snakegame.Direction;
 
 /**
  * Representation of the snake's body part.
- *
  */
 public class SnakeBodyPart {
     private byte xCoordinate;
     private byte yCoordinate;
     private Direction dir;
-    private BodyPartType partKind;
+    private BodyPartType bodyPartType;
 
     /**
      * Constructor.
@@ -25,7 +24,7 @@ public class SnakeBodyPart {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.dir = Direction.RIGHT;
-        this.partKind = BodyPartType.HEAD;
+        this.bodyPartType = BodyPartType.HEAD;
     }
 
     /**
@@ -39,15 +38,15 @@ public class SnakeBodyPart {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.dir = Direction.RIGHT;
-        this.partKind = p;
+        this.bodyPartType = p;
     }
 
     public BodyPartType getPartKind() {
-        return partKind;
+        return bodyPartType;
     }
 
     public void setPartKind(BodyPartType partKind) {
-        this.partKind = partKind;
+        this.bodyPartType = partKind;
     }
 
     public byte getX() {

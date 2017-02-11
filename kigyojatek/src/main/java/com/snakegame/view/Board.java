@@ -108,7 +108,7 @@ public class Board extends JPanel {
         g2d.drawImage(sp.BIARRAY[11], point.x + snakegame.getFood2().getFirst().getX() * squarePixelSize + 1,
                 point.y + snakegame.getFood2().getFirst().getY() * squarePixelSize + 1, null);
         if (snakegame.getFood2().size() > 1)
-            g2d.drawImage(sp.BIARRAY[PictureFiles.FOOD2.ordinal()],
+            g2d.drawImage(sp.BIARRAY[PictureFiles.BONUSFOOD.ordinal()],
                     point.x + snakegame.getFood2().get(1).getX() * squarePixelSize + 1,
                     point.y + snakegame.getFood2().get(1).getY() * squarePixelSize + 1, null);
     }

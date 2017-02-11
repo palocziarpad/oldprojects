@@ -10,9 +10,12 @@ public class UtilTest {
         byte from = 8;
         byte to = 10;
         // When
-        byte actual = Util.random(from, to);
-        // Then
-        Assert.assertTrue(actual <= to, "The actual value: " + actual + " greater than " + to);
-        Assert.assertTrue(actual >= from, "The actual value: " + actual + " greater than " + from);
+        for (int i = 0; i < 10; i++) {
+            byte actual = Util.random(from, to);
+            // Then
+            Assert.assertTrue(actual <= to, "The actual value: " + actual + " greater than " + to);
+            Assert.assertTrue(actual >= from, "The actual value: " + actual + " greater than " + from);
+        }
+
     }
 }

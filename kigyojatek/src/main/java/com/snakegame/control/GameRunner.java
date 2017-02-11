@@ -152,11 +152,11 @@ public class GameRunner {
             if (mainwin.getTable().getSnakegame().getScore() == 100
                     && mainwin.getTable().getSnakegame().isScorerised()) {
                 delay /= 2;
-                mainwin.getTable().getSnakegame().setScorerised(false);
+                mainwin.getTable().getSnakegame().setScoreRised(false);
             } else if (mainwin.getTable().getSnakegame().getScore() == 200
                     && mainwin.getTable().getSnakegame().isScorerised()) {
                 delay /= 2;
-                mainwin.getTable().getSnakegame().setScorerised(false);
+                mainwin.getTable().getSnakegame().setScoreRised(false);
             }
             while (mainwin.getTable().isPause()) {
                 try {

@@ -20,7 +20,7 @@ public enum PictureFiles {
     SLANTLD("ferde2.png"), // leftdown
     SLANTLU("ferde3.png"), // leftup
     SLANTRU("ferde4.png"), // rightup
-    FOOD2("kaja2.png"), //
+    BONUSFOOD("kaja2.png"), //
     NEWPART("zoldkor.png"), //
     OPENBG("openbg.png"), //
     GAMEOVERSTUN("gameover_stunned.png"), //

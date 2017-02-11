@@ -2,8 +2,11 @@ package com.snakegame.model;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
-import com.snakegame.BinaryPicHolder;
+import javax.imageio.ImageIO;
+
+import com.snakegame.PictureFiles;
 
 /**
  * Representation of a Snake Game Theme
@@ -50,9 +53,13 @@ public class SnakeTheme {
      */
     public void resetTheme() {
         int i = 0;
-        for (BinaryPicHolder bHolder : BinaryPicHolder.values()) {
-            bHolder.refresh();
-            BIARRAY[i] = bHolder.getValue();
+        for (PictureFiles bHolder : PictureFiles.values()) {
+            try {
+                BIARRAY[i] = ImageIO
+                        .read(getClass().getResourceAsStream(SnakeTheme.getSelectedTheme() + bHolder.getValue()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             i++;
             if (i == BIARRAY.length) {
                 break;

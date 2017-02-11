@@ -17,7 +17,7 @@ public class Game {
     private byte tablesize;
     private static SnakeBodyPart food[];
     private int score;
-    private boolean scorerised;
+    private boolean isScoreRised;
     private boolean eaten;
     private boolean showfood2;
     private Direction direction;
@@ -48,7 +48,7 @@ public class Game {
 
     public Game() {
         super();
-        showfood2 = scorerised = eaten = false;
+        showfood2 = isScoreRised = eaten = false;
         gameover = GameOver.INGAME;
         snake = new LinkedList<SnakeBodyPart>();
         score = tablesize = 0;
@@ -140,7 +140,7 @@ public class Game {
             getSnake().getFirst().setIrany(food[0].getDir());
 
             newFoodPlace();
-            increasetScore();
+            increaseScore();
             setEaten(true);
 
             return true;
@@ -159,7 +159,7 @@ public class Game {
             if (getSnake().getFirst().isAt(food, 1) != 1) {
                 newFoodPlace();
             }
-            increasetScore();
+            increaseScore();
             /**
              * food2
              */
@@ -194,7 +194,7 @@ public class Game {
             } else if (whichfood == 1) {
                 food2.removeLast();
             }
-            increasetScore();
+            increaseScore();
             /**
              * food2
              */
@@ -215,9 +215,9 @@ public class Game {
     /**
      * Increase the score
      */
-    public void increasetScore() {
+    public void increaseScore() {
         score += DEFAULT_SCORE_RISE;
-        setScorerised(true);
+        setScoreRised(true);
 
     }
 
@@ -329,12 +329,12 @@ public class Game {
         return eaten;
     }
 
-    public void setScorerised(boolean scorerised) {
-        this.scorerised = scorerised;
+    public void setScoreRised(boolean scorerised) {
+        this.isScoreRised = scorerised;
     }
 
     public boolean isScorerised() {
-        return scorerised;
+        return isScoreRised;
     }
 
     public static SnakeBodyPart[] getFood() {

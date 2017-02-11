@@ -13,7 +13,6 @@ import javax.swing.JTextArea;
  * Window for showing version information.
  *
  */
-@SuppressWarnings("serial")
 public class VersionBox extends JDialog {
     private JButton closeButton;
 
@@ -30,6 +29,15 @@ public class VersionBox extends JDialog {
      */
     public void closeAboutBox() {
         dispose();
+    }
+
+    /**
+     * Get the close button
+     * 
+     * @return the close button
+     */
+    public JButton getCloseButton() {
+        return closeButton;
     }
 
     private void initComponents() {
@@ -58,14 +66,4 @@ public class VersionBox extends JDialog {
         add(panel);
 
     }
-
-    /**
-     * Get the close button
-     * 
-     * @return the close button
-     */
-    public JButton getCloseButton() {
-        return closeButton;
-    }
-
 }
