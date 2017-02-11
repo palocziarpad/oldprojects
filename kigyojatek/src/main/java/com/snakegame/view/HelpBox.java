@@ -21,6 +21,9 @@ public class HelpBox extends JDialog {
         initComponents();
     }
 
+    /**
+     * Close the about window
+     */
     public void closeAboutBox() {
         dispose();
     }

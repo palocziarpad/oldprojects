@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
-import com.snakegame.model.Direction;
+import com.snakegame.Direction;
 import com.snakegame.model.SnakeBodyPart;
 import com.snakegame.view.MainWindow;
 

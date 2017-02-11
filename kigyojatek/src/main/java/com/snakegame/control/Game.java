@@ -2,7 +2,8 @@ package com.snakegame.control;
 
 import java.util.LinkedList;
 
-import com.snakegame.model.Direction;
+import com.snakegame.BodyPartType;
+import com.snakegame.Direction;
 import com.snakegame.model.SnakeBodyPart;
 
 /**
@@ -49,58 +50,9 @@ public class Game {
         super();
         showfood2 = scorerised = eaten = false;
         gameover = GameOver.INGAME;
-        this.setSnake(new LinkedList<SnakeBodyPart>());
+        snake = new LinkedList<SnakeBodyPart>();
         score = tablesize = 0;
         newpart = new SnakeBodyPart((byte) 5, (byte) 8);
-    }
-
-    public void doStep() {
-        /**
-         * We use the snake tail (last element) to be the new head, thats how it
-         * moves.
-         */
-        SnakeBodyPart newBodyPart = getSnake().getLast();
-        newBodyPart.setX(getSnake().getFirst().getX());
-        newBodyPart.setY(getSnake().getFirst().getY());
-        newBodyPart.setPartKind(SnakeBodyPart.Parts.HEAD);
-        if (getDirection() != null) {
-            if (getSnake().get(1).getIrany().equals(getDirection().getOppositeDirection())) {
-            } else {
-                getSnake().getFirst().setIrany(getDirection());
-            }
-            setDirection(null);
-        }
-        switch (getSnake().getFirst().getIrany()) {
-        // go to left
-        case LEFT: {
-            newBodyPart.setX((byte) (newBodyPart.getX() - 1));
-            newBodyPart.setDir(Direction.LEFT);
-        }
-            break;
-        // go to right
-        case RIGHT: {
-            newBodyPart.setX((byte) (newBodyPart.getX() + 1));
-            newBodyPart.setDir(Direction.RIGHT);
-        }
-            break;
-        // go down
-        case DOWN: {
-            newBodyPart.setY((byte) (newBodyPart.getY() + 1));
-            newBodyPart.setDir(Direction.DOWN);
-        }
-            break;
-        // go up
-        case UP: {
-            newBodyPart.setY((byte) (newBodyPart.getY() - 1));
-            newBodyPart.setDir(Direction.UP);
-        }
-            break;
-        }
-
-        eating2food();
-        getSnake().removeLast();
-        getSnake().addFirst(newBodyPart);
-
     }
 
     public void step_foodsver() {
@@ -112,14 +64,14 @@ public class Game {
         SnakeBodyPart newBodyPart = getSnake().getLast();
         newBodyPart.setX(getSnake().getFirst().getX());
         newBodyPart.setY(getSnake().getFirst().getY());
-        newBodyPart.setPartKind(SnakeBodyPart.Parts.HEAD);
+        newBodyPart.setPartKind(BodyPartType.HEAD);
         if (getDirection() != null) {
-            if (getSnake().get(1).getIrany().equals(getDirection().getOppositeDirection())) {
+            if (getSnake().get(1).getDirection().equals(getDirection().getOppositeDirection())) {
             } else
                 getSnake().getFirst().setIrany(getDirection());
             setDirection(null);
         }
-        switch (getSnake().getFirst().getIrany()) {
+        switch (getSnake().getFirst().getDirection()) {
         // go to left
         case LEFT: {
             newBodyPart.setX((byte) (newBodyPart.getX() - 1));
@@ -155,7 +107,7 @@ public class Game {
     public boolean isThereNextStep() {
         newpart.setX(getSnake().getFirst().getX());
         newpart.setY(getSnake().getFirst().getY());
-        switch (getSnake().getFirst().getIrany()) {
+        switch (getSnake().getFirst().getDirection()) {
         // to the left
         case LEFT:
             newpart.setX((byte) (newpart.getX() - 1));
@@ -183,7 +135,7 @@ public class Game {
 
     public boolean eating() {
         if (getSnake().getFirst().isAt(food)) {
-            food[0].setDir(getSnake().getFirst().getIrany());
+            food[0].setDir(getSnake().getFirst().getDirection());
             getSnake().addFirst(new SnakeBodyPart(food[0].getX(), food[0].getY()));
             getSnake().getFirst().setIrany(food[0].getDir());
 
@@ -199,10 +151,10 @@ public class Game {
 
     public boolean eating2food() {
         if (getSnake().getFirst().isAt(food, 1) > -1) {
-            food[getSnake().getFirst().isAt(food, 1)].setDir(getSnake().getFirst().getIrany());
+            food[getSnake().getFirst().isAt(food, 1)].setDir(getSnake().getFirst().getDirection());
 
             getSnake().addFirst(new SnakeBodyPart(food[getSnake().getFirst().isAt(food, 1)].getX(),
-                    food[getSnake().getFirst().isAt(food, 1)].getY(), SnakeBodyPart.Parts.NEWPART));
+                    food[getSnake().getFirst().isAt(food, 1)].getY(), BodyPartType.NEWPART));
             getSnake().getFirst().setIrany(food[getSnake().getFirst().isAt(food, 1)].getDir());
             if (getSnake().getFirst().isAt(food, 1) != 1) {
                 newFoodPlace();
@@ -235,8 +187,8 @@ public class Game {
         SnakeBodyPart sbp;
         if (whichfood > -1) {
             sbp = food2.get(whichfood);
-            sbp.setDir(snake.getLast().getIrany());
-            eatenFood.addFirst(new SnakeBodyPart(sbp.getX(), sbp.getY(), SnakeBodyPart.Parts.NEWPART));
+            sbp.setDir(snake.getLast().getDirection());
+            eatenFood.addFirst(new SnakeBodyPart(sbp.getX(), sbp.getY(), BodyPartType.NEWPART));
             if (whichfood == 0) {
                 newFoodsPlace(whichfood);
             } else if (whichfood == 1) {
@@ -339,7 +291,7 @@ public class Game {
         int whichfood = tail.isAt(eatenFood, 0);
         if (whichfood > -1) {
             snake.addLast(eatenFood.get(whichfood));
-            snake.getLast().setDir(tail.getIrany());
+            snake.getLast().setDir(tail.getDirection());
             eatenFood.remove(whichfood);
         }
 
@@ -409,12 +361,12 @@ public class Game {
         this.showfood2 = showfood2;
     }
 
-    public LinkedList<SnakeBodyPart> getKaja2() {
+    public LinkedList<SnakeBodyPart> getFood2() {
         return food2;
     }
 
-    public void setKaja2(LinkedList<SnakeBodyPart> kaja2) {
-        this.food2 = kaja2;
+    public void setFood2(LinkedList<SnakeBodyPart> food2) {
+        this.food2 = food2;
     }
 
     public LinkedList<SnakeBodyPart> getEatenFood() {

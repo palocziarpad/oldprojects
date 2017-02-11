@@ -16,8 +16,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import com.snakegame.Direction;
+import com.snakegame.PictureFiles;
 import com.snakegame.control.Game;
-import com.snakegame.model.Direction;
 import com.snakegame.model.SnakeTheme;
 
 @SuppressWarnings("serial")
@@ -77,7 +78,7 @@ public class MainWindow extends JFrame {
         init();
         backGround = new JLabel();
         backGround.setIcon(
-                new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + SnakeTheme.PicFile.OPENBG)));
+                new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
         // bg.setSize(200, 200);
         clickListener = new ClickListener();
         panel = new JPanel();
@@ -183,7 +184,7 @@ public class MainWindow extends JFrame {
                     opts.setTheme(table.getSp());
                     opts.setVisible(false);
                     backGround.setIcon(new ImageIcon(
-                            getClass().getResource(SnakeTheme.getSelectedTheme() + SnakeTheme.PicFile.OPENBG)));
+                            getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
                     return;
                 }
                 if (e.getSource() == opts.save) {
@@ -226,8 +227,8 @@ public class MainWindow extends JFrame {
     }
 
     public void gameOverBite() {
-        backGround.setIcon(
-                new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + SnakeTheme.PicFile.GAMEOVERBITE)));
+        backGround.setIcon(new ImageIcon(
+                getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERBITE.getValue())));
         panel.remove(getTable());
         panel.add(backGround);
 
@@ -236,8 +237,8 @@ public class MainWindow extends JFrame {
     }
 
     public void gameOverStun() {
-        backGround.setIcon(
-                new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + SnakeTheme.PicFile.GAMEOVERSTUN)));
+        backGround.setIcon(new ImageIcon(
+                getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERSTUN.getValue())));
         panel.remove(getTable());
         panel.add(backGround);
         repaint();

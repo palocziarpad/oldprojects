@@ -1,11 +1,15 @@
-package com.snakegame.model;
+package com.snakegame;
 
 /**
  * Representation of the direction that the Snake could face
  */
 public enum Direction {
     UP, RIGHT, DOWN, LEFT;
-
+    /**
+     * Get the opposite of the current direction.
+     * 
+     * @return
+     */
     public Direction getOppositeDirection() {
         switch (this) {
         case UP:

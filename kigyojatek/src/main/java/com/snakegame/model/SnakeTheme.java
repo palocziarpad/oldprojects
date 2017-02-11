@@ -2,9 +2,8 @@ package com.snakegame.model;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
+import com.snakegame.BinaryPicHolder;
 
 /**
  * Representation of a Snake Game Theme
@@ -46,32 +45,18 @@ public class SnakeTheme {
         resetTheme();
     }
 
+    /**
+     * Reset the theme.
+     */
     public void resetTheme() {
-        try {
-            BIARRAY[0] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.EMPTY));
-            BIARRAY[1] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.TAILLEFT));
-            BIARRAY[2] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.TAILUP));
-            BIARRAY[3] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.TAILRIGHT));
-            BIARRAY[4] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.TAILDOWN));
-            BIARRAY[5] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.HEADUP));
-            BIARRAY[6] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.HEADRIGHT));
-            BIARRAY[7] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.HEADDOWN));
-            BIARRAY[8] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.HEADLEFT));
-            BIARRAY[9] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.BODYHOR));
-            BIARRAY[10] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.BODYVER));
-            BIARRAY[11] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.FOOD));
-            BIARRAY[12] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.GAMEBG));
-            BIARRAY[13] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.TABLE));
-            BIARRAY[14] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.HIGHSCORE));
-
-            BIARRAY[15] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.SLANTRD));
-            BIARRAY[16] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.SLANTLD));
-            BIARRAY[17] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.SLANTLU));
-            BIARRAY[18] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.SLANTRU));
-            BIARRAY[19] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.FOOD2));
-            BIARRAY[20] = ImageIO.read(getClass().getResourceAsStream(designPrefix + PicFile.NEWPART));
-        } catch (IOException e) {
-            e.printStackTrace();
+        int i = 0;
+        for (BinaryPicHolder bHolder : BinaryPicHolder.values()) {
+            bHolder.refresh();
+            BIARRAY[i] = bHolder.getValue();
+            i++;
+            if (i == BIARRAY.length) {
+                break;
+            }
         }
     }
 
@@ -79,34 +64,4 @@ public class SnakeTheme {
         return "/resources/mira/";
     }
 
-    public enum PIC {
-        EMPTY, TAILLEFT, TAILUP, TAILRIGHT, TAILDOWN, HEADUP, HEADRIGHT, HEADDOWN, HEADLEFT, BODYHOR, BODYVER, FOOD, GAMEBG, TABLE, HIGHSCORE, SLANTRD, SLANTLD, SLANTLU, SLANTRU, FOOD2
-    }
-
-    public abstract class PicFile {
-        public static final String EMPTY = "ures.png";
-        public static final String HEADRIGHT = "fejjobb.png";
-        public static final String HEADDOWN = "fejle.png";
-        public static final String HEADLEFT = "fejbal.png";
-        public static final String HEADUP = "fejfel.png";
-        public static final String TAILRIGHT = "farokjobb.png";
-        public static final String TAILDOWN = "farokle.png";
-        public static final String TAILLEFT = "farokbal.png";
-        public static final String TAILUP = "farokfel.png";
-        public static final String BODYHOR = "testfugg.png";
-        public static final String BODYVER = "testvizsint.png";
-        public static final String FOOD = "kaja.png";
-        public static final String OPENBG = "openbg.png";
-        public static final String GAMEBG = "gamebg.png";
-        public static final String TABLE = "table.png";
-        public static final String HIGHSCORE = "highscore.png";
-        public static final String SLANTRD = "ferde1.png"; // rightdown
-        public static final String SLANTLD = "ferde2.png"; // leftdown
-        public static final String SLANTLU = "ferde3.png"; // leftup
-        public static final String SLANTRU = "ferde4.png"; // rightup
-        public static final String GAMEOVERSTUN = "gameover_stunned.png";
-        public static final String GAMEOVERBITE = "gameover_dead.png";
-        public static final String FOOD2 = "kaja2.png";
-        public static final String NEWPART = "zoldkor.png";
-    }
 }

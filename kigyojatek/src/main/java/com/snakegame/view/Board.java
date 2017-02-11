@@ -10,23 +10,38 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
+import com.snakegame.BodyPartType;
+import com.snakegame.PictureFiles;
 import com.snakegame.control.Game;
 import com.snakegame.model.SnakeBodyPart;
 import com.snakegame.model.SnakeTheme;
 
-@SuppressWarnings("serial")
+/**
+ * Display of the game
+ *
+ */
 public class Board extends JPanel {
 
-    // egy darab kis n�gyzetnek a m�rete
-    final int squarepixsize = 21;
-    // a n�gyzetek �sszdarabsz�ma
-    final int squarecount = 20;
-    // az �ssz pixel m�ret ami kell az eg�sz megrajzol�shoz
-    final int maxsize = squarecount * squarepixsize;
+    private final int squarePixelSize = 21;
+    private final int squareQuantity = 20;
+    private final int maxSizeOfBoardPixels = squareQuantity * squarePixelSize;
     private Game snakegame;
     private SnakeTheme sp;
     private Point point;
     private boolean pause;
+
+    /**
+     * Constructor.
+     */
+    public Board() {
+        snakegame = new Game();
+        this.setBackground(Color.white);
+        this.setBounds(0, 0, maxSizeOfBoardPixels, maxSizeOfBoardPixels);
+        this.setLayout(new FlowLayout(FlowLayout.CENTER));
+        this.setSize(640, 480);
+        point = new Point(0, 0);
+        this.sp = new SnakeTheme();
+    }
 
     public void paint(Graphics g) {
 
@@ -52,16 +67,6 @@ public class Board extends JPanel {
 
     public void reinit() {
         snakegame.reInit();
-    }
-
-    public Board() {
-        snakegame = new Game();
-        this.setBackground(Color.white);
-        this.setBounds(0, 0, maxsize, maxsize);
-        this.setLayout(new FlowLayout(FlowLayout.CENTER));
-        this.setSize(640, 480);
-        point = new Point(0, 0);
-        this.sp = new SnakeTheme();
     }
 
     public void drawPause(Graphics2D g2d) {
@@ -93,63 +98,38 @@ public class Board extends JPanel {
 
     public void drawEatenFoods(Graphics2D g2d) {
         for (int k = 0; k < snakegame.getEatenFood().size(); k++) {
-            g2d.drawImage(sp.BIARRAY[20], point.x + snakegame.getEatenFood().get(k).getX() * squarepixsize + 1,
-                    point.y + snakegame.getEatenFood().get(k).getY() * squarepixsize + 1, null);
+            g2d.drawImage(sp.BIARRAY[20], point.x + snakegame.getEatenFood().get(k).getX() * squarePixelSize + 1,
+                    point.y + snakegame.getEatenFood().get(k).getY() * squarePixelSize + 1, null);
         }
-    }
-
-    public void drawSnake(Graphics2D g2d) throws IOException, InterruptedException {
-        if (getSnakegame().getSnake().size() == 0) {
-            return;
-        }
-        // food
-        drawFood(g2d);
-        // head
-        drawHead(g2d);
-        // torso
-        drawTorsoWithSlant(g2d);
-        // tail
-        drawTail(g2d);
-        // score points
-        drawScore(g2d);
-    }
-
-    public void drawFood(Graphics2D g2d) {
-        g2d.drawImage(sp.BIARRAY[11], point.x + Game.getFood()[0].getX() * squarepixsize + 1,
-                point.y + Game.getFood()[0].getY() * squarepixsize + 1, null);
-        if (snakegame.isShowfood2())
-            g2d.drawImage(sp.BIARRAY[SnakeTheme.PIC.FOOD2.ordinal()],
-                    point.x + Game.getFood()[1].getX() * squarepixsize + 1,
-                    point.y + Game.getFood()[1].getY() * squarepixsize + 1, null);
     }
 
     public void drawFoods(Graphics2D g2d) {
 
-        g2d.drawImage(sp.BIARRAY[11], point.x + snakegame.getKaja2().getFirst().getX() * squarepixsize + 1,
-                point.y + snakegame.getKaja2().getFirst().getY() * squarepixsize + 1, null);
-        if (snakegame.getKaja2().size() > 1)
-            g2d.drawImage(sp.BIARRAY[SnakeTheme.PIC.FOOD2.ordinal()],
-                    point.x + snakegame.getKaja2().get(1).getX() * squarepixsize + 1,
-                    point.y + snakegame.getKaja2().get(1).getY() * squarepixsize + 1, null);
+        g2d.drawImage(sp.BIARRAY[11], point.x + snakegame.getFood2().getFirst().getX() * squarePixelSize + 1,
+                point.y + snakegame.getFood2().getFirst().getY() * squarePixelSize + 1, null);
+        if (snakegame.getFood2().size() > 1)
+            g2d.drawImage(sp.BIARRAY[PictureFiles.FOOD2.ordinal()],
+                    point.x + snakegame.getFood2().get(1).getX() * squarePixelSize + 1,
+                    point.y + snakegame.getFood2().get(1).getY() * squarePixelSize + 1, null);
     }
 
     public void drawHead(Graphics2D g2d) {
         switch (getSnakegame().getSnake().getFirst().getDir()) {
         case UP:
-            g2d.drawImage(sp.BIARRAY[5], point.x + getSnakegame().getSnake().getFirst().getX() * squarepixsize + 1,
-                    point.y + getSnakegame().getSnake().getFirst().getY() * squarepixsize + 1, null);
+            g2d.drawImage(sp.BIARRAY[5], point.x + getSnakegame().getSnake().getFirst().getX() * squarePixelSize + 1,
+                    point.y + getSnakegame().getSnake().getFirst().getY() * squarePixelSize + 1, null);
             break;
         case RIGHT:
-            g2d.drawImage(sp.BIARRAY[6], point.x + getSnakegame().getSnake().getFirst().getX() * squarepixsize + 1,
-                    point.y + getSnakegame().getSnake().getFirst().getY() * squarepixsize + 1, null);
+            g2d.drawImage(sp.BIARRAY[6], point.x + getSnakegame().getSnake().getFirst().getX() * squarePixelSize + 1,
+                    point.y + getSnakegame().getSnake().getFirst().getY() * squarePixelSize + 1, null);
             break;
         case DOWN:
-            g2d.drawImage(sp.BIARRAY[7], point.x + getSnakegame().getSnake().getFirst().getX() * squarepixsize + 1,
-                    point.y + getSnakegame().getSnake().getFirst().getY() * squarepixsize + 1, null);
+            g2d.drawImage(sp.BIARRAY[7], point.x + getSnakegame().getSnake().getFirst().getX() * squarePixelSize + 1,
+                    point.y + getSnakegame().getSnake().getFirst().getY() * squarePixelSize + 1, null);
             break;
         case LEFT:
-            g2d.drawImage(sp.BIARRAY[8], point.x + getSnakegame().getSnake().getFirst().getX() * squarepixsize + 1,
-                    point.y + getSnakegame().getSnake().getFirst().getY() * squarepixsize + 1, null);
+            g2d.drawImage(sp.BIARRAY[8], point.x + getSnakegame().getSnake().getFirst().getX() * squarePixelSize + 1,
+                    point.y + getSnakegame().getSnake().getFirst().getY() * squarePixelSize + 1, null);
             break;
         }
     }
@@ -160,20 +140,20 @@ public class Board extends JPanel {
 
             switch (getSnakegame().getSnake().get(k).getDir()) {
             case UP:
-                g2d.drawImage(sp.BIARRAY[9], point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                        point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                g2d.drawImage(sp.BIARRAY[9], point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                        point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
                 break;
             case RIGHT:
-                g2d.drawImage(sp.BIARRAY[10], point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                        point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                g2d.drawImage(sp.BIARRAY[10], point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                        point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
                 break;
             case DOWN:
-                g2d.drawImage(sp.BIARRAY[9], point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                        point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                g2d.drawImage(sp.BIARRAY[9], point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                        point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
                 break;
             case LEFT:
-                g2d.drawImage(sp.BIARRAY[10], point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                        point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                g2d.drawImage(sp.BIARRAY[10], point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                        point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
                 break;
             }
         }
@@ -181,35 +161,39 @@ public class Board extends JPanel {
 
     public void drawTorsoWithSlant(Graphics2D g2d) {
 
-        SnakeTheme.PIC p;
+        PictureFiles p;
         for (int k = 1; k < getSnakegame().getSnake().size() - 1; k++) {
-            if (getSnakegame().getSnake().get(k).getPartKind() == SnakeBodyPart.Parts.NEWPART) {
+            if (getSnakegame().getSnake().get(k).getPartKind() == BodyPartType.NEWPART) {
 
-                g2d.drawImage(sp.BIARRAY[20], point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                        point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                g2d.drawImage(sp.BIARRAY[20], point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                        point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
             } else if (isSlam(getSnakegame().getSnake().get(k - 1), getSnakegame().getSnake().get(k + 1))) {
                 p = whichSlam(getSnakegame().getSnake().get(k - 1), getSnakegame().getSnake().get(k),
                         getSnakegame().getSnake().get(k + 1));
                 g2d.drawImage(sp.BIARRAY[p.ordinal()],
-                        point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                        point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                        point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                        point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
             } else {
                 switch (getSnakegame().getSnake().get(k).getDir()) {
                 case UP:
-                    g2d.drawImage(sp.BIARRAY[9], point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                            point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                    g2d.drawImage(sp.BIARRAY[9],
+                            point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                            point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
                     break;
                 case RIGHT:
-                    g2d.drawImage(sp.BIARRAY[10], point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                            point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                    g2d.drawImage(sp.BIARRAY[10],
+                            point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                            point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
                     break;
                 case DOWN:
-                    g2d.drawImage(sp.BIARRAY[9], point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                            point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                    g2d.drawImage(sp.BIARRAY[9],
+                            point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                            point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
                     break;
                 case LEFT:
-                    g2d.drawImage(sp.BIARRAY[10], point.x + getSnakegame().getSnake().get(k).getX() * squarepixsize + 1,
-                            point.y + getSnakegame().getSnake().get(k).getY() * squarepixsize + 1, null);
+                    g2d.drawImage(sp.BIARRAY[10],
+                            point.x + getSnakegame().getSnake().get(k).getX() * squarePixelSize + 1,
+                            point.y + getSnakegame().getSnake().get(k).getY() * squarePixelSize + 1, null);
                     break;
                 }
             }
@@ -219,23 +203,23 @@ public class Board extends JPanel {
     public void drawTail(Graphics2D g2d) {
         switch (getSnakegame().getSnake().getLast().getDir()) {
         case UP:
-            g2d.drawImage(sp.BIARRAY[2], point.x + getSnakegame().getSnake().getLast().getX() * squarepixsize + 1,
-                    point.y + getSnakegame().getSnake().getLast().getY() * squarepixsize + 1, null);
+            g2d.drawImage(sp.BIARRAY[2], point.x + getSnakegame().getSnake().getLast().getX() * squarePixelSize + 1,
+                    point.y + getSnakegame().getSnake().getLast().getY() * squarePixelSize + 1, null);
             break;
         case RIGHT:
 
-            g2d.drawImage(sp.BIARRAY[3], point.x + getSnakegame().getSnake().getLast().getX() * squarepixsize + 1,
-                    point.y + getSnakegame().getSnake().getLast().getY() * squarepixsize + 1, null);
+            g2d.drawImage(sp.BIARRAY[3], point.x + getSnakegame().getSnake().getLast().getX() * squarePixelSize + 1,
+                    point.y + getSnakegame().getSnake().getLast().getY() * squarePixelSize + 1, null);
             break;
         case DOWN:
 
-            g2d.drawImage(sp.BIARRAY[4], point.x + getSnakegame().getSnake().getLast().getX() * squarepixsize + 1,
-                    point.y + getSnakegame().getSnake().getLast().getY() * squarepixsize + 1, null);
+            g2d.drawImage(sp.BIARRAY[4], point.x + getSnakegame().getSnake().getLast().getX() * squarePixelSize + 1,
+                    point.y + getSnakegame().getSnake().getLast().getY() * squarePixelSize + 1, null);
             break;
         case LEFT:
 
-            g2d.drawImage(sp.BIARRAY[1], point.x + getSnakegame().getSnake().getLast().getX() * squarepixsize + 1,
-                    point.y + getSnakegame().getSnake().getLast().getY() * squarepixsize + 1, null);
+            g2d.drawImage(sp.BIARRAY[1], point.x + getSnakegame().getSnake().getLast().getX() * squarePixelSize + 1,
+                    point.y + getSnakegame().getSnake().getLast().getY() * squarePixelSize + 1, null);
             break;
         }
     }
@@ -256,7 +240,7 @@ public class Board extends JPanel {
         return false;
     }
 
-    public SnakeTheme.PIC whichSlam(SnakeBodyPart before, SnakeBodyPart current, SnakeBodyPart after) {
+    public PictureFiles whichSlam(SnakeBodyPart before, SnakeBodyPart current, SnakeBodyPart after) {
         boolean l = false, r = false, u = false, d = false;
         if (before.getX() > current.getX())
             r = true;
@@ -266,7 +250,6 @@ public class Board extends JPanel {
             d = true;
         else if (before.getY() < current.getY())
             u = true;
-
         if (after.getX() > current.getX())
             r = true;
         else if (after.getX() < current.getX())
@@ -275,15 +258,14 @@ public class Board extends JPanel {
             d = true;
         else if (after.getY() < current.getY())
             u = true;
-
         if (r && u)
-            return SnakeTheme.PIC.SLANTRU;
+            return PictureFiles.SLANTRU;
         else if (l && d)
-            return SnakeTheme.PIC.SLANTLD;
+            return PictureFiles.SLANTLD;
         else if (l && u)
-            return SnakeTheme.PIC.SLANTLU;
+            return PictureFiles.SLANTLU;
         else if (r && d)
-            return SnakeTheme.PIC.SLANTRD;
+            return PictureFiles.SLANTRD;
         return null;
 
     }
