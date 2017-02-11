@@ -6,6 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.snakegame.PictureFiles;
 
 /**
@@ -13,6 +16,8 @@ import com.snakegame.PictureFiles;
  *
  */
 public class SnakeTheme {
+    private Logger logger = LoggerFactory.getLogger(SnakeTheme.class);
+
     public Image[] BIARRAY;
     private static String designPrefix;
     static {
@@ -58,7 +63,7 @@ public class SnakeTheme {
                 BIARRAY[i] = ImageIO
                         .read(getClass().getResourceAsStream(SnakeTheme.getSelectedTheme() + bHolder.getValue()));
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
             i++;
             if (i == BIARRAY.length) {

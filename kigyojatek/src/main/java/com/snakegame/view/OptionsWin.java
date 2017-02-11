@@ -14,7 +14,8 @@ import com.snakegame.model.ThemeOptions;
  *
  */
 public class OptionsWin extends JFrame {
-    private static final String CLOSE_TEXT = "close";
+    private static final String OPTIONS_WINDOW_TITLE = "Options";
+    private static final String CLOSE_BUTTON_TEXT = "close";
     JPanel panel, theme;
     JButton save, close, cancel;
     ButtonGroup themeopt;
@@ -24,7 +25,7 @@ public class OptionsWin extends JFrame {
      * Constructor.
      */
     public OptionsWin() {
-        super("Options");
+        super(OPTIONS_WINDOW_TITLE);
         setSize(200, 200);
         ThemeOptions opt = new ThemeOptions();
         themeopt = new ButtonGroup();
@@ -32,7 +33,7 @@ public class OptionsWin extends JFrame {
         themelist = new JComboBox<String>(opt.getThemes());
 
         panel.add(themelist);
-        close = new JButton(CLOSE_TEXT);
+        close = new JButton(CLOSE_BUTTON_TEXT);
         panel.add(close);
 
         setResizable(false);

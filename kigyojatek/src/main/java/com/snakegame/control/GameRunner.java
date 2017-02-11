@@ -4,6 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.swing.JMenuBar;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.snakegame.Direction;
 import com.snakegame.model.SnakeBodyPart;
 import com.snakegame.view.MainWindow;
@@ -14,18 +19,20 @@ import com.snakegame.view.MainWindow;
  */
 public class GameRunner {
 
+    private static Logger logger = LoggerFactory.getLogger(GameRunner.class);
+
     private static final int SNAKE_INITIAL_SIZE = 3;
     // Size of the grid
     final static byte gridsize = 20;
     // the main window
-    MainWindow mainwin;
+    private MainWindow mainwin;
 
-    int delay;
+    private int sleepTime;
     private final static int DEFAULTDELAY = 250;
 
     public GameRunner() {
         super();
-        delay = DEFAULTDELAY;
+        sleepTime = DEFAULTDELAY;
     }
 
     public void run() {
@@ -39,14 +46,14 @@ public class GameRunner {
 
     private void initMainWindow(LinkedList<SnakeBodyPart> snake, MenuClickListener clistener) {
         mainwin = new MainWindow();
-
-        mainwin.getjMenuBar().getMenu(0).getItem(0).addActionListener(clistener);
-        mainwin.getjMenuBar().getMenu(0).getItem(1).addActionListener(clistener);
-        mainwin.getjMenuBar().getMenu(1).getItem(0).addActionListener(clistener);
-        mainwin.getjMenuBar().getMenu(1).getItem(1).addActionListener(clistener);
-        mainwin.getjMenuBar().getMenu(2).getItem(0).addActionListener(clistener);
-        mainwin.getjMenuBar().getMenu(2).getItem(1).addActionListener(clistener);
-        mainwin.getjMenuBar().getMenu(2).getItem(2).addActionListener(clistener);
+        JMenuBar jmenubar = mainwin.getjMenuBar();
+        jmenubar.getMenu(0).getItem(0).addActionListener(clistener);
+        jmenubar.getMenu(0).getItem(1).addActionListener(clistener);
+        jmenubar.getMenu(1).getItem(0).addActionListener(clistener);
+        jmenubar.getMenu(1).getItem(1).addActionListener(clistener);
+        jmenubar.getMenu(2).getItem(0).addActionListener(clistener);
+        jmenubar.getMenu(2).getItem(1).addActionListener(clistener);
+        jmenubar.getMenu(2).getItem(2).addActionListener(clistener);
 
         mainwin.getTable().repaint();
         mainwin.getTable().getSnakegame().setSnake(snake);
@@ -62,6 +69,7 @@ public class GameRunner {
     }
 
     public static void main(String[] args) {
+        logger.info("Start of the game.");
         new GameRunner().run();
         /**
          * @TODO 1. legyen egy j�t�k start gomb. pipa 2. pontsz�ml�l� pipa 3.
@@ -82,6 +90,7 @@ public class GameRunner {
          *       v�lt. 32. stack overfl� bug a random miatt. jav�tva 33. bug, a
          *       dinnye ott marad. jav�tva
          */
+        logger.info("End of the game.");
     }
 
     /**
@@ -91,30 +100,23 @@ public class GameRunner {
      * 5.
      */
     public void newGame() {
-        delay = DEFAULTDELAY;
-        int size = mainwin.getTable().getSnakegame().getSnake().size();
+        sleepTime = DEFAULTDELAY;
+        LinkedList<SnakeBodyPart> snake = mainwin.getTable().getSnakegame().getSnake();
+        int size = snake.size();
         for (int k = SNAKE_INITIAL_SIZE; k < size; k++) {
-            mainwin.getTable().getSnakegame().getSnake().removeLast();
+            snake.removeLast();
         }
-        mainwin.getTable().getSnakegame().getSnake().get(0).setState((byte) 4, (byte) 2, Direction.RIGHT);
-        mainwin.getTable().getSnakegame().getSnake().get(1).setState((byte) 3, (byte) 2, Direction.RIGHT);
-        mainwin.getTable().getSnakegame().getSnake().get(2).setState((byte) 2, (byte) 2, Direction.RIGHT);
+        snake.get(0).setState((byte) 4, (byte) 2, Direction.RIGHT);
+        snake.get(1).setState((byte) 3, (byte) 2, Direction.RIGHT);
+        snake.get(2).setState((byte) 2, (byte) 2, Direction.RIGHT);
         mainwin.repaint();
         game();
 
     }
 
-    public void newGame2() {
-        mainwin.setVisible(false);
-        delay = DEFAULTDELAY;
-        mainwin.setNewgame(true);
-        new GameRunner().run();
-    }
-
     public void game() {
         delayUntilPlayerStart();
         snakeMover();
-
     }
 
     private void snakeMover() {
@@ -122,13 +124,8 @@ public class GameRunner {
          * The snake mover.
          */
         while (true) {
-            try {
-                Thread.sleep(delay);
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            mainwin.getTable().getSnakegame().step_foodsver();
+            sleep(sleepTime);
+            mainwin.getTable().getSnakegame().doStep();
             mainwin.getTable().repaint();
             mainwin.getTable().getSnakegame().eatenFoodAtTail();
 
@@ -151,20 +148,25 @@ public class GameRunner {
             }
             if (mainwin.getTable().getSnakegame().getScore() == 100
                     && mainwin.getTable().getSnakegame().isScorerised()) {
-                delay /= 2;
+                sleepTime /= 2;
                 mainwin.getTable().getSnakegame().setScoreRised(false);
             } else if (mainwin.getTable().getSnakegame().getScore() == 200
                     && mainwin.getTable().getSnakegame().isScorerised()) {
-                delay /= 2;
+                sleepTime /= 2;
                 mainwin.getTable().getSnakegame().setScoreRised(false);
             }
             while (mainwin.getTable().isPause()) {
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                sleep(sleepTime);
             }
+        }
+    }
+
+    private void sleep(int millisec) {
+        try {
+            Thread.sleep(millisec);
+
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage(), e);
         }
     }
 
@@ -173,13 +175,10 @@ public class GameRunner {
          * Wait until the player click on the start.
          */
         while (true) {
-            if (mainwin.getStarted() == true)
+            if (mainwin.getStarted() == true) {
                 break;
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+            sleep(sleepTime);
         }
     }
 

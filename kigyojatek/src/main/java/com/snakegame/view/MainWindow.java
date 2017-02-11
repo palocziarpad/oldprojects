@@ -23,6 +23,7 @@ import com.snakegame.model.SnakeTheme;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
+    private static final String GAME_WINDOW_TITLE = "Snake Game";
     private Board table;
     private JButton startButton;
     private JPanel panel;
@@ -34,43 +35,13 @@ public class MainWindow extends JFrame {
     private OptionsWin opts;
     private ClickListener clickListener;
 
-    /**
-     * Initialize the game for the first time run.
+    /***
+     * Constructor.
      */
-    public void init() {
-        setNewgame(false);
-        setStarted(false);
-
-    }
-
-    /**
-     * Initialize the game again to run with clean.
-     */
-    public void reinit() {
-        int meret = table.getSnakegame().getSnake().size();
-        for (int k = 3; k < meret; k++) {
-            getTable().getSnakegame().getSnake().removeLast();
-        }
-        table.getSnakegame().getSnake().get(0).setState((byte) 4, (byte) 2, Direction.RIGHT);
-        table.getSnakegame().getSnake().get(1).setState((byte) 3, (byte) 2, Direction.RIGHT);
-        table.getSnakegame().getSnake().get(2).setState((byte) 2, (byte) 2, Direction.RIGHT);
-        repaint();
-        if (table.getSnakegame().getGameover() == Game.GameOver.BITE
-                || table.getSnakegame().getGameover() == Game.GameOver.WALL) {
-            System.out.println("newgame bite");
-            remove(backGround);
-            add(table);
-        }
-
-        table.getSnakegame().setScore(0);
-        table.reinit();
-
-    }
-
     public MainWindow() {
 
         // set frame's title
-        super("Snake Game");
+        super(GAME_WINDOW_TITLE);
         // set frame size
 
         this.setSize(640, 500);
@@ -102,25 +73,37 @@ public class MainWindow extends JFrame {
         this.setVisible(true);
     }
 
-    private void addMenu() {
-        setMenuBar(new JMenuBar());
-        JMenu file = new JMenu("File");
+    /**
+     * Initialize the game for the first time run.
+     */
+    public void init() {
+        setNewgame(false);
+        setStarted(false);
 
-        mb.add(file);
-        file.add(new JMenuItem("New Game", 'N'));
-        file.add(new JMenuItem("Exit", 'E'));
-        JMenu settings = new JMenu("Settings");
-        mb.add(settings);
-        settings.add(new JMenuItem("Difficulty"));
-        settings.add(new JMenuItem("Theme"));
+    }
 
-        JMenu about = new JMenu("About");
-        mb.add(about);
+    /**
+     * Initialize the game again to run with clean.
+     */
+    public void reinit() {
+        int meret = table.getSnakegame().getSnake().size();
+        for (int k = 3; k < meret; k++) {
+            getTable().getSnakegame().getSnake().removeLast();
+        }
+        table.getSnakegame().getSnake().get(0).setState((byte) 4, (byte) 2, Direction.RIGHT);
+        table.getSnakegame().getSnake().get(1).setState((byte) 3, (byte) 2, Direction.RIGHT);
+        table.getSnakegame().getSnake().get(2).setState((byte) 2, (byte) 2, Direction.RIGHT);
+        repaint();
+        if (table.getSnakegame().getGameover() == Game.GameOver.BITE
+                || table.getSnakegame().getGameover() == Game.GameOver.WALL) {
+            System.out.println("newgame bite");
+            remove(backGround);
+            add(table);
+        }
 
-        about.add(new JMenuItem("Help"));
-        about.add(new JMenuItem("About"));
-        about.add(new JMenuItem("Version"));
-        this.setJMenuBar(mb);
+        table.getSnakegame().setScore(0);
+        table.reInitialize();
+
     }
 
     public class MyKeyListener extends KeyAdapter {
@@ -283,6 +266,27 @@ public class MainWindow extends JFrame {
 
     public void setBg(JLabel bg) {
         this.backGround = bg;
+    }
+
+    private void addMenu() {
+        setMenuBar(new JMenuBar());
+        JMenu file = new JMenu("File");
+
+        mb.add(file);
+        file.add(new JMenuItem("New Game", 'N'));
+        file.add(new JMenuItem("Exit", 'E'));
+        JMenu settings = new JMenu("Settings");
+        mb.add(settings);
+        settings.add(new JMenuItem("Difficulty"));
+        settings.add(new JMenuItem("Theme"));
+
+        JMenu about = new JMenu("About");
+        mb.add(about);
+
+        about.add(new JMenuItem("Help"));
+        about.add(new JMenuItem("About"));
+        about.add(new JMenuItem("Version"));
+        this.setJMenuBar(mb);
     }
 
 }

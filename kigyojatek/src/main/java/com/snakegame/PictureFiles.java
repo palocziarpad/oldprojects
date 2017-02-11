@@ -1,5 +1,9 @@
 package com.snakegame;
 
+/***
+ * Picture filename class.
+ *
+ */
 public enum PictureFiles {
     EMPTY("ures.png"), //
     TAILLEFT("farokbal.png"), //

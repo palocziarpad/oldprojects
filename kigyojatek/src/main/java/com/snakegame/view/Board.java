@@ -10,6 +10,9 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.snakegame.BodyPartType;
 import com.snakegame.PictureFiles;
 import com.snakegame.control.Game;
@@ -21,6 +24,8 @@ import com.snakegame.model.SnakeTheme;
  *
  */
 public class Board extends JPanel {
+
+    private Logger logger = LoggerFactory.getLogger(Board.class);
 
     private final int squarePixelSize = 21;
     private final int squareQuantity = 20;
@@ -59,14 +64,14 @@ public class Board extends JPanel {
         try {
             drawSnake_foodsver(g2d);
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         drawPause(g2d);
 
     }
 
-    public void reinit() {
-        snakegame.reInit();
+    public void reInitialize() {
+        snakegame.reInitialize();
     }
 
     public void drawPause(Graphics2D g2d) {
@@ -200,7 +205,7 @@ public class Board extends JPanel {
         }
     }
 
-    public void drawTail(Graphics2D g2d) {
+    private void drawTail(Graphics2D g2d) {
         switch (getSnakegame().getSnake().getLast().getDir()) {
         case UP:
             g2d.drawImage(sp.BIARRAY[2], point.x + getSnakegame().getSnake().getLast().getX() * squarePixelSize + 1,
@@ -224,7 +229,7 @@ public class Board extends JPanel {
         }
     }
 
-    public void drawScore(Graphics2D g2d) {
+    private void drawScore(Graphics2D g2d) {
         g2d.setFont(new Font("SansSerif", Font.BOLD, 14));
         if (snakegame.getScore() > 99 && snakegame.getScore() < 200)
             g2d.setColor(Color.BLUE);
@@ -233,7 +238,7 @@ public class Board extends JPanel {
         g2d.drawString("" + getSnakegame().getScore(), point.x + 421 + 184 / 2 - 5, point.y + 153 / 2 + 30);
     }
 
-    public boolean isSlam(SnakeBodyPart before, SnakeBodyPart after) {
+    private boolean isSlam(SnakeBodyPart before, SnakeBodyPart after) {
         if (before.getX() != after.getX() && before.getY() != after.getY()) {
             return true;
         }

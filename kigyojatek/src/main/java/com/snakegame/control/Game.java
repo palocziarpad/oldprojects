@@ -12,6 +12,7 @@ import com.snakegame.model.SnakeBodyPart;
  */
 public class Game {
 
+    private static final int BONUS_FOOD_SCORE = 20;
     private static final int DEFAULT_SCORE_RISE = 10;
     private LinkedList<SnakeBodyPart> snake;
     private byte tablesize;
@@ -19,7 +20,7 @@ public class Game {
     private int score;
     private boolean isScoreRised;
     private boolean eaten;
-    private boolean showfood2;
+    private boolean showBonusFood;
     private Direction direction;
     private SnakeBodyPart newpart;
     private LinkedList<SnakeBodyPart> food2;
@@ -37,7 +38,22 @@ public class Game {
         food2.add(new SnakeBodyPart((byte) 5, (byte) 8));
     }
 
-    public void reInit() {
+    /**
+     * Constructor.
+     */
+    public Game() {
+        super();
+        showBonusFood = isScoreRised = eaten = false;
+        gameover = GameOver.INGAME;
+        snake = new LinkedList<SnakeBodyPart>();
+        score = tablesize = 0;
+        newpart = new SnakeBodyPart((byte) 5, (byte) 8);
+    }
+
+    /**
+     * Initialize again
+     */
+    public void reInitialize() {
 
         food2 = new LinkedList<SnakeBodyPart>();
         eatenFood = new LinkedList<SnakeBodyPart>();
@@ -46,20 +62,11 @@ public class Game {
         gameover = GameOver.INGAME;
     }
 
-    public Game() {
-        super();
-        showfood2 = isScoreRised = eaten = false;
-        gameover = GameOver.INGAME;
-        snake = new LinkedList<SnakeBodyPart>();
-        score = tablesize = 0;
-        newpart = new SnakeBodyPart((byte) 5, (byte) 8);
-    }
-
-    public void step_foodsver() {
+    public void doStep() {
         /**
-         * We use the snake tail (last element) to be the new head, thats how it
-         * moves. First we set it to the exact place, then we will adjust it
-         * depending on the user input direction.
+         * The snake tail (last element) will be the new head. First we set it
+         * to the exact place, then we will adjust it depending on the user
+         * input direction.
          */
         SnakeBodyPart newBodyPart = getSnake().getLast();
         newBodyPart.setX(getSnake().getFirst().getX());
@@ -133,55 +140,6 @@ public class Game {
         return true;
     }
 
-    public boolean eating() {
-        if (getSnake().getFirst().isAt(food)) {
-            food[0].setDir(getSnake().getFirst().getDirection());
-            getSnake().addFirst(new SnakeBodyPart(food[0].getX(), food[0].getY()));
-            getSnake().getFirst().setIrany(food[0].getDir());
-
-            newFoodPlace();
-            increaseScore();
-            setEaten(true);
-
-            return true;
-        }
-        return false;
-
-    }
-
-    public boolean eating2food() {
-        if (getSnake().getFirst().isAt(food, 1) > -1) {
-            food[getSnake().getFirst().isAt(food, 1)].setDir(getSnake().getFirst().getDirection());
-
-            getSnake().addFirst(new SnakeBodyPart(food[getSnake().getFirst().isAt(food, 1)].getX(),
-                    food[getSnake().getFirst().isAt(food, 1)].getY(), BodyPartType.NEWPART));
-            getSnake().getFirst().setIrany(food[getSnake().getFirst().isAt(food, 1)].getDir());
-            if (getSnake().getFirst().isAt(food, 1) != 1) {
-                newFoodPlace();
-            }
-            increaseScore();
-            /**
-             * food2
-             */
-            if (score == 20) {
-                newFoodPlace(food[1]);
-                showfood2 = true;
-            }
-            if (getSnake().getFirst().isAt(food, 1) == 1) {
-                showfood2 = false;
-                // set the food 2 out of the board
-                food[1].setX((byte) 20);
-                food[1].setY((byte) 20);
-            }
-            setEaten(true);
-
-            return true;
-
-        }
-        return false;
-
-    }
-
     public boolean eatingfoods() {
         int whichfood = getSnake().getFirst().isAt(food2, 1);
         SnakeBodyPart sbp;
@@ -196,9 +154,9 @@ public class Game {
             }
             increaseScore();
             /**
-             * food2
+             * Bonus food
              */
-            if (score == 20) {
+            if (score == BONUS_FOOD_SCORE) {
                 food2.addLast(new SnakeBodyPart(snake.getLast().getX(), snake.getLast().getY()));
                 newFoodsPlace(1);
 
@@ -354,11 +312,11 @@ public class Game {
     }
 
     public boolean isShowfood2() {
-        return showfood2;
+        return showBonusFood;
     }
 
     public void setShowfood2(boolean showfood2) {
-        this.showfood2 = showfood2;
+        this.showBonusFood = showfood2;
     }
 
     public LinkedList<SnakeBodyPart> getFood2() {
