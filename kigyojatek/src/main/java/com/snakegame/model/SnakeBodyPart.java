@@ -126,27 +126,16 @@ public class SnakeBodyPart {
     /**
      * is the snake body part the given places
      * 
-     * @param food
+     * @param foods
      * @return
      */
-    public boolean isAt(SnakeBodyPart food[]) {
-	for (int i = 0; i < food.length; i++) {
-	    if (xCoordinate == food[i].xCoordinate && yCoordinate == food[i].yCoordinate) {
-		return true;
-	    }
-	}
-	return false;
-    }
-
-    /**
-     * The z parameter will be only for the to use the int return type.
-     */
-    public int isAt(LinkedList<SnakeBodyPart> foods, int z) {
+    public int isAt(LinkedList<SnakeBodyPart> foods) {
 	SnakeBodyPart sbp;
 	for (int k = 0; k < foods.size(); k++) {
 	    sbp = foods.get(k);
-	    if (xCoordinate == sbp.xCoordinate && yCoordinate == sbp.yCoordinate)
+	    if (isAt(sbp)) {
 		return k;
+	    }
 	}
 
 	return -1;

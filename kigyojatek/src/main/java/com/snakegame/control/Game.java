@@ -144,7 +144,7 @@ public class Game {
     }
 
     public boolean eatFood() {
-	int whichfood = getSnake().getFirst().isAt(foodList, 1);
+	int whichfood = getSnake().getFirst().isAt(foodList);
 	SnakeBodyPart sbp;
 	if (whichfood > -1) {
 	    sbp = foodList.get(whichfood);
@@ -218,7 +218,7 @@ public class Game {
 
     public void eatenFoodAtTail() {
 	SnakeBodyPart tail = snake.getLast();
-	int whichfood = tail.isAt(eatenFood, 0);
+	int whichfood = tail.isAt(eatenFood);
 	if (whichfood > -1) {
 	    snake.addLast(eatenFood.get(whichfood));
 	    snake.getLast().setDirection(tail.getDirection());
