@@ -66,7 +66,7 @@ public class Board extends JPanel {
 	g2d.setColor(Color.orange);
 
 	try {
-	    drawSnake_foodsver(g2d);
+	    drawSnake(g2d);
 	} catch (IOException | InterruptedException e) {
 	    logger.error(e.getMessage(), e);
 	}
@@ -74,10 +74,18 @@ public class Board extends JPanel {
 
     }
 
+    /**
+     * Re initialize the game
+     */
     public void reInitialize() {
 	snakeGame.reInitialize();
     }
 
+    /**
+     * Draw the pause on the screen
+     * 
+     * @param g2d
+     */
     public void drawPause(Graphics2D g2d) {
 	if (pause) {
 	    g2d.setFont(new Font(FONT_OF_PRINTS, Font.BOLD, 50));
@@ -85,8 +93,14 @@ public class Board extends JPanel {
 	}
     }
 
-    public void drawSnake_foodsver(Graphics2D g2d) throws IOException, InterruptedException {
-
+    /***
+     * Draw the snake
+     * 
+     * @param g2d
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void drawSnake(Graphics2D g2d) throws IOException, InterruptedException {
 	if (getSnakegame().getSnake().size() == 0) {
 	    logger.warn("null snake");
 	    return;
@@ -105,30 +119,30 @@ public class Board extends JPanel {
 	drawScore(g2d);
     }
 
-    public void drawEatenFoods(Graphics2D g2d) {
+    private void drawEatenFoods(Graphics2D g2d) {
 	for (int k = 0; k < snakeGame.getEatenFood().size(); k++) {
-	    g2d.drawImage(snakeTheme.getBIARRAY()[20],
-		    point.x + snakeGame.getEatenFood().get(k).getX() * squarePixelSize + 1,
-		    point.y + snakeGame.getEatenFood().get(k).getY() * squarePixelSize + 1, null);
+	    g2d.drawImage(snakeTheme.getImage(PictureFiles.NEWPART),
+	            point.x + snakeGame.getEatenFood().get(k).getXCoordinate() * squarePixelSize + 1,
+	            point.y + snakeGame.getEatenFood().get(k).getYCoordinate() * squarePixelSize + 1, null);
 	}
     }
 
-    public void drawFoods(Graphics2D g2d) {
+    private void drawFoods(Graphics2D g2d) {
 	g2d.drawImage(snakeTheme.getImage(PictureFiles.FOOD),
-		point.x + snakeGame.getFoodList().getFirst().getX() * squarePixelSize + 1,
-		point.y + snakeGame.getFoodList().getFirst().getY() * squarePixelSize + 1, null);
+	        point.x + snakeGame.getFoodList().getFirst().getXCoordinate() * squarePixelSize + 1,
+	        point.y + snakeGame.getFoodList().getFirst().getYCoordinate() * squarePixelSize + 1, null);
 
 	if (snakeGame.getFoodList().size() > 1) {
 	    g2d.drawImage(snakeTheme.getImage(PictureFiles.BONUSFOOD),
-		    point.x + snakeGame.getFoodList().get(1).getX() * squarePixelSize + 1,
-		    point.y + snakeGame.getFoodList().get(1).getY() * squarePixelSize + 1, null);
+	            point.x + snakeGame.getFoodList().get(1).getXCoordinate() * squarePixelSize + 1,
+	            point.y + snakeGame.getFoodList().get(1).getYCoordinate() * squarePixelSize + 1, null);
 	}
     }
 
-    public void drawHead(Graphics2D g2d) {
+    private void drawHead(Graphics2D g2d) {
 	SnakeBodyPart head = getSnakegame().getSnake().getFirst();
 	PictureFiles picture = null;
-	switch (head.getDir()) {
+	switch (head.getDirection()) {
 	case UP:
 	    picture = PictureFiles.HEADUP;
 	    break;
@@ -142,27 +156,28 @@ public class Board extends JPanel {
 	    picture = PictureFiles.HEADLEFT;
 	    break;
 	}
-	g2d.drawImage(snakeTheme.getImage(picture), point.x + head.getX() * squarePixelSize + 1,
-		point.y + head.getY() * squarePixelSize + 1, null);
+	g2d.drawImage(snakeTheme.getImage(picture), point.x + head.getXCoordinate() * squarePixelSize + 1,
+	        point.y + head.getYCoordinate() * squarePixelSize + 1, null);
     }
 
-    public void drawTorso(Graphics2D g2d) {
+    private void drawTorso(Graphics2D g2d) {
 	LinkedList<SnakeBodyPart> snakeList = getSnakegame().getSnake();
 
-	PictureFiles p;
+	PictureFiles picLocal;
 	for (int k = 1; k < snakeList.size() - 1; k++) {
 	    SnakeBodyPart snake = snakeList.get(k);
-	    if (snake.getPartKind() == BodyPartType.NEWPART) {
+	    if (snake.getPartType() == BodyPartType.NEWPART) {
 
-		g2d.drawImage(snakeTheme.getBIARRAY()[20], point.x + snake.getX() * squarePixelSize + 1,
-			point.y + snake.getY() * squarePixelSize + 1, null);
+		g2d.drawImage(snakeTheme.getImage(PictureFiles.NEWPART),
+		        point.x + snake.getXCoordinate() * squarePixelSize + 1,
+		        point.y + snake.getYCoordinate() * squarePixelSize + 1, null);
 	    } else if (isSlam(snakeList.get(k - 1), snakeList.get(k + 1))) {
-		p = whichSlam(snakeList.get(k - 1), snake, snakeList.get(k + 1));
-		g2d.drawImage(snakeTheme.getBIARRAY()[p.ordinal()], point.x + snake.getX() * squarePixelSize + 1,
-			point.y + snake.getY() * squarePixelSize + 1, null);
+		picLocal = whichSlam(snakeList.get(k - 1), snake, snakeList.get(k + 1));
+		g2d.drawImage(snakeTheme.getImage(picLocal), point.x + snake.getXCoordinate() * squarePixelSize + 1,
+		        point.y + snake.getYCoordinate() * squarePixelSize + 1, null);
 	    } else {
 		PictureFiles picfile = null;
-		switch (snake.getDir()) {
+		switch (snake.getDirection()) {
 		case UP:
 		case DOWN:
 		    picfile = PictureFiles.BODYHOR;
@@ -172,8 +187,8 @@ public class Board extends JPanel {
 		    picfile = PictureFiles.BODYVER;
 		    break;
 		}
-		g2d.drawImage(snakeTheme.getImage(picfile), point.x + snake.getX() * squarePixelSize + 1,
-			point.y + snake.getY() * squarePixelSize + 1, null);
+		g2d.drawImage(snakeTheme.getImage(picfile), point.x + snake.getXCoordinate() * squarePixelSize + 1,
+		        point.y + snake.getYCoordinate() * squarePixelSize + 1, null);
 	    }
 	}
     }
@@ -181,7 +196,7 @@ public class Board extends JPanel {
     private void drawTail(Graphics2D g2d) {
 	SnakeBodyPart tail = getSnakegame().getSnake().getLast();
 	PictureFiles picfile = null;
-	switch (tail.getDir()) {
+	switch (tail.getDirection()) {
 	case UP:
 	    picfile = PictureFiles.TAILUP;
 	    break;
@@ -195,8 +210,8 @@ public class Board extends JPanel {
 	    picfile = PictureFiles.TAILLEFT;
 	    break;
 	}
-	g2d.drawImage(snakeTheme.getImage(picfile), point.x + tail.getX() * squarePixelSize + 1,
-		point.y + tail.getY() * squarePixelSize + 1, null);
+	g2d.drawImage(snakeTheme.getImage(picfile), point.x + tail.getXCoordinate() * squarePixelSize + 1,
+	        point.y + tail.getYCoordinate() * squarePixelSize + 1, null);
     }
 
     private void drawScore(Graphics2D g2d) {
@@ -212,26 +227,26 @@ public class Board extends JPanel {
     }
 
     private boolean isSlam(SnakeBodyPart before, SnakeBodyPart after) {
-	return before.getX() != after.getX() && before.getY() != after.getY();
+	return before.getXCoordinate() != after.getXCoordinate() && before.getYCoordinate() != after.getYCoordinate();
     }
 
-    public PictureFiles whichSlam(SnakeBodyPart before, SnakeBodyPart current, SnakeBodyPart after) {
+    public static PictureFiles whichSlam(SnakeBodyPart before, SnakeBodyPart current, SnakeBodyPart after) {
 	boolean l = false, r = false, u = false, d = false;
-	if (before.getX() > current.getX())
+	if (before.getXCoordinate() > current.getXCoordinate())
 	    r = true;
-	else if (before.getX() < current.getX())
+	else if (before.getXCoordinate() < current.getXCoordinate())
 	    l = true;
-	else if (before.getY() > current.getY())
+	else if (before.getYCoordinate() > current.getYCoordinate())
 	    d = true;
-	else if (before.getY() < current.getY())
+	else if (before.getYCoordinate() < current.getYCoordinate())
 	    u = true;
-	if (after.getX() > current.getX())
+	if (after.getXCoordinate() > current.getXCoordinate())
 	    r = true;
-	else if (after.getX() < current.getX())
+	else if (after.getXCoordinate() < current.getXCoordinate())
 	    l = true;
-	else if (after.getY() > current.getY())
+	else if (after.getYCoordinate() > current.getYCoordinate())
 	    d = true;
-	else if (after.getY() < current.getY())
+	else if (after.getYCoordinate() < current.getYCoordinate())
 	    u = true;
 	if (r && u)
 	    return PictureFiles.SLANTRU;
@@ -245,20 +260,12 @@ public class Board extends JPanel {
 
     }
 
-    public void setSnakegame(Game snakegame) {
-	this.snakeGame = snakegame;
-    }
-
     public Game getSnakegame() {
 	return snakeGame;
     }
 
     public Point getPoint() {
 	return point;
-    }
-
-    public void setPoint(Point point) {
-	this.point = point;
     }
 
     public boolean isPause() {
@@ -273,12 +280,8 @@ public class Board extends JPanel {
 	pause = !pause;
     }
 
-    public SnakeTheme getSp() {
+    public SnakeTheme getSnakeTheme() {
 	return snakeTheme;
-    }
-
-    public void setSp(SnakeTheme sp) {
-	this.snakeTheme = sp;
     }
 
 }

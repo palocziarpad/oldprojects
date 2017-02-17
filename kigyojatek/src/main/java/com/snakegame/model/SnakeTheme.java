@@ -30,8 +30,7 @@ public class SnakeTheme {
      */
     public SnakeTheme() {
 	designPrefix = getStdDesign();
-	BIARRAY = new BufferedImage[21];
-
+	BIARRAY = new BufferedImage[PictureFiles.values().length];
 	resetTheme();
     }
 
@@ -62,14 +61,11 @@ public class SnakeTheme {
 	for (PictureFiles bHolder : PictureFiles.values()) {
 	    try {
 		BIARRAY[i] = ImageIO
-			.read(getClass().getResourceAsStream(SnakeTheme.getSelectedTheme() + bHolder.getValue()));
+		        .read(getClass().getResourceAsStream(SnakeTheme.getSelectedTheme() + bHolder.getValue()));
 	    } catch (IOException e) {
 		logger.error(e.getMessage(), e);
 	    }
 	    i++;
-	    if (i == BIARRAY.length) {
-		break;
-	    }
 	}
     }
 
@@ -82,20 +78,11 @@ public class SnakeTheme {
      * 
      * @return
      */
-    public Image[] getBIARRAY() {
-	return BIARRAY;
-    }
-
-    /**
-     * Get the images
-     * 
-     * @return
-     */
     public Image getImage(PictureFiles picturefile) {
 	int number = picturefile.ordinal();
 	if (number > BIARRAY.length - 1 || number < 0) {
 	    logger.error("Error, the requested image does not have correct number! " + number + " "
-		    + picturefile.getValue());
+	            + picturefile.getValue());
 	    number = 0;
 	}
 	return BIARRAY[picturefile.ordinal()];

@@ -15,6 +15,6 @@ public class Util {
      * @return the random number within the [minimum,maximum] domain
      */
     public static byte random(byte minimum, byte maximum) {
-        return (byte) ((Math.random() * (maximum - minimum)) + minimum);
+	return (byte) ((Math.random() * (maximum - minimum)) + minimum);
     }
 }

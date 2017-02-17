@@ -25,19 +25,19 @@ public class OptionsWin extends JFrame {
      * Constructor.
      */
     public OptionsWin() {
-        super(OPTIONS_WINDOW_TITLE);
-        setSize(200, 200);
-        ThemeOptions opt = new ThemeOptions();
-        themeopt = new ButtonGroup();
-        panel = new JPanel();
-        themelist = new JComboBox<String>(opt.getThemes());
+	super(OPTIONS_WINDOW_TITLE);
+	setSize(200, 200);
+	ThemeOptions opt = new ThemeOptions();
+	themeopt = new ButtonGroup();
+	panel = new JPanel();
+	themelist = new JComboBox<String>(opt.getThemes());
 
-        panel.add(themelist);
-        close = new JButton(CLOSE_BUTTON_TEXT);
-        panel.add(close);
+	panel.add(themelist);
+	close = new JButton(CLOSE_BUTTON_TEXT);
+	panel.add(close);
 
-        setResizable(false);
-        add(panel);
+	setResizable(false);
+	add(panel);
 
     }
 
@@ -48,10 +48,10 @@ public class OptionsWin extends JFrame {
      *            snakePic that will be used to change the theme.
      */
     public void setTheme(SnakeTheme snakePic) {
-        // @TODO create memory pool to optimize it.
-        String s = themelist.getSelectedItem().toString();
-        if (SnakeTheme.getSelectedTheme().equals(s))
-            return;
-        snakePic.setTheme(s);
+	// @TODO create memory pool to optimize it.
+	String s = themelist.getSelectedItem().toString();
+	if (SnakeTheme.getSelectedTheme().equals(s))
+	    return;
+	snakePic.setTheme(s);
     }
 }
