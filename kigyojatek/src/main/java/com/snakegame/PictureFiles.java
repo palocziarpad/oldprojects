@@ -17,7 +17,7 @@ public enum PictureFiles {
     BODYHOR("testfugg.png"), //
     BODYVER("testvizsint.png"), //
     FOOD("kaja.png"), //
-    GAMEBG("gamebg.png"), //
+    GAMEBG("gamebg.png"), // 12
     TABLE("table.png"), //
     SCORE("highscore.png"), //
     SLANTRD("ferde1.png"), // rightdown
@@ -38,7 +38,7 @@ public enum PictureFiles {
      * @param fileNAme
      */
     PictureFiles(String fileNAme) {
-        this.fileName = fileNAme;
+	this.fileName = fileNAme;
     }
 
     /**
@@ -47,7 +47,7 @@ public enum PictureFiles {
      * @return the value
      */
     public String getValue() {
-        return fileName;
+	return fileName;
     }
 
 }

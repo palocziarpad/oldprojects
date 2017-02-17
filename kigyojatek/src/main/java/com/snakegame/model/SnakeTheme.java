@@ -16,22 +16,23 @@ import com.snakegame.PictureFiles;
  *
  */
 public class SnakeTheme {
+
     private Logger logger = LoggerFactory.getLogger(SnakeTheme.class);
 
-    public Image[] BIARRAY;
+    private Image[] BIARRAY;
     private static String designPrefix;
     static {
-        designPrefix = getStdDesign();
+	designPrefix = getStdDesign();
     }
 
     /**
      * Constructor.
      */
     public SnakeTheme() {
-        designPrefix = getStdDesign();
-        BIARRAY = new BufferedImage[21];
+	designPrefix = getStdDesign();
+	BIARRAY = new BufferedImage[21];
 
-        resetTheme();
+	resetTheme();
     }
 
     /***
@@ -40,7 +41,7 @@ public class SnakeTheme {
      * @return
      */
     public static String getSelectedTheme() {
-        return designPrefix;
+	return designPrefix;
     }
 
     /**
@@ -49,31 +50,55 @@ public class SnakeTheme {
      * @param designPrefix
      */
     public void setTheme(String designPrefix) {
-        SnakeTheme.designPrefix = designPrefix;
-        resetTheme();
+	SnakeTheme.designPrefix = designPrefix;
+	resetTheme();
     }
 
     /**
      * Reset the theme.
      */
     public void resetTheme() {
-        int i = 0;
-        for (PictureFiles bHolder : PictureFiles.values()) {
-            try {
-                BIARRAY[i] = ImageIO
-                        .read(getClass().getResourceAsStream(SnakeTheme.getSelectedTheme() + bHolder.getValue()));
-            } catch (IOException e) {
-                logger.error(e.getMessage(), e);
-            }
-            i++;
-            if (i == BIARRAY.length) {
-                break;
-            }
-        }
+	int i = 0;
+	for (PictureFiles bHolder : PictureFiles.values()) {
+	    try {
+		BIARRAY[i] = ImageIO
+			.read(getClass().getResourceAsStream(SnakeTheme.getSelectedTheme() + bHolder.getValue()));
+	    } catch (IOException e) {
+		logger.error(e.getMessage(), e);
+	    }
+	    i++;
+	    if (i == BIARRAY.length) {
+		break;
+	    }
+	}
     }
 
     public static String getStdDesign() {
-        return "/resources/mira/";
+	return "/resources/mira/";
+    }
+
+    /**
+     * Get the images
+     * 
+     * @return
+     */
+    public Image[] getBIARRAY() {
+	return BIARRAY;
+    }
+
+    /**
+     * Get the images
+     * 
+     * @return
+     */
+    public Image getImage(PictureFiles picturefile) {
+	int number = picturefile.ordinal();
+	if (number > BIARRAY.length - 1 || number < 0) {
+	    logger.error("Error, the requested image does not have correct number! " + number + " "
+		    + picturefile.getValue());
+	    number = 0;
+	}
+	return BIARRAY[picturefile.ordinal()];
     }
 
 }
