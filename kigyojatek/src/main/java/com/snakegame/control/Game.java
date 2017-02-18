@@ -82,28 +82,24 @@ public class Game {
 	}
 	switch (getSnake().getFirst().getDirection()) {
 	// go to left
-	case LEFT: {
+	case LEFT:
 	    newBodyPart.setXCoordinate((byte) (newBodyPart.getXCoordinate() - 1));
 	    newBodyPart.setDirection(Direction.LEFT);
-	}
 	    break;
 	// go to right
-	case RIGHT: {
+	case RIGHT:
 	    newBodyPart.setXCoordinate((byte) (newBodyPart.getXCoordinate() + 1));
 	    newBodyPart.setDirection(Direction.RIGHT);
-	}
 	    break;
 	// go down
-	case DOWN: {
+	case DOWN:
 	    newBodyPart.setYCoordinate((byte) (newBodyPart.getYCoordinate() + 1));
 	    newBodyPart.setDirection(Direction.DOWN);
-	}
 	    break;
 	// go up
-	case UP: {
+	case UP:
 	    newBodyPart.setYCoordinate((byte) (newBodyPart.getYCoordinate() - 1));
 	    newBodyPart.setDirection(Direction.UP);
-	}
 	    break;
 	}
 
@@ -117,30 +113,33 @@ public class Game {
 	newpart.setXCoordinate(getSnake().getFirst().getXCoordinate());
 	newpart.setYCoordinate(getSnake().getFirst().getYCoordinate());
 	switch (getSnake().getFirst().getDirection()) {
-	// to the left
 	case LEFT:
 	    newpart.setXCoordinate((byte) (newpart.getXCoordinate() - 1));
 	    break;
-	// to the right
 	case RIGHT:
 	    newpart.setXCoordinate((byte) (newpart.getXCoordinate() + 1));
 	    break;
-	// to down
 	case DOWN:
 	    newpart.setYCoordinate((byte) (newpart.getYCoordinate() + 1));
 	    break;
-	// to up
 	case UP:
 	    newpart.setYCoordinate((byte) (newpart.getYCoordinate() - 1));
 	    break;
 	}
 	// if it stepped out from the boundary
-	if (newpart.getXCoordinate() < -1 || newpart.getXCoordinate() > tablesize || newpart.getYCoordinate() < -1
-	        || newpart.getYCoordinate() > tablesize) {
-
+	if (isOutOfBounds(newpart, tablesize)) {
 	    return false;
 	}
 	return true;
+    }
+
+    private boolean isOutOfBounds(SnakeBodyPart newpart, byte tablesize) {
+	if (newpart.getXCoordinate() < -1 || newpart.getXCoordinate() > tablesize || newpart.getYCoordinate() < -1
+	        || newpart.getYCoordinate() > tablesize) {
+
+	    return true;
+	}
+	return false;
     }
 
     public boolean eatFood() {

@@ -22,12 +22,12 @@ import com.snakegame.control.Game;
 import com.snakegame.model.SnakeTheme;
 
 public class MainWindow extends JFrame {
-    private static final String GAME_WINDOW_TITLE = "Snake Game";
+    public static final String GAME_WINDOW_TITLE = "Snake Game";
     private Board table;
     private JButton startButton;
     private JPanel panel;
     private Boolean started;
-    private JMenuBar mb;
+    private JMenuBar menuBar;
     private JLabel backGround;
     private Boolean newgame;
     private JDialog versionBox, aboutBox, helpBox;
@@ -41,22 +41,24 @@ public class MainWindow extends JFrame {
 
 	// set frame's title
 	super(GAME_WINDOW_TITLE);
-
+	this.setName(GAME_WINDOW_TITLE);
 	// set frame size
 	this.setSize(640, 500);
 	this.setResizable(false);
 	init();
-	backGround = new JLabel();
+	backGround = new JLabel("Background");
+	backGround.setName("Background");
 	backGround.setIcon(
 	        new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
 	// bg.setSize(200, 200);
+	backGround.setEnabled(true);
 	clickListener = new SnakeClickListener();
 	panel = new JPanel();
 	panel.setLayout(new BorderLayout());
 	panel.add(backGround, BorderLayout.CENTER);
 	startButton = new JButton("Start");
 	startButton.addActionListener(clickListener);
-
+	startButton.setName("Start");
 	panel.add(startButton, BorderLayout.SOUTH);
 	this.add(panel);
 
@@ -69,7 +71,7 @@ public class MainWindow extends JFrame {
 	this.addMenu();
 
 	// make this frame visible
-	this.setVisible(true);
+	// this.setVisible(true);
     }
 
     /**
@@ -213,12 +215,8 @@ public class MainWindow extends JFrame {
 	table.getSnakegame().setGameover(Game.GameOver.WALL);
     }
 
-    public void setMenuBar(JMenuBar menuBar) {
-	this.mb = menuBar;
-    }
-
     public JMenuBar getjMenuBar() {
-	return mb;
+	return menuBar;
     }
 
     public void setNewgame(Boolean newgame) {
@@ -254,24 +252,24 @@ public class MainWindow extends JFrame {
     }
 
     private void addMenu() {
-	setMenuBar(new JMenuBar());
+	menuBar = new JMenuBar();
 	JMenu fileMenu = new JMenu("File");
 
-	mb.add(fileMenu);
+	menuBar.add(fileMenu);
 	fileMenu.add(new JMenuItem("New Game", 'N'));
 	fileMenu.add(new JMenuItem("Exit", 'E'));
 	JMenu settings = new JMenu("Settings");
-	mb.add(settings);
+	menuBar.add(settings);
 	settings.add(new JMenuItem("Difficulty"));
 	settings.add(new JMenuItem("Theme"));
 
 	JMenu about = new JMenu("About");
-	mb.add(about);
+	menuBar.add(about);
 
 	about.add(new JMenuItem("Help"));
 	about.add(new JMenuItem("About"));
 	about.add(new JMenuItem("Version"));
-	this.setJMenuBar(mb);
+	this.setJMenuBar(menuBar);
     }
 
 }
