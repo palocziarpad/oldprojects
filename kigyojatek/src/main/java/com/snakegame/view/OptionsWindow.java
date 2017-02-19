@@ -1,6 +1,5 @@
 package com.snakegame.view;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -11,30 +10,27 @@ import com.snakegame.model.ThemeOptions;
 
 /***
  * Window to show the options of the game.
- *
  */
-public class OptionsWin extends JFrame {
+public class OptionsWindow extends JFrame {
     private static final String OPTIONS_WINDOW_TITLE = "Options";
     private static final String CLOSE_BUTTON_TEXT = "close";
-    JPanel panel, theme;
-    JButton save, close, cancel;
-    ButtonGroup themeopt;
-    JComboBox<String> themelist;
+    private JPanel panel;
+    private JButton closeButton;
+    private JComboBox<String> themelist;
 
     /**
      * Constructor.
      */
-    public OptionsWin() {
+    public OptionsWindow() {
 	super(OPTIONS_WINDOW_TITLE);
-	setSize(200, 200);
+	setSize(300, 150);
 	ThemeOptions opt = new ThemeOptions();
-	themeopt = new ButtonGroup();
 	panel = new JPanel();
 	themelist = new JComboBox<String>(opt.getThemes());
 
 	panel.add(themelist);
-	close = new JButton(CLOSE_BUTTON_TEXT);
-	panel.add(close);
+	closeButton = new JButton(CLOSE_BUTTON_TEXT);
+	panel.add(closeButton);
 
 	setResizable(false);
 	add(panel);
@@ -54,4 +50,14 @@ public class OptionsWin extends JFrame {
 	    return;
 	snakePic.setTheme(s);
     }
+
+    /**
+     * Get the close button
+     * 
+     * @return the close button
+     */
+    public JButton getCloseButton() {
+	return closeButton;
+    }
+
 }

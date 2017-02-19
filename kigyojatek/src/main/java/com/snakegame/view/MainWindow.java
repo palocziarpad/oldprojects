@@ -17,24 +17,22 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.snakegame.Direction;
 import com.snakegame.PictureFiles;
 import com.snakegame.control.Game;
 import com.snakegame.model.SnakeTheme;
 
+/***
+ * The main window
+ *
+ */
 public class MainWindow extends JFrame {
+
     public static final String MAIN_BACKGROUND_PANEL_NAME = "SnakePanel";
-
     public static final String START_BUTTON_NAME = "Start";
-
     public static final String BACKGROUND_PANEL_NAME = "Background";
-
-    private static Logger logger = LoggerFactory.getLogger(MainWindow.class);
-
     public static final String GAME_WINDOW_TITLE = "Snake Game";
+
     private Board table;
     private JButton startButton;
     private JPanel panel;
@@ -43,7 +41,7 @@ public class MainWindow extends JFrame {
     private JLabel backGround;
     private Boolean newgame;
     private JDialog versionBox, aboutBox, helpBox;
-    private OptionsWin options;
+    private OptionsWindow options;
     private SnakeClickListener clickListener;
 
     /***
@@ -63,7 +61,6 @@ public class MainWindow extends JFrame {
 	backGround.setName(BACKGROUND_PANEL_NAME);
 	backGround.setIcon(
 	        new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
-	// bg.setSize(200, 200);
 	backGround.setEnabled(true);
 	clickListener = new SnakeClickListener();
 	panel = new JPanel();
@@ -84,8 +81,6 @@ public class MainWindow extends JFrame {
 	this.setFocusable(true);
 	this.addMenu();
 
-	// make this frame visible
-	// this.setVisible(true);
     }
 
     /**
@@ -164,15 +159,11 @@ public class MainWindow extends JFrame {
 		return;
 	    }
 	    if (options != null) {
-		if (e.getSource() == options.close) {
+		if (e.getSource() == options.getCloseButton()) {
 		    options.setTheme(table.getSnakeTheme());
 		    options.setVisible(false);
 		    backGround.setIcon(new ImageIcon(
 		            getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
-		    return;
-		}
-		if (e.getSource() == options.save) {
-		    options.setTheme(table.getSnakeTheme());
 		    return;
 		}
 	    }
@@ -189,6 +180,9 @@ public class MainWindow extends JFrame {
 	aboutBox.setVisible(true);
     }
 
+    /***
+     * Show the help box
+     */
     public void showHelpBox() {
 	if (helpBox == null) {
 	    helpBox = new HelpBox();
@@ -196,6 +190,9 @@ public class MainWindow extends JFrame {
 	helpBox.setVisible(true);
     }
 
+    /**
+     * Show the version box
+     */
     public void showVersionBox() {
 	if (versionBox == null) {
 	    versionBox = new VersionBox();
@@ -204,40 +201,46 @@ public class MainWindow extends JFrame {
 	versionBox.setVisible(true);
     }
 
-    public void showOptionsWin() {
+    /**
+     * Show the options window
+     */
+    public void showOptionsWindow() {
 	if (options == null) {
-	    options = new OptionsWin();
-	    options.close.addActionListener(clickListener);
+	    options = new OptionsWindow();
+	    options.getCloseButton().addActionListener(clickListener);
 	}
 	options.setVisible(true);
     }
 
+    /**
+     * End the game with bite of the snake by himself
+     */
     public void gameOverBite() {
-	SwingUtilities.invokeLater(new Runnable() {
-	    public void run() {
-		backGround.setIcon(new ImageIcon(
-		        getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERBITE.getValue())));
-		backGround.setVisible(true);
-		panel.remove(getTable());
-		panel.add(backGround);
+	SwingUtilities.invokeLater(() -> {
+	    backGround.setIcon(new ImageIcon(
+	            getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERBITE.getValue())));
+	    backGround.setVisible(true);
+	    panel.remove(getTable());
+	    panel.add(backGround);
 
-		repaint();
-		table.getSnakegame().setGameover(Game.GameOver.BITE);
-	    }
+	    repaint();
+	    table.getSnakegame().setGameover(Game.GameOver.BITE);
+
 	});
     }
 
+    /**
+     * End the game with stun of the snake by hitting the wall
+     */
     public void gameOverStun() {
-	SwingUtilities.invokeLater(new Runnable() {
-	    public void run() {
-		backGround.setIcon(new ImageIcon(
-		        getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERSTUN.getValue())));
-		backGround.setVisible(true);
-		panel.remove(getTable());
-		panel.add(backGround);
-		repaint();
-		table.getSnakegame().setGameover(Game.GameOver.WALL);
-	    }
+	SwingUtilities.invokeLater(() -> {
+	    backGround.setIcon(new ImageIcon(
+	            getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERSTUN.getValue())));
+	    backGround.setVisible(true);
+	    panel.remove(getTable());
+	    panel.add(backGround);
+	    repaint();
+	    table.getSnakegame().setGameover(Game.GameOver.WALL);
 	});
 
     }
@@ -266,7 +269,7 @@ public class MainWindow extends JFrame {
 	return table;
     }
 
-    public JLabel getBackG() {
+    public JLabel getBackGround() {
 	return backGround;
     }
 

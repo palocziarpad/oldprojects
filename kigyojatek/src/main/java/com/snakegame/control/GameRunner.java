@@ -86,6 +86,11 @@ public class GameRunner implements Runnable {
 	return snake;
     }
 
+    /**
+     * The start point of the application
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
 	logger.info("Start of the game.");
 	Thread t = new Thread(new GameRunner());
@@ -210,7 +215,7 @@ public class GameRunner implements Runnable {
 	while (mainWindow == null) {
 	    sleep(500);
 	}
-	while (mainWindow.getBackG() == null) {
+	while (mainWindow.getBackGround() == null) {
 	    sleep(500);
 	}
 	/**
@@ -253,7 +258,7 @@ public class GameRunner implements Runnable {
 		return;
 	    }
 	    if (actionEvent.getSource().equals(jMenuBar.getMenu(1).getItem(1))) {
-		mainWindow.showOptionsWin();
+		mainWindow.showOptionsWindow();
 		return;
 	    }
 	    if (actionEvent.getSource().equals(jMenuBar.getMenu(1).getItem(0))) {
