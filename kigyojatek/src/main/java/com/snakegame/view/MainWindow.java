@@ -217,6 +217,7 @@ public class MainWindow extends JFrame {
 	    public void run() {
 		backGround.setIcon(new ImageIcon(
 		        getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERBITE.getValue())));
+		backGround.setVisible(true);
 		panel.remove(getTable());
 		panel.add(backGround);
 
@@ -231,6 +232,7 @@ public class MainWindow extends JFrame {
 	    public void run() {
 		backGround.setIcon(new ImageIcon(
 		        getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERSTUN.getValue())));
+		backGround.setVisible(true);
 		panel.remove(getTable());
 		panel.add(backGround);
 		repaint();
