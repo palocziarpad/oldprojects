@@ -26,6 +26,8 @@ import com.snakegame.model.SnakeTheme;
  */
 public class Board extends JPanel {
 
+    public static final String BOARD_NAME = "Board";
+
     private Logger logger = LoggerFactory.getLogger(Board.class);
 
     private static final String PAUSED_LABEL = "PAUSED";
@@ -49,6 +51,7 @@ public class Board extends JPanel {
 	this.setLayout(new FlowLayout(FlowLayout.CENTER));
 	this.setSize(640, 480);
 	point = new Point(0, 0);
+	this.setName(BOARD_NAME);
 	this.snakeTheme = new SnakeTheme();
     }
 

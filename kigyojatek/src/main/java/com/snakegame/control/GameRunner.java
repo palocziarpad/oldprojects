@@ -212,6 +212,9 @@ public class GameRunner implements Runnable {
 	while (mainWindow == null) {
 	    sleep(500);
 	}
+	while (mainWindow.getBackG() == null) {
+	    sleep(500);
+	}
 	/**
 	 * Wait until the player click on the start.
 	 */

@@ -15,6 +15,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.snakegame.Direction;
 import com.snakegame.PictureFiles;
@@ -22,6 +26,14 @@ import com.snakegame.control.Game;
 import com.snakegame.model.SnakeTheme;
 
 public class MainWindow extends JFrame {
+    public static final String MAIN_BACKGROUND_PANEL_NAME = "SnakePanel";
+
+    public static final String START_BUTTON_NAME = "Start";
+
+    public static final String BACKGROUND_PANEL_NAME = "Background";
+
+    private static Logger logger = LoggerFactory.getLogger(MainWindow.class);
+
     public static final String GAME_WINDOW_TITLE = "Snake Game";
     private Board table;
     private JButton startButton;
@@ -46,19 +58,21 @@ public class MainWindow extends JFrame {
 	this.setSize(640, 500);
 	this.setResizable(false);
 	init();
-	backGround = new JLabel("Background");
-	backGround.setName("Background");
+
+	backGround = new JLabel(BACKGROUND_PANEL_NAME);
+	backGround.setName(BACKGROUND_PANEL_NAME);
 	backGround.setIcon(
 	        new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
 	// bg.setSize(200, 200);
 	backGround.setEnabled(true);
 	clickListener = new SnakeClickListener();
 	panel = new JPanel();
+	panel.setName(MAIN_BACKGROUND_PANEL_NAME);
 	panel.setLayout(new BorderLayout());
 	panel.add(backGround, BorderLayout.CENTER);
-	startButton = new JButton("Start");
+	startButton = new JButton(START_BUTTON_NAME);
 	startButton.addActionListener(clickListener);
-	startButton.setName("Start");
+	startButton.setName(START_BUTTON_NAME);
 	panel.add(startButton, BorderLayout.SOUTH);
 	this.add(panel);
 
@@ -138,8 +152,10 @@ public class MainWindow extends JFrame {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	    if (e.getSource() == startButton) {
-		panel.remove(startButton);
-		panel.remove(backGround);
+		// panel.remove(startButton);
+		startButton.setVisible(false);
+		backGround.setVisible(false);
+		// panel.remove(backGround);
 		panel.add(getTable());
 		panel.repaint();
 		panel.setFocusable(false);
@@ -197,22 +213,31 @@ public class MainWindow extends JFrame {
     }
 
     public void gameOverBite() {
-	backGround.setIcon(new ImageIcon(
-	        getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERBITE.getValue())));
-	panel.remove(getTable());
-	panel.add(backGround);
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		backGround.setIcon(new ImageIcon(
+		        getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERBITE.getValue())));
+		panel.remove(getTable());
+		panel.add(backGround);
 
-	repaint();
-	table.getSnakegame().setGameover(Game.GameOver.BITE);
+		repaint();
+		table.getSnakegame().setGameover(Game.GameOver.BITE);
+	    }
+	});
     }
 
     public void gameOverStun() {
-	backGround.setIcon(new ImageIcon(
-	        getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERSTUN.getValue())));
-	panel.remove(getTable());
-	panel.add(backGround);
-	repaint();
-	table.getSnakegame().setGameover(Game.GameOver.WALL);
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		backGround.setIcon(new ImageIcon(
+		        getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERSTUN.getValue())));
+		panel.remove(getTable());
+		panel.add(backGround);
+		repaint();
+		table.getSnakegame().setGameover(Game.GameOver.WALL);
+	    }
+	});
+
     }
 
     public JMenuBar getjMenuBar() {
@@ -235,20 +260,12 @@ public class MainWindow extends JFrame {
 	return started;
     }
 
-    public void setTable(Board table) {
-	this.table = table;
-    }
-
     public Board getTable() {
 	return table;
     }
 
-    public JLabel getBg() {
+    public JLabel getBackG() {
 	return backGround;
-    }
-
-    public void setBg(JLabel bg) {
-	this.backGround = bg;
     }
 
     private void addMenu() {
