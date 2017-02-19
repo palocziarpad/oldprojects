@@ -24,7 +24,7 @@ public class GameRunnerTest extends AssertJSwingTestngTestCase {
 
     @Test(groups = "gui")
     @GUITest
-    public void test() throws InterruptedException {
+    public void testGameStart() throws InterruptedException {
 	ApplicationLauncher.application(GameRunner.class).start();
 	FrameFixture mainFrame = WindowFinder.findFrame(MainWindow.GAME_WINDOW_TITLE).withTimeout(5 * 1000)
 	        .using(robot());

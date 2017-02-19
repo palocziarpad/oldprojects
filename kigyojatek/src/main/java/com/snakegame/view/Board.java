@@ -122,6 +122,100 @@ public class Board extends JPanel {
 	drawScore(g2d);
     }
 
+    /***
+     * Check which slant is happening by checking three parts of the snake
+     * 
+     * @param before
+     * @param current
+     * @param after
+     * @return null if no slant, else the proper picture depending on the slant
+     */
+    public static PictureFiles whichSlant(SnakeBodyPart before, SnakeBodyPart current, SnakeBodyPart after) {
+	boolean left = false, right = false, upper = false, downer = false;
+
+	if (before.getXCoordinate() > current.getXCoordinate())
+	    right = true;
+	else if (before.getXCoordinate() < current.getXCoordinate())
+	    left = true;
+	else if (before.getYCoordinate() > current.getYCoordinate())
+	    downer = true;
+	else if (before.getYCoordinate() < current.getYCoordinate())
+	    upper = true;
+
+	if (after.getXCoordinate() > current.getXCoordinate())
+	    right = true;
+	else if (after.getXCoordinate() < current.getXCoordinate())
+	    left = true;
+	else if (after.getYCoordinate() > current.getYCoordinate())
+	    downer = true;
+	else if (after.getYCoordinate() < current.getYCoordinate())
+	    upper = true;
+
+	if (right && upper)
+	    return PictureFiles.SLANT_RIGHT_UPPER;
+	else if (left && downer)
+	    return PictureFiles.SLANT_LEFT_DOWNER;
+	else if (left && upper)
+	    return PictureFiles.SLANT_LEFT_UPPER;
+	else if (right && downer)
+	    return PictureFiles.SLANT_RIGHT_DOWNER;
+
+	return null;
+
+    }
+
+    /***
+     * Get the snake game
+     * 
+     * @return
+     */
+    public Game getSnakegame() {
+	return snakeGame;
+    }
+
+    /**
+     * Get the point coordinates
+     * 
+     * @return
+     */
+    public Point getPoint() {
+	return point;
+    }
+
+    /**
+     * is the game paused?
+     * 
+     * @return true if yes, otherwise false
+     */
+    public boolean isGamePaused() {
+	return pause;
+    }
+
+    /**
+     * Set the pause state
+     * 
+     * @param pause
+     */
+    public void setPaused() {
+	this.pause = true;
+    }
+
+    /**
+     * Switch the pause state.
+     */
+    public void switchPause() {
+	pause = !pause;
+    }
+
+    /**
+     * Get the snake Theme
+     * 
+     * @return
+     */
+    public SnakeTheme getSnakeTheme() {
+	return snakeTheme;
+    }
+
     private void drawEatenFoods(Graphics2D g2d) {
 	for (int k = 0; k < snakeGame.getEatenFood().size(); k++) {
 	    g2d.drawImage(snakeTheme.getImage(PictureFiles.NEWPART),
@@ -175,7 +269,7 @@ public class Board extends JPanel {
 		        point.x + snake.getXCoordinate() * squarePixelSize + 1,
 		        point.y + snake.getYCoordinate() * squarePixelSize + 1, null);
 	    } else if (isSlam(snakeList.get(k - 1), snakeList.get(k + 1))) {
-		picLocal = whichSlam(snakeList.get(k - 1), snake, snakeList.get(k + 1));
+		picLocal = whichSlant(snakeList.get(k - 1), snake, snakeList.get(k + 1));
 		g2d.drawImage(snakeTheme.getImage(picLocal), point.x + snake.getXCoordinate() * squarePixelSize + 1,
 		        point.y + snake.getYCoordinate() * squarePixelSize + 1, null);
 	    } else {
@@ -231,60 +325,6 @@ public class Board extends JPanel {
 
     private boolean isSlam(SnakeBodyPart before, SnakeBodyPart after) {
 	return before.getXCoordinate() != after.getXCoordinate() && before.getYCoordinate() != after.getYCoordinate();
-    }
-
-    public static PictureFiles whichSlam(SnakeBodyPart before, SnakeBodyPart current, SnakeBodyPart after) {
-	boolean l = false, r = false, u = false, d = false;
-	if (before.getXCoordinate() > current.getXCoordinate())
-	    r = true;
-	else if (before.getXCoordinate() < current.getXCoordinate())
-	    l = true;
-	else if (before.getYCoordinate() > current.getYCoordinate())
-	    d = true;
-	else if (before.getYCoordinate() < current.getYCoordinate())
-	    u = true;
-	if (after.getXCoordinate() > current.getXCoordinate())
-	    r = true;
-	else if (after.getXCoordinate() < current.getXCoordinate())
-	    l = true;
-	else if (after.getYCoordinate() > current.getYCoordinate())
-	    d = true;
-	else if (after.getYCoordinate() < current.getYCoordinate())
-	    u = true;
-	if (r && u)
-	    return PictureFiles.SLANTRU;
-	else if (l && d)
-	    return PictureFiles.SLANTLD;
-	else if (l && u)
-	    return PictureFiles.SLANTLU;
-	else if (r && d)
-	    return PictureFiles.SLANTRD;
-	return null;
-
-    }
-
-    public Game getSnakegame() {
-	return snakeGame;
-    }
-
-    public Point getPoint() {
-	return point;
-    }
-
-    public boolean isPause() {
-	return pause;
-    }
-
-    public void setPause(boolean pause) {
-	this.pause = pause;
-    }
-
-    public void pauseSwitch() {
-	pause = !pause;
-    }
-
-    public SnakeTheme getSnakeTheme() {
-	return snakeTheme;
     }
 
 }

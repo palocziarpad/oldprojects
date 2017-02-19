@@ -135,7 +135,7 @@ public class MainWindow extends JFrame {
 		    break;
 		case 'p':
 		case 'P':
-		    table.pauseSwitch();
+		    table.switchPause();
 		    break;
 		}
 

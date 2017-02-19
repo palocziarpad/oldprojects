@@ -184,7 +184,7 @@ public class GameRunner implements Runnable {
     }
 
     private void waitIfPause() {
-	while (mainWindow.getTable().isPause()) {
+	while (mainWindow.getTable().isGamePaused()) {
 	    sleep(sleepTime);
 	}
     }
@@ -233,7 +233,7 @@ public class GameRunner implements Runnable {
     private class MenuClickListener implements ActionListener {
 
 	public void actionPerformed(ActionEvent actionEvent) {
-	    mainWindow.getTable().setPause(true);
+	    mainWindow.getTable().setPaused();
 	    JMenuBar jMenuBar = mainWindow.getjMenuBar();
 	    if (actionEvent.getSource().equals(jMenuBar.getMenu(0).getItem(1))) {
 		logger.info("Exiting from game via File/Exit.");
