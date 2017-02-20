@@ -21,12 +21,10 @@ import com.snakegame.view.MainWindow;
  */
 public class GameRunner implements Runnable {
 
-    private static final int PHASE_ADVANCED_SCORE_LIMIT = 200;
-
-    private static final int PHASE_BEGINNER_SCORE_LIMIT = 100;
-
     private static Logger logger = LoggerFactory.getLogger(GameRunner.class);
 
+    private static final int PHASE_ADVANCED_SCORE_LIMIT = 200;
+    private static final int PHASE_BEGINNER_SCORE_LIMIT = 100;
     private static final int SNAKE_INITIAL_SIZE = 3;
     private final static int DEFAULTDELAY = 250;
     // Size of the grid
@@ -57,23 +55,21 @@ public class GameRunner implements Runnable {
 
     private void initMainWindow(LinkedList<SnakeBodyPart> snake, MenuClickListener clickListener) {
 
-	SwingUtilities.invokeLater(new Runnable() {
-	    public void run() {
-		mainWindow = new MainWindow();
-		mainWindow.setVisible(true);
-		JMenuBar jmenubar = mainWindow.getjMenuBar();
-		jmenubar.getMenu(0).getItem(0).addActionListener(clickListener);
-		jmenubar.getMenu(0).getItem(1).addActionListener(clickListener);
-		jmenubar.getMenu(1).getItem(0).addActionListener(clickListener);
-		jmenubar.getMenu(1).getItem(1).addActionListener(clickListener);
-		jmenubar.getMenu(2).getItem(0).addActionListener(clickListener);
-		jmenubar.getMenu(2).getItem(1).addActionListener(clickListener);
-		jmenubar.getMenu(2).getItem(2).addActionListener(clickListener);
+	SwingUtilities.invokeLater(() -> {
+	    mainWindow = new MainWindow();
+	    mainWindow.setVisible(true);
+	    JMenuBar jmenubar = mainWindow.getjMenuBar();
+	    jmenubar.getMenu(0).getItem(0).addActionListener(clickListener);
+	    jmenubar.getMenu(0).getItem(1).addActionListener(clickListener);
+	    jmenubar.getMenu(1).getItem(0).addActionListener(clickListener);
+	    jmenubar.getMenu(1).getItem(1).addActionListener(clickListener);
+	    jmenubar.getMenu(2).getItem(0).addActionListener(clickListener);
+	    jmenubar.getMenu(2).getItem(1).addActionListener(clickListener);
+	    jmenubar.getMenu(2).getItem(2).addActionListener(clickListener);
 
-		mainWindow.getTable().repaint();
-		mainWindow.getTable().getSnakegame().setSnake(snake);
-		mainWindow.getTable().getSnakegame().setTablesize(gridsize);
-	    }
+	    mainWindow.getTable().repaint();
+	    mainWindow.getTable().getSnakegame().setSnake(snake);
+	    mainWindow.getTable().getSnakegame().setTablesize(gridsize);
 	});
 
     }
@@ -93,9 +89,9 @@ public class GameRunner implements Runnable {
      */
     public static void main(String[] args) {
 	logger.info("Start of the game.");
-	Thread t = new Thread(new GameRunner());
+	Thread gameThread = new Thread(new GameRunner());
 
-	t.start();
+	gameThread.start();
 
 	/**
 	 * @TODO 1. legyen egy j�t�k start gomb. pipa 2. pontsz�ml�l� pipa 3.

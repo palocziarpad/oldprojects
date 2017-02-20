@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.snakegame.BodyPartType;
+import com.snakegame.DirectionToPicture;
 import com.snakegame.PictureFiles;
 import com.snakegame.control.Game;
 import com.snakegame.model.SnakeBodyPart;
@@ -26,10 +27,9 @@ import com.snakegame.model.SnakeTheme;
  */
 public class Board extends JPanel {
 
-    public static final String BOARD_NAME = "Board";
-
     private Logger logger = LoggerFactory.getLogger(Board.class);
 
+    public static final String BOARD_NAME = "Board";
     private static final String PAUSED_LABEL = "PAUSED";
     private static final String FONT_OF_PRINTS = "SansSerif";
 
@@ -68,11 +68,7 @@ public class Board extends JPanel {
 	g2d.setBackground(Color.white);
 	g2d.setColor(Color.orange);
 
-	try {
-	    drawSnake(g2d);
-	} catch (IOException | InterruptedException e) {
-	    logger.error(e.getMessage(), e);
-	}
+	drawSnake(g2d);
 	drawPause(g2d);
 
     }
@@ -103,7 +99,7 @@ public class Board extends JPanel {
      * @throws IOException
      * @throws InterruptedException
      */
-    public void drawSnake(Graphics2D g2d) throws IOException, InterruptedException {
+    public void drawSnake(Graphics2D g2d) {
 	if (getSnakegame().getSnake().size() == 0) {
 	    logger.warn("null snake");
 	    return;
@@ -238,21 +234,7 @@ public class Board extends JPanel {
 
     private void drawHead(Graphics2D g2d) {
 	SnakeBodyPart head = getSnakegame().getSnake().getFirst();
-	PictureFiles picture = null;
-	switch (head.getDirection()) {
-	case UP:
-	    picture = PictureFiles.HEADUP;
-	    break;
-	case RIGHT:
-	    picture = PictureFiles.HEADRIGHT;
-	    break;
-	case DOWN:
-	    picture = PictureFiles.HEADDOWN;
-	    break;
-	case LEFT:
-	    picture = PictureFiles.HEADLEFT;
-	    break;
-	}
+	PictureFiles picture = DirectionToPicture.getPictureFromHeadDirection(head.getDirection());
 	g2d.drawImage(snakeTheme.getImage(picture), point.x + head.getXCoordinate() * squarePixelSize + 1,
 	        point.y + head.getYCoordinate() * squarePixelSize + 1, null);
     }
@@ -268,22 +250,12 @@ public class Board extends JPanel {
 		g2d.drawImage(snakeTheme.getImage(PictureFiles.NEWPART),
 		        point.x + snake.getXCoordinate() * squarePixelSize + 1,
 		        point.y + snake.getYCoordinate() * squarePixelSize + 1, null);
-	    } else if (isSlam(snakeList.get(k - 1), snakeList.get(k + 1))) {
+	    } else if (isSlant(snakeList.get(k - 1), snakeList.get(k + 1))) {
 		picLocal = whichSlant(snakeList.get(k - 1), snake, snakeList.get(k + 1));
 		g2d.drawImage(snakeTheme.getImage(picLocal), point.x + snake.getXCoordinate() * squarePixelSize + 1,
 		        point.y + snake.getYCoordinate() * squarePixelSize + 1, null);
 	    } else {
-		PictureFiles picfile = null;
-		switch (snake.getDirection()) {
-		case UP:
-		case DOWN:
-		    picfile = PictureFiles.BODYHOR;
-		    break;
-		case RIGHT:
-		case LEFT:
-		    picfile = PictureFiles.BODYVER;
-		    break;
-		}
+		PictureFiles picfile = DirectionToPicture.getPictureFromBodyDirection(snake.getDirection());
 		g2d.drawImage(snakeTheme.getImage(picfile), point.x + snake.getXCoordinate() * squarePixelSize + 1,
 		        point.y + snake.getYCoordinate() * squarePixelSize + 1, null);
 	    }
@@ -293,20 +265,7 @@ public class Board extends JPanel {
     private void drawTail(Graphics2D g2d) {
 	SnakeBodyPart tail = getSnakegame().getSnake().getLast();
 	PictureFiles picfile = null;
-	switch (tail.getDirection()) {
-	case UP:
-	    picfile = PictureFiles.TAILUP;
-	    break;
-	case RIGHT:
-	    picfile = PictureFiles.TAILRIGHT;
-	    break;
-	case DOWN:
-	    picfile = PictureFiles.TAILDOWN;
-	    break;
-	case LEFT:
-	    picfile = PictureFiles.TAILLEFT;
-	    break;
-	}
+	picfile = DirectionToPicture.getPictureFromTailDirection(tail.getDirection());
 	g2d.drawImage(snakeTheme.getImage(picfile), point.x + tail.getXCoordinate() * squarePixelSize + 1,
 	        point.y + tail.getYCoordinate() * squarePixelSize + 1, null);
     }
@@ -323,7 +282,7 @@ public class Board extends JPanel {
 	g2d.drawString("" + getSnakegame().getScore(), point.x + 421 + 184 / 2 - 5, point.y + 153 / 2 + 30);
     }
 
-    private boolean isSlam(SnakeBodyPart before, SnakeBodyPart after) {
+    private boolean isSlant(SnakeBodyPart before, SnakeBodyPart after) {
 	return before.getXCoordinate() != after.getXCoordinate() && before.getYCoordinate() != after.getYCoordinate();
     }
 

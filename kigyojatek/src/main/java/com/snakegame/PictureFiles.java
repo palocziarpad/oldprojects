@@ -14,8 +14,8 @@ public enum PictureFiles {
     HEADRIGHT("fejjobb.png"), //
     HEADDOWN("fejle.png"), //
     HEADLEFT("fejbal.png"), //
-    BODYHOR("testfugg.png"), //
-    BODYVER("testvizsint.png"), //
+    BODY_VERTICAL("testfugg.png"), //
+    BODY_HORIZONTAL("testvizsint.png"), //
     FOOD("kaja.png"), //
     GAMEBG("gamebg.png"), // 12
     TABLE("table.png"), //
