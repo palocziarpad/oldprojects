@@ -38,7 +38,7 @@ public enum PictureFiles {
      * @param fileNAme
      */
     PictureFiles(String fileNAme) {
-	this.fileName = fileNAme;
+        this.fileName = fileNAme;
     }
 
     /**
@@ -47,7 +47,7 @@ public enum PictureFiles {
      * @return the value
      */
     public String getValue() {
-	return fileName;
+        return fileName;
     }
 
 }

@@ -49,37 +49,37 @@ public class MainWindow extends JFrame {
      */
     public MainWindow() {
 
-	// set frame's title
-	super(GAME_WINDOW_TITLE);
-	this.setName(GAME_WINDOW_TITLE);
-	// set frame size
-	this.setSize(640, 500);
-	this.setResizable(false);
-	init();
+        // set frame's title
+        super(GAME_WINDOW_TITLE);
+        this.setName(GAME_WINDOW_TITLE);
+        // set frame size
+        this.setSize(640, 500);
+        this.setResizable(false);
+        init();
 
-	backGround = new JLabel(BACKGROUND_PANEL_NAME);
-	backGround.setName(BACKGROUND_PANEL_NAME);
-	backGround.setIcon(
-	        new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
-	backGround.setEnabled(true);
-	clickListener = new SnakeClickListener();
-	panel = new JPanel();
-	panel.setName(MAIN_BACKGROUND_PANEL_NAME);
-	panel.setLayout(new BorderLayout());
-	panel.add(backGround, BorderLayout.CENTER);
-	startButton = new JButton(START_BUTTON_NAME);
-	startButton.addActionListener(clickListener);
-	startButton.setName(START_BUTTON_NAME);
-	panel.add(startButton, BorderLayout.SOUTH);
-	this.add(panel);
+        backGround = new JLabel(BACKGROUND_PANEL_NAME);
+        backGround.setName(BACKGROUND_PANEL_NAME);
+        backGround.setIcon(
+                new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
+        backGround.setEnabled(true);
+        clickListener = new SnakeClickListener();
+        panel = new JPanel();
+        panel.setName(MAIN_BACKGROUND_PANEL_NAME);
+        panel.setLayout(new BorderLayout());
+        panel.add(backGround, BorderLayout.CENTER);
+        startButton = new JButton(START_BUTTON_NAME);
+        startButton.addActionListener(clickListener);
+        startButton.setName(START_BUTTON_NAME);
+        panel.add(startButton, BorderLayout.SOUTH);
+        this.add(panel);
 
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	table = new Board();
+        table = new Board();
 
-	this.addKeyListener(new MyKeyListener());
-	this.setFocusable(true);
-	this.addMenu();
+        this.addKeyListener(new MyKeyListener());
+        this.setFocusable(true);
+        this.addMenu();
 
     }
 
@@ -87,211 +87,206 @@ public class MainWindow extends JFrame {
      * Initialize the game for the first time run.
      */
     public void init() {
-	setNewgame(false);
-	setStarted(false);
+        setNewgame(false);
+        setStarted(false);
 
     }
 
     private class MyKeyListener extends KeyAdapter {
 
-	@Override
-	public void keyPressed(KeyEvent ke) {
-	    char i = ke.getKeyChar();
+        @Override
+        public void keyPressed(KeyEvent ke) {
 
-	    if (ke.getKeyCode() == KeyEvent.VK_UP) {
-		getTable().getSnakegame().setDirection(Direction.UP);
-		return;
+            // Playing using arrows
+            switch (ke.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                getTable().getSnakegame().setDirection(Direction.UP);
+                break;
+            case KeyEvent.VK_LEFT:
+                getTable().getSnakegame().setDirection(Direction.LEFT);
+                break;
+            case KeyEvent.VK_DOWN:
+                getTable().getSnakegame().setDirection(Direction.DOWN);
+                break;
+            case KeyEvent.VK_RIGHT:
+                getTable().getSnakegame().setDirection(Direction.RIGHT);
+                break;
+            }
+            // Playing using wasd or WASD and pause
+            switch (ke.getKeyChar()) {
+            case 'w':
+            case 'W':
+                getTable().getSnakegame().setDirection(Direction.UP);
+                break;
+            case 'a':
+            case 'A':
+                getTable().getSnakegame().setDirection(Direction.LEFT);
+                break;
+            case 's':
+            case 'S':
+                getTable().getSnakegame().setDirection(Direction.DOWN);
+                break;
+            case 'd':
+            case 'D':
+                getTable().getSnakegame().setDirection(Direction.RIGHT);
+                break;
+            case 'p':
+            case 'P':
+                table.switchPause();
+                break;
+            }
 
-	    } else if (ke.getKeyCode() == KeyEvent.VK_DOWN) {
-		getTable().getSnakegame().setDirection(Direction.DOWN);
-		return;
-
-	    } else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
-		getTable().getSnakegame().setDirection(Direction.LEFT);
-		return;
-
-	    } else if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
-		getTable().getSnakegame().setDirection(Direction.RIGHT);
-		return;
-
-	    } else
-		switch (i) {
-
-		case 'w':
-		case 'W':
-		    getTable().getSnakegame().setDirection(Direction.UP);
-		    break;
-		case 'a':
-		case 'A':
-		    getTable().getSnakegame().setDirection(Direction.LEFT);
-		    break;
-		case 's':
-		case 'S':
-		    getTable().getSnakegame().setDirection(Direction.DOWN);
-		    break;
-		case 'd':
-		case 'D':
-		    getTable().getSnakegame().setDirection(Direction.RIGHT);
-		    break;
-		case 'p':
-		case 'P':
-		    table.switchPause();
-		    break;
-		}
-
-	}
+        }
     }
 
     private class SnakeClickListener implements ActionListener {
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	    if (e.getSource() == startButton) {
-		// panel.remove(startButton);
-		startButton.setVisible(false);
-		backGround.setVisible(false);
-		// panel.remove(backGround);
-		panel.add(getTable());
-		panel.repaint();
-		panel.setFocusable(false);
-		getTable().setFocusable(false);
-		setStarted(true);
-		return;
-	    }
-	    if (options != null) {
-		if (e.getSource() == options.getCloseButton()) {
-		    options.setTheme(table.getSnakeTheme());
-		    options.setVisible(false);
-		    backGround.setIcon(new ImageIcon(
-		            getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
-		    return;
-		}
-	    }
-	}
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == startButton) {
+                startButton.setVisible(false);
+                backGround.setVisible(false);
+                panel.add(getTable());
+                panel.repaint();
+                panel.setFocusable(false);
+                getTable().setFocusable(false);
+                setStarted(true);
+                return;
+            }
+            if (options != null) {
+                if (e.getSource() == options.getCloseButton()) {
+                    options.setTheme(table.getSnakeTheme());
+                    options.setVisible(false);
+                    backGround.setIcon(new ImageIcon(
+                            getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
+                    return;
+                }
+            }
+        }
     }
 
     /***
      * Show the about box
      */
     public void showAboutBox() {
-	if (aboutBox == null) {
-	    aboutBox = new AboutBox();
-	}
-	aboutBox.setVisible(true);
+        if (aboutBox == null) {
+            aboutBox = new AboutBox();
+        }
+        aboutBox.setVisible(true);
     }
 
     /***
      * Show the help box
      */
     public void showHelpBox() {
-	if (helpBox == null) {
-	    helpBox = new HelpBox();
-	}
-	helpBox.setVisible(true);
+        if (helpBox == null) {
+            helpBox = new HelpBox();
+        }
+        helpBox.setVisible(true);
     }
 
     /**
      * Show the version box
      */
     public void showVersionBox() {
-	if (versionBox == null) {
-	    versionBox = new VersionBox();
+        if (versionBox == null) {
+            versionBox = new VersionBox();
 
-	}
-	versionBox.setVisible(true);
+        }
+        versionBox.setVisible(true);
     }
 
     /**
      * Show the options window
      */
     public void showOptionsWindow() {
-	if (options == null) {
-	    options = new OptionsWindow();
-	    options.getCloseButton().addActionListener(clickListener);
-	}
-	options.setVisible(true);
+        if (options == null) {
+            options = new OptionsWindow();
+            options.getCloseButton().addActionListener(clickListener);
+        }
+        options.setVisible(true);
     }
 
     /**
      * End the game with bite of the snake by himself
      */
     public void gameOverBite() {
-	SwingUtilities.invokeLater(() -> {
-	    backGround.setIcon(new ImageIcon(
-	            getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERBITE.getValue())));
-	    backGround.setVisible(true);
-	    panel.remove(getTable());
-	    panel.add(backGround);
+        SwingUtilities.invokeLater(() -> {
+            backGround.setIcon(new ImageIcon(
+                    getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERBITE.getValue())));
+            backGround.setVisible(true);
+            panel.remove(getTable());
+            panel.add(backGround);
 
-	    repaint();
-	    table.getSnakegame().setGameover(Game.GameOver.BITE);
+            repaint();
+            table.getSnakegame().setGameover(Game.GameOver.BITE);
 
-	});
+        });
     }
 
     /**
      * End the game with stun of the snake by hitting the wall
      */
     public void gameOverStun() {
-	SwingUtilities.invokeLater(() -> {
-	    backGround.setIcon(new ImageIcon(
-	            getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERSTUN.getValue())));
-	    backGround.setVisible(true);
-	    panel.remove(getTable());
-	    panel.add(backGround);
-	    repaint();
-	    table.getSnakegame().setGameover(Game.GameOver.WALL);
-	});
+        SwingUtilities.invokeLater(() -> {
+            backGround.setIcon(new ImageIcon(
+                    getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERSTUN.getValue())));
+            backGround.setVisible(true);
+            panel.remove(getTable());
+            panel.add(backGround);
+            repaint();
+            table.getSnakegame().setGameover(Game.GameOver.WALL);
+        });
 
     }
 
     public JMenuBar getjMenuBar() {
-	return menuBar;
+        return menuBar;
     }
 
     public void setNewgame(Boolean newgame) {
-	this.newgame = newgame;
+        this.newgame = newgame;
     }
 
     public Boolean getNewgame() {
-	return newgame;
+        return newgame;
     }
 
     public void setStarted(Boolean started) {
-	this.started = started;
+        this.started = started;
     }
 
     public Boolean getStarted() {
-	return started;
+        return started;
     }
 
     public Board getTable() {
-	return table;
+        return table;
     }
 
     public JLabel getBackGround() {
-	return backGround;
+        return backGround;
     }
 
     private void addMenu() {
-	menuBar = new JMenuBar();
-	JMenu fileMenu = new JMenu("File");
+        menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
 
-	menuBar.add(fileMenu);
-	fileMenu.add(new JMenuItem("New Game", 'N'));
-	fileMenu.add(new JMenuItem("Exit", 'E'));
-	JMenu settings = new JMenu("Settings");
-	menuBar.add(settings);
-	settings.add(new JMenuItem("Difficulty"));
-	settings.add(new JMenuItem("Theme"));
+        menuBar.add(fileMenu);
+        fileMenu.add(new JMenuItem("New Game", 'N'));
+        fileMenu.add(new JMenuItem("Exit", 'E'));
+        JMenu settings = new JMenu("Settings");
+        menuBar.add(settings);
+        settings.add(new JMenuItem("Difficulty"));
+        settings.add(new JMenuItem("Theme"));
 
-	JMenu about = new JMenu("About");
-	menuBar.add(about);
+        JMenu about = new JMenu("About");
+        menuBar.add(about);
 
-	about.add(new JMenuItem("Help"));
-	about.add(new JMenuItem("About"));
-	about.add(new JMenuItem("Version"));
-	this.setJMenuBar(menuBar);
+        about.add(new JMenuItem("Help"));
+        about.add(new JMenuItem("About"));
+        about.add(new JMenuItem("Version"));
+        this.setJMenuBar(menuBar);
     }
 
 }

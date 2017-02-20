@@ -12,9 +12,9 @@ public class ThemeOptions {
      * Constructor.
      */
     public ThemeOptions() {
-	super();
-	this.themes = new String[] { "/resources/mira/", "/resources/basic/", "/resources/mira2/",
-	        "/resources/tentacle/" };
+        super();
+        this.themes = new String[] { "/resources/mira/", "/resources/basic/", "/resources/mira2/",
+                "/resources/tentacle/" };
     }
 
     /**
@@ -23,7 +23,7 @@ public class ThemeOptions {
      * @return the themes
      */
     public String[] getThemes() {
-	return themes;
+        return themes;
     }
 
 }

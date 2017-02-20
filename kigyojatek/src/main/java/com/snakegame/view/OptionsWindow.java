@@ -22,18 +22,18 @@ public class OptionsWindow extends JFrame {
      * Constructor.
      */
     public OptionsWindow() {
-	super(OPTIONS_WINDOW_TITLE);
-	setSize(300, 150);
-	ThemeOptions opt = new ThemeOptions();
-	panel = new JPanel();
-	themelist = new JComboBox<String>(opt.getThemes());
+        super(OPTIONS_WINDOW_TITLE);
+        setSize(300, 150);
+        ThemeOptions opt = new ThemeOptions();
+        panel = new JPanel();
+        themelist = new JComboBox<String>(opt.getThemes());
 
-	panel.add(themelist);
-	closeButton = new JButton(CLOSE_BUTTON_TEXT);
-	panel.add(closeButton);
+        panel.add(themelist);
+        closeButton = new JButton(CLOSE_BUTTON_TEXT);
+        panel.add(closeButton);
 
-	setResizable(false);
-	add(panel);
+        setResizable(false);
+        add(panel);
 
     }
 
@@ -44,11 +44,11 @@ public class OptionsWindow extends JFrame {
      *            snakePic that will be used to change the theme.
      */
     public void setTheme(SnakeTheme snakePic) {
-	// @TODO create memory pool to optimize it.
-	String s = themelist.getSelectedItem().toString();
-	if (SnakeTheme.getSelectedTheme().equals(s))
-	    return;
-	snakePic.setTheme(s);
+        // @TODO create memory pool to optimize it.
+        String s = themelist.getSelectedItem().toString();
+        if (SnakeTheme.getSelectedTheme().equals(s))
+            return;
+        snakePic.setTheme(s);
     }
 
     /**
@@ -57,7 +57,7 @@ public class OptionsWindow extends JFrame {
      * @return the close button
      */
     public JButton getCloseButton() {
-	return closeButton;
+        return closeButton;
     }
 
 }

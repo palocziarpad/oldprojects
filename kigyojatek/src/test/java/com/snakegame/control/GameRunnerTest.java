@@ -28,55 +28,55 @@ public class GameRunnerTest extends AssertJSwingTestngTestCase {
 
     @Override
     public void onSetUp() {
-	listener = EmergencyAbortListener.registerInToolkit();
+        listener = EmergencyAbortListener.registerInToolkit();
     }
 
     @Test(groups = { "gui", "function" })
     @GUITest
     public void testGameStartEndWithWallHit() throws InterruptedException {
-	ApplicationLauncher.application(GameRunner.class).start();
-	FrameFixture mainFrame = WindowFinder.findFrame(MainWindow.GAME_WINDOW_TITLE).withTimeout(5 * 1000)
-	        .using(robot());
-	JLabel backGroundPanel = mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).target();
-	mainFrame.button(MainWindow.START_BUTTON_NAME).requireEnabled().requireVisible();
-	mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).requireEnabled().requireVisible();
-	mainFrame.button(MainWindow.START_BUTTON_NAME).click(MouseButton.LEFT_BUTTON);
-	mainFrame.button(JButtonMatcher.withName(MainWindow.START_BUTTON_NAME)).requireNotVisible();
-	mainFrame.label(JLabelMatcher.withName(MainWindow.BACKGROUND_PANEL_NAME)).requireNotVisible();
-	mainFrame.panel(Board.BOARD_NAME).requireEnabled().requireVisible();
-	mainFrame.pressAndReleaseKey(KeyPressInfo.keyCode(KeyEvent.VK_W));
+        ApplicationLauncher.application(GameRunner.class).start();
+        FrameFixture mainFrame = WindowFinder.findFrame(MainWindow.GAME_WINDOW_TITLE).withTimeout(5 * 1000)
+                .using(robot());
+        JLabel backGroundPanel = mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).target();
+        mainFrame.button(MainWindow.START_BUTTON_NAME).requireEnabled().requireVisible();
+        mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).requireEnabled().requireVisible();
+        mainFrame.button(MainWindow.START_BUTTON_NAME).click(MouseButton.LEFT_BUTTON);
+        mainFrame.button(JButtonMatcher.withName(MainWindow.START_BUTTON_NAME)).requireNotVisible();
+        mainFrame.label(JLabelMatcher.withName(MainWindow.BACKGROUND_PANEL_NAME)).requireNotVisible();
+        mainFrame.panel(Board.BOARD_NAME).requireEnabled().requireVisible();
+        mainFrame.pressAndReleaseKey(KeyPressInfo.keyCode(KeyEvent.VK_W));
 
-	Pause.pause(new Condition(MainWindow.BACKGROUND_PANEL_NAME + " to be enabled") {
+        Pause.pause(new Condition(MainWindow.BACKGROUND_PANEL_NAME + " to be enabled") {
 
-	    public boolean test() {
-		return GuiActionRunner.execute(backGroundPanel::isVisible);
-	    }
-	}, Timeout.timeout(10000));
+            public boolean test() {
+                return GuiActionRunner.execute(backGroundPanel::isVisible);
+            }
+        }, Timeout.timeout(10000));
 
-	// Thread.sleep(4 * 1000);
-	// mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).requireEnabled(Timeout.timeout(10
-	// * 1000));
-	/*
-	 * GenericTypeMatcher<JLabel> textMatcher = new
-	 * GenericTypeMatcher<JLabel>(JLabel.class) {
-	 * 
-	 * @Override protected boolean isMatching(JLabel label) {
-	 * 
-	 * return MainWindow.BACKGROUND_PANEL_NAME.equals(label.getName()) &&
-	 * label.isVisible(); } };
-	 * 
-	 * JLabelFinder.findJLabel(textMatcher).withTimeout(100000).using(robot(
-	 * )).requireEnabled(10000);
-	 */
-	// JLabelFixture fixture = new JLabelFixture(robot(),
-	// MainWindow.BACKGROUND_PANEL_NAME);
-	// System.out.println(fixture.isEnabled());
+        // Thread.sleep(4 * 1000);
+        // mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).requireEnabled(Timeout.timeout(10
+        // * 1000));
+        /*
+         * GenericTypeMatcher<JLabel> textMatcher = new
+         * GenericTypeMatcher<JLabel>(JLabel.class) {
+         * 
+         * @Override protected boolean isMatching(JLabel label) {
+         * 
+         * return MainWindow.BACKGROUND_PANEL_NAME.equals(label.getName()) &&
+         * label.isVisible(); } };
+         * 
+         * JLabelFinder.findJLabel(textMatcher).withTimeout(100000).using(robot(
+         * )).requireEnabled(10000);
+         */
+        // JLabelFixture fixture = new JLabelFixture(robot(),
+        // MainWindow.BACKGROUND_PANEL_NAME);
+        // System.out.println(fixture.isEnabled());
 
     }
 
     @Override
     public void onTearDown() {
-	listener.unregister();
+        listener.unregister();
     }
 
 }

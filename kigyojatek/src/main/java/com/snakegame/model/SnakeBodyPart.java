@@ -21,10 +21,10 @@ public class SnakeBodyPart {
      * @param yCoordinate
      */
     public SnakeBodyPart(byte xCoordinate, byte yCoordinate) {
-	this.xCoordinate = xCoordinate;
-	this.yCoordinate = yCoordinate;
-	this.direction = Direction.RIGHT;
-	this.bodyPartType = BodyPartType.HEAD;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+        this.direction = Direction.RIGHT;
+        this.bodyPartType = BodyPartType.HEAD;
     }
 
     /**
@@ -35,10 +35,10 @@ public class SnakeBodyPart {
      * @param bodyPartType
      */
     public SnakeBodyPart(byte xCoordinate, byte yCoordinate, BodyPartType bodyPartType) {
-	this.xCoordinate = xCoordinate;
-	this.yCoordinate = yCoordinate;
-	this.direction = Direction.RIGHT;
-	this.bodyPartType = bodyPartType;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+        this.direction = Direction.RIGHT;
+        this.bodyPartType = bodyPartType;
     }
 
     /**
@@ -47,7 +47,7 @@ public class SnakeBodyPart {
      * @return
      */
     public BodyPartType getPartType() {
-	return bodyPartType;
+        return bodyPartType;
     }
 
     /**
@@ -56,7 +56,7 @@ public class SnakeBodyPart {
      * @param partKind
      */
     public void setPartType(BodyPartType partKind) {
-	this.bodyPartType = partKind;
+        this.bodyPartType = partKind;
     }
 
     /**
@@ -65,7 +65,7 @@ public class SnakeBodyPart {
      * @return
      */
     public byte getXCoordinate() {
-	return xCoordinate;
+        return xCoordinate;
     }
 
     /**
@@ -74,7 +74,7 @@ public class SnakeBodyPart {
      * @param x
      */
     public void setXCoordinate(byte x) {
-	this.xCoordinate = x;
+        this.xCoordinate = x;
     }
 
     /**
@@ -83,7 +83,7 @@ public class SnakeBodyPart {
      * @return
      */
     public byte getYCoordinate() {
-	return yCoordinate;
+        return yCoordinate;
     }
 
     /**
@@ -92,7 +92,7 @@ public class SnakeBodyPart {
      * @param y
      */
     public void setYCoordinate(byte y) {
-	this.yCoordinate = y;
+        this.yCoordinate = y;
     }
 
     /**
@@ -101,7 +101,7 @@ public class SnakeBodyPart {
      * @return
      */
     public Direction getDirection() {
-	return direction;
+        return direction;
     }
 
     /**
@@ -110,7 +110,7 @@ public class SnakeBodyPart {
      * @param direction
      */
     public void setDirection(Direction direction) {
-	this.direction = direction;
+        this.direction = direction;
     }
 
     /**
@@ -120,7 +120,7 @@ public class SnakeBodyPart {
      * @return true if yes
      */
     public boolean isAt(SnakeBodyPart food) {
-	return (xCoordinate == food.xCoordinate && yCoordinate == food.yCoordinate);
+        return (xCoordinate == food.xCoordinate && yCoordinate == food.yCoordinate);
     }
 
     /**
@@ -130,15 +130,15 @@ public class SnakeBodyPart {
      * @return
      */
     public int isAt(LinkedList<SnakeBodyPart> foods) {
-	SnakeBodyPart sbp;
-	for (int k = 0; k < foods.size(); k++) {
-	    sbp = foods.get(k);
-	    if (isAt(sbp)) {
-		return k;
-	    }
-	}
+        SnakeBodyPart sbp;
+        for (int k = 0; k < foods.size(); k++) {
+            sbp = foods.get(k);
+            if (isAt(sbp)) {
+                return k;
+            }
+        }
 
-	return -1;
+        return -1;
     }
 
     /**
@@ -149,9 +149,9 @@ public class SnakeBodyPart {
      * @param direction
      */
     public void setState(byte xCoordinate, byte yCoordinate, Direction direction) {
-	this.xCoordinate = xCoordinate;
-	this.yCoordinate = yCoordinate;
-	this.direction = direction;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+        this.direction = direction;
     }
 
 }

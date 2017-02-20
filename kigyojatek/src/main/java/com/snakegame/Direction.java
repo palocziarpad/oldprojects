@@ -11,16 +11,16 @@ public enum Direction {
      * @return
      */
     public Direction getOppositeDirection() {
-	switch (this) {
-	case UP:
-	    return DOWN;
-	case RIGHT:
-	    return LEFT;
-	case LEFT:
-	    return RIGHT;
-	case DOWN:
-	    return UP;
-	}
-	return null;
+        switch (this) {
+        case UP:
+            return DOWN;
+        case RIGHT:
+            return LEFT;
+        case LEFT:
+            return RIGHT;
+        case DOWN:
+            return UP;
+        }
+        return null;
     }
 }
