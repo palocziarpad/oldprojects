@@ -1,6 +1,9 @@
 package com.snakegame.control;
 
 import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JLabel;
 
@@ -13,6 +16,7 @@ import org.assertj.swing.core.matcher.JLabelMatcher;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.finder.WindowFinder;
 import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.image.ScreenshotTaker;
 import org.assertj.swing.launcher.ApplicationLauncher;
 import org.assertj.swing.testng.testcase.AssertJSwingTestngTestCase;
 import org.assertj.swing.timing.Condition;
@@ -29,14 +33,19 @@ public class GameRunnerTest extends AssertJSwingTestngTestCase {
     @Override
     public void onSetUp() {
         listener = EmergencyAbortListener.registerInToolkit();
+
     }
 
     @Test(groups = { "gui", "function" })
     @GUITest
     public void testGameStartEndWithWallHit() throws InterruptedException {
+        ScreenshotTaker screenshot = new ScreenshotTaker();
+        DateFormat df = new SimpleDateFormat("yy_MM_dd_HH_mm_ss");
         ApplicationLauncher.application(GameRunner.class).start();
         FrameFixture mainFrame = WindowFinder.findFrame(MainWindow.GAME_WINDOW_TITLE).withTimeout(5 * 1000)
                 .using(robot());
+        screenshot.saveImage(screenshot.takeDesktopScreenshot(),
+                "test-output/testGameStartEndWithWallHit_screen" + df.format(new Date()) + ".png");
         JLabel backGroundPanel = mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).target();
         mainFrame.button(MainWindow.START_BUTTON_NAME).requireEnabled().requireVisible();
         mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).requireEnabled().requireVisible();
@@ -52,7 +61,6 @@ public class GameRunnerTest extends AssertJSwingTestngTestCase {
                 return GuiActionRunner.execute(backGroundPanel::isVisible);
             }
         }, Timeout.timeout(10000));
-
         // Thread.sleep(4 * 1000);
         // mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).requireEnabled(Timeout.timeout(10
         // * 1000));
@@ -76,6 +84,10 @@ public class GameRunnerTest extends AssertJSwingTestngTestCase {
 
     @Override
     public void onTearDown() {
+        ScreenshotTaker screenshot = new ScreenshotTaker();
+        DateFormat df = new SimpleDateFormat("yy_MM_dd_HH_mm_ss");
+        screenshot.saveImage(screenshot.takeDesktopScreenshot(),
+                "test-output/onTearDown_screen" + df.format(new Date()) + ".png");
         listener.unregister();
     }
 
