@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.4.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.4.0 http://maven.apache.org/xsd/decoration-1.4.0.xsd">
+	<version position="right" />
+
+	<bannerLeft>
+		<src>./images/openbg.png</src>
+		<href>./index.html</href>
+	</bannerLeft>
+
+	<!-- The look and feel with syntax highlighting etc. -->
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-fluido-skin</artifactId>
+		<version>1.6</version>
+	</skin>
+	<custom>
+		<fluidoSkin>
+			<sourceLineNumbersEnabled>false</sourceLineNumbersEnabled>
+			<topBarEnabled>true</topBarEnabled>
+			<sideBarEnabled>false</sideBarEnabled>
+		</fluidoSkin>
+	</custom>
+
+	<!-- How the top menu should look like -->
+	<body>
+		<!-- Useful links at the top -->
+		<links>
+			<item name="AssertJ"
+				href="https://joel-costigliola.github.io/assertj/" />
+			<item name="Maven" href="https://maven.apache.org/" />
+			<item name="SLF4J" href="https://www.slf4j.org/" />
+			<item name="TestNG" href="http://testng.org/doc/index.html" />
+			
+
+		</links>
+
+		<menu name="${project.name}">
+			<item name="User Guide" href="index.html" />
+		</menu>
+
+		<menu name="Project Informations">
+			<item name="Project Page"
+				href="https://github.com/saznetro/oldprojects" />
+			<item name="Bug reports"
+				href="https://github.com/saznetro/oldprojects" />
+			<item name="Feature requests"
+				href="https://github.com/saznetro/oldprojects" />
+		</menu>
+
+	</body>
+
+</project>

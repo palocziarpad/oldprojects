@@ -16,7 +16,6 @@ public class Game {
     private static final int DEFAULT_SCORE_RISE = 10;
     private LinkedList<SnakeBodyPart> snake;
     private byte tablesize;
-    private static SnakeBodyPart food[];
     private int score;
     private boolean isScoreRised;
     private boolean eaten;
@@ -25,17 +24,6 @@ public class Game {
     private LinkedList<SnakeBodyPart> foodList;
     private LinkedList<SnakeBodyPart> eatenFood;
     private GameOver gameover;
-
-    static {
-        food = new SnakeBodyPart[2];
-        food[0] = new SnakeBodyPart((byte) 5, (byte) 8);
-        food[1] = new SnakeBodyPart((byte) 20, (byte) 20);
-    }
-    {
-        foodList = new LinkedList<SnakeBodyPart>();
-        eatenFood = new LinkedList<SnakeBodyPart>();
-        foodList.add(new SnakeBodyPart((byte) 5, (byte) 8));
-    }
 
     /**
      * Constructor.
@@ -47,6 +35,10 @@ public class Game {
         snake = new LinkedList<SnakeBodyPart>();
         score = tablesize = 0;
         newpart = new SnakeBodyPart((byte) 5, (byte) 8);
+
+        foodList = new LinkedList<SnakeBodyPart>();
+        eatenFood = new LinkedList<SnakeBodyPart>();
+        foodList.add(new SnakeBodyPart((byte) 5, (byte) 8));
     }
 
     /**
@@ -83,6 +75,15 @@ public class Game {
             }
             setDirection(null);
         }
+        setNewHeadValues(newHead);
+
+        eatFood();
+        getSnake().removeLast();
+        getSnake().addFirst(newHead);
+
+    }
+
+    public void setNewHeadValues(SnakeBodyPart newHead) {
         switch (getSnake().getFirst().getDirection()) {
         case LEFT:
             newHead.setXCoordinate((byte) (newHead.getXCoordinate() - 1));
@@ -101,11 +102,6 @@ public class Game {
             newHead.setDirection(Direction.UP);
             break;
         }
-
-        eatFood();
-        getSnake().removeLast();
-        getSnake().addFirst(newHead);
-
     }
 
     /***
