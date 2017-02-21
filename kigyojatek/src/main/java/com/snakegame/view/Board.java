@@ -43,8 +43,11 @@ public class Board extends JPanel {
 
     /**
      * Constructor.
+     * 
+     * @param snakeTheme
      */
-    public Board() {
+
+    public Board(SnakeTheme snakeTheme) {
         snakeGame = new Game();
         this.setBackground(Color.white);
         this.setBounds(0, 0, maxSizeOfBoardPixels, maxSizeOfBoardPixels);
@@ -52,7 +55,7 @@ public class Board extends JPanel {
         this.setSize(640, 480);
         point = new Point(0, 0);
         this.setName(BOARD_NAME);
-        this.snakeTheme = new SnakeTheme();
+        this.snakeTheme = snakeTheme;
     }
 
     @Override

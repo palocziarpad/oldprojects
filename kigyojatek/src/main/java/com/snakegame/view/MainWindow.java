@@ -43,24 +43,22 @@ public class MainWindow extends JFrame {
     private JDialog versionBox, aboutBox, helpBox;
     private OptionsWindow options;
     private SnakeClickListener clickListener;
+    private SnakeTheme snakeTheme;
 
     /***
      * Constructor.
      */
     public MainWindow() {
-
-        // set frame's title
         super(GAME_WINDOW_TITLE);
         this.setName(GAME_WINDOW_TITLE);
         // set frame size
         this.setSize(640, 500);
         this.setResizable(false);
-        init();
-
+        this.init();
+        this.snakeTheme = new SnakeTheme();
         backGround = new JLabel(BACKGROUND_PANEL_NAME);
         backGround.setName(BACKGROUND_PANEL_NAME);
-        backGround.setIcon(
-                new ImageIcon(getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
+        backGround.setIcon(new ImageIcon(snakeTheme.getImage(PictureFiles.OPENBG)));
         backGround.setEnabled(true);
         clickListener = new SnakeClickListener();
         panel = new JPanel();
@@ -75,7 +73,7 @@ public class MainWindow extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        table = new Board();
+        table = new Board(snakeTheme);
 
         this.addKeyListener(new MyKeyListener());
         this.setFocusable(true);
@@ -157,8 +155,7 @@ public class MainWindow extends JFrame {
                 if (e.getSource() == options.getCloseButton()) {
                     options.setTheme(table.getSnakeTheme());
                     options.setVisible(false);
-                    backGround.setIcon(new ImageIcon(
-                            getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.OPENBG.getValue())));
+                    backGround.setIcon(new ImageIcon(snakeTheme.getImage(PictureFiles.OPENBG)));
                     return;
                 }
             }
@@ -212,8 +209,7 @@ public class MainWindow extends JFrame {
      */
     public void gameOverBite() {
         SwingUtilities.invokeLater(() -> {
-            backGround.setIcon(new ImageIcon(
-                    getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERBITE.getValue())));
+            backGround.setIcon(new ImageIcon(snakeTheme.getImage(PictureFiles.GAMEOVERBITE)));
             backGround.setVisible(true);
             panel.remove(getTable());
             panel.add(backGround);
@@ -229,8 +225,7 @@ public class MainWindow extends JFrame {
      */
     public void gameOverStun() {
         SwingUtilities.invokeLater(() -> {
-            backGround.setIcon(new ImageIcon(
-                    getClass().getResource(SnakeTheme.getSelectedTheme() + PictureFiles.GAMEOVERSTUN.getValue())));
+            backGround.setIcon(new ImageIcon(snakeTheme.getImage(PictureFiles.GAMEOVERSTUN)));
             backGround.setVisible(true);
             panel.remove(getTable());
             panel.add(backGround);
