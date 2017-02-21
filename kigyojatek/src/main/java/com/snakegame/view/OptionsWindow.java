@@ -46,8 +46,9 @@ public class OptionsWindow extends JFrame {
     public void setTheme(SnakeTheme snakePic) {
         // @TODO create memory pool to optimize it.
         String s = themelist.getSelectedItem().toString();
-        if (SnakeTheme.getSelectedTheme().equals(s))
+        if (SnakeTheme.getSelectedTheme().equals(s)) {
             return;
+        }
         snakePic.setTheme(s);
     }
 

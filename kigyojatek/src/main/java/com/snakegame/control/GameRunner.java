@@ -1,7 +1,5 @@
 package com.snakegame.control;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 import javax.swing.JMenuBar;
@@ -43,20 +41,47 @@ public class GameRunner implements Runnable {
         super();
         isGameGoing = true;
         sleepTime = DEFAULTDELAY;
+        SwingUtilities.invokeLater(() -> {
+            mainWindow = new MainWindow();
+            SnakeClickListener clicklistner = new SnakeClickListener(mainWindow);
+            mainWindow.getStartButton().addActionListener(clicklistner);
+            mainWindow.getOptionsWindow().getCloseButton().addActionListener(clicklistner);
+        });
+    }
+
+    /**
+     * @return the mainWindow
+     */
+    public MainWindow getMainWindow() {
+        return mainWindow;
+    }
+
+    /**
+     * @return the isGameGoing
+     */
+    public boolean isGameGoing() {
+        return isGameGoing;
+    }
+
+    /**
+     * @param isGameGoing
+     *            the isGameGoing to set
+     */
+    public void setGameGoing(boolean isGameGoing) {
+        this.isGameGoing = isGameGoing;
     }
 
     /***
      * Start the game
      */
     public void run() {
-        initMainWindow(initSnake(), new MenuClickListener());
+        initMainWindow(initSnake(), new MenuClickListener(this));
         game();
     }
 
     private void initMainWindow(LinkedList<SnakeBodyPart> snake, MenuClickListener clickListener) {
 
         SwingUtilities.invokeLater(() -> {
-            mainWindow = new MainWindow();
             mainWindow.setVisible(true);
             JMenuBar jmenubar = mainWindow.getjMenuBar();
             jmenubar.getMenu(0).getItem(0).addActionListener(clickListener);
@@ -121,7 +146,7 @@ public class GameRunner implements Runnable {
      * nem figyeli, hogy ha a m�sik kaj�val volt �tk�z�s fixed 4. nincs ny� g�m
      * 5.
      */
-    private void newGame() {
+    public void newGame() {
         sleepTime = DEFAULTDELAY;
         mainWindow.setNewgame(true);
         LinkedList<SnakeBodyPart> snake = mainWindow.getTable().getSnakegame().getSnake();
@@ -215,43 +240,4 @@ public class GameRunner implements Runnable {
         }
     }
 
-    /** Action listener for the upper menu */
-    private class MenuClickListener implements ActionListener {
-
-        public void actionPerformed(ActionEvent actionEvent) {
-            mainWindow.getTable().setPaused();
-            JMenuBar jMenuBar = mainWindow.getjMenuBar();
-            if (actionEvent.getSource().equals(jMenuBar.getMenu(0).getItem(1))) {
-                logger.info("Exiting from game via File/Exit.");
-                isGameGoing = false;
-                System.exit(0);
-                return;
-            }
-            if (actionEvent.getSource().equals(jMenuBar.getMenu(0).getItem(0))) {
-                newGame();
-                return;
-            }
-            if (actionEvent.getSource().equals(jMenuBar.getMenu(2).getItem(1))) {
-                mainWindow.showAboutBox();
-                return;
-            }
-            if (actionEvent.getSource().equals(jMenuBar.getMenu(2).getItem(0))) {
-                mainWindow.showHelpBox();
-                return;
-            }
-            if (actionEvent.getSource().equals(jMenuBar.getMenu(2).getItem(2))) {
-                mainWindow.showVersionBox();
-                return;
-            }
-            if (actionEvent.getSource().equals(jMenuBar.getMenu(1).getItem(1))) {
-                mainWindow.showOptionsWindow();
-                return;
-            }
-            if (actionEvent.getSource().equals(jMenuBar.getMenu(1).getItem(0))) {
-                return;
-            }
-
-        }
-
-    }
 }

@@ -1,10 +1,6 @@
 package com.snakegame.view;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,9 +13,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import com.snakegame.Direction;
 import com.snakegame.PictureFiles;
 import com.snakegame.control.Game;
+import com.snakegame.control.MyKeyListener;
 import com.snakegame.model.SnakeTheme;
 
 /***
@@ -42,7 +38,7 @@ public class MainWindow extends JFrame {
     private Boolean newgame;
     private JDialog versionBox, aboutBox, helpBox;
     private OptionsWindow options;
-    private SnakeClickListener clickListener;
+    // private SnakeClickListener clickListener;
     private SnakeTheme snakeTheme;
 
     /***
@@ -60,13 +56,13 @@ public class MainWindow extends JFrame {
         backGround.setName(BACKGROUND_PANEL_NAME);
         backGround.setIcon(new ImageIcon(snakeTheme.getImage(PictureFiles.OPENBG)));
         backGround.setEnabled(true);
-        clickListener = new SnakeClickListener();
+        // this.clickListener = new SnakeClickListener();
         panel = new JPanel();
         panel.setName(MAIN_BACKGROUND_PANEL_NAME);
         panel.setLayout(new BorderLayout());
         panel.add(backGround, BorderLayout.CENTER);
         startButton = new JButton(START_BUTTON_NAME);
-        startButton.addActionListener(clickListener);
+        // startButton.addActionListener(clickListener);
         startButton.setName(START_BUTTON_NAME);
         panel.add(startButton, BorderLayout.SOUTH);
         this.add(panel);
@@ -75,10 +71,17 @@ public class MainWindow extends JFrame {
 
         table = new Board(snakeTheme);
 
-        this.addKeyListener(new MyKeyListener());
+        this.addKeyListener(new MyKeyListener(table));
         this.setFocusable(true);
         this.addMenu();
 
+    }
+
+    /**
+     * @return the startButton
+     */
+    public JButton getStartButton() {
+        return startButton;
     }
 
     /**
@@ -90,76 +93,26 @@ public class MainWindow extends JFrame {
 
     }
 
-    private class MyKeyListener extends KeyAdapter {
-
-        @Override
-        public void keyPressed(KeyEvent ke) {
-
-            // Playing using arrows
-            switch (ke.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                getTable().getSnakegame().setDirection(Direction.UP);
-                break;
-            case KeyEvent.VK_LEFT:
-                getTable().getSnakegame().setDirection(Direction.LEFT);
-                break;
-            case KeyEvent.VK_DOWN:
-                getTable().getSnakegame().setDirection(Direction.DOWN);
-                break;
-            case KeyEvent.VK_RIGHT:
-                getTable().getSnakegame().setDirection(Direction.RIGHT);
-                break;
-            }
-            // Playing using wasd or WASD and pause
-            switch (ke.getKeyChar()) {
-            case 'w':
-            case 'W':
-                getTable().getSnakegame().setDirection(Direction.UP);
-                break;
-            case 'a':
-            case 'A':
-                getTable().getSnakegame().setDirection(Direction.LEFT);
-                break;
-            case 's':
-            case 'S':
-                getTable().getSnakegame().setDirection(Direction.DOWN);
-                break;
-            case 'd':
-            case 'D':
-                getTable().getSnakegame().setDirection(Direction.RIGHT);
-                break;
-            case 'p':
-            case 'P':
-                table.switchPause();
-                break;
-            }
-
-        }
+    /**
+     * Change the theme
+     */
+    public void changeTheme() {
+        options.setTheme(table.getSnakeTheme());
+        options.setVisible(false);
+        backGround.setIcon(new ImageIcon(snakeTheme.getImage(PictureFiles.OPENBG)));
     }
 
-    private class SnakeClickListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == startButton) {
-                startButton.setVisible(false);
-                backGround.setVisible(false);
-                panel.add(getTable());
-                panel.repaint();
-                panel.setFocusable(false);
-                getTable().setFocusable(false);
-                setStarted(true);
-                return;
-            }
-            if (options != null) {
-                if (e.getSource() == options.getCloseButton()) {
-                    options.setTheme(table.getSnakeTheme());
-                    options.setVisible(false);
-                    backGround.setIcon(new ImageIcon(snakeTheme.getImage(PictureFiles.OPENBG)));
-                    return;
-                }
-            }
-        }
+    /***
+     * Start the game
+     */
+    public void startGame() {
+        startButton.setVisible(false);
+        backGround.setVisible(false);
+        panel.add(getTable());
+        panel.repaint();
+        panel.setFocusable(false);
+        table.setFocusable(false);
+        started = true;
     }
 
     /***
@@ -197,10 +150,6 @@ public class MainWindow extends JFrame {
      * Show the options window
      */
     public void showOptionsWindow() {
-        if (options == null) {
-            options = new OptionsWindow();
-            options.getCloseButton().addActionListener(clickListener);
-        }
         options.setVisible(true);
     }
 
@@ -261,6 +210,13 @@ public class MainWindow extends JFrame {
 
     public JLabel getBackGround() {
         return backGround;
+    }
+
+    public OptionsWindow getOptionsWindow() {
+        if (options == null) {
+            options = new OptionsWindow();
+        }
+        return options;
     }
 
     private void addMenu() {
