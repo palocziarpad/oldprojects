@@ -83,6 +83,11 @@ public class Game {
 
     }
 
+    /***
+     * Set the new head values
+     * 
+     * @param newHead
+     */
     public void setNewHeadValues(SnakeBodyPart newHead) {
         switch (getSnake().getFirst().getDirection()) {
         case LEFT:
