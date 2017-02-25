@@ -8,9 +8,8 @@ import com.snakegame.Direction;
 /**
  * Representation of the snake's body part.
  */
-public class SnakeBodyPart {
-    private byte xCoordinate;
-    private byte yCoordinate;
+public class SnakeBodyPart extends Item {
+
     private Direction direction;
     private BodyPartType bodyPartType;
 
@@ -21,10 +20,7 @@ public class SnakeBodyPart {
      * @param yCoordinate
      */
     public SnakeBodyPart(byte xCoordinate, byte yCoordinate) {
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
-        this.direction = Direction.RIGHT;
-        this.bodyPartType = BodyPartType.HEAD;
+        this(xCoordinate, yCoordinate, BodyPartType.HEAD);
     }
 
     /**
@@ -35,8 +31,7 @@ public class SnakeBodyPart {
      * @param bodyPartType
      */
     public SnakeBodyPart(byte xCoordinate, byte yCoordinate, BodyPartType bodyPartType) {
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
+        super(xCoordinate, yCoordinate);
         this.direction = Direction.RIGHT;
         this.bodyPartType = bodyPartType;
     }
@@ -60,42 +55,6 @@ public class SnakeBodyPart {
     }
 
     /**
-     * Get the X coordinate
-     * 
-     * @return
-     */
-    public byte getXCoordinate() {
-        return xCoordinate;
-    }
-
-    /**
-     * Set the X coordinate
-     * 
-     * @param x
-     */
-    public void setXCoordinate(byte x) {
-        this.xCoordinate = x;
-    }
-
-    /**
-     * Get the Y coordinate
-     * 
-     * @return
-     */
-    public byte getYCoordinate() {
-        return yCoordinate;
-    }
-
-    /**
-     * Set the Y coordinate
-     * 
-     * @param y
-     */
-    public void setYCoordinate(byte y) {
-        this.yCoordinate = y;
-    }
-
-    /**
      * Get the direction
      * 
      * @return
@@ -116,11 +75,11 @@ public class SnakeBodyPart {
     /**
      * is the snake body part the given place
      * 
-     * @param food
+     * @param snakeBodyPart
      * @return true if yes
      */
-    public boolean isAt(SnakeBodyPart food) {
-        return (xCoordinate == food.xCoordinate && yCoordinate == food.yCoordinate);
+    public boolean isAt(SnakeBodyPart snakeBodyPart) {
+        return (xCoordinate == snakeBodyPart.xCoordinate && yCoordinate == snakeBodyPart.yCoordinate);
     }
 
     /**
@@ -152,6 +111,17 @@ public class SnakeBodyPart {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
         this.direction = direction;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "SnakeBodyPart [direction=" + direction + ", bodyPartType=" + bodyPartType + ", xCoordinate="
+                + xCoordinate + ", yCoordinate=" + yCoordinate + "]";
     }
 
 }

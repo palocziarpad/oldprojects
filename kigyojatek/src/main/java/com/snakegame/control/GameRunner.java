@@ -1,7 +1,5 @@
 package com.snakegame.control;
 
-import java.util.LinkedList;
-
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
@@ -9,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.snakegame.Direction;
+import com.snakegame.Util;
+import com.snakegame.model.Snake;
 import com.snakegame.model.SnakeBodyPart;
 import com.snakegame.view.Board;
 import com.snakegame.view.MainWindow;
@@ -79,7 +79,7 @@ public class GameRunner implements Runnable {
         game();
     }
 
-    private void initMainWindow(LinkedList<SnakeBodyPart> snake, MenuClickListener clickListener) {
+    private void initMainWindow(Snake snake, MenuClickListener clickListener) {
 
         SwingUtilities.invokeLater(() -> {
             mainWindow.setVisible(true);
@@ -94,16 +94,16 @@ public class GameRunner implements Runnable {
 
             mainWindow.getTable().repaint();
             mainWindow.getTable().getSnakegame().setSnake(snake);
-            mainWindow.getTable().getSnakegame().setTablesize(gridsize);
+            mainWindow.getTable().getSnakegame().setTableSize(gridsize);
         });
 
     }
 
-    private LinkedList<SnakeBodyPart> initSnake() {
-        LinkedList<SnakeBodyPart> snake = new LinkedList<SnakeBodyPart>();
-        snake.add(new SnakeBodyPart((byte) 4, (byte) 2));
-        snake.add(new SnakeBodyPart((byte) 3, (byte) 2));
-        snake.add(new SnakeBodyPart((byte) 2, (byte) 2));
+    private Snake initSnake() {
+        Snake snake = new Snake();
+        snake.eat(new SnakeBodyPart((byte) 4, (byte) 2));
+        snake.eat(new SnakeBodyPart((byte) 3, (byte) 2));
+        snake.eat(new SnakeBodyPart((byte) 2, (byte) 2));
         return snake;
     }
 
@@ -149,8 +149,8 @@ public class GameRunner implements Runnable {
     public void newGame() {
         sleepTime = DEFAULTDELAY;
         mainWindow.setNewgame(true);
-        LinkedList<SnakeBodyPart> snake = mainWindow.getTable().getSnakegame().getSnake();
-        int size = snake.size();
+        Snake snake = mainWindow.getTable().getSnakegame().getSnake();
+        int size = snake.getSize();
         for (int k = SNAKE_INITIAL_SIZE; k < size; k++) {
             snake.removeLast();
         }
@@ -186,7 +186,8 @@ public class GameRunner implements Runnable {
             }
             if (snakegame.isEaten()) {
                 snakegame.setEaten(false);
-            } else if (Game.isHeadInBody(snakegame.getSnake())) {
+
+            } else if (snakegame.getSnake().isHeadInBody()) {
                 mainWindow.gameOverBite();
                 break;
             }

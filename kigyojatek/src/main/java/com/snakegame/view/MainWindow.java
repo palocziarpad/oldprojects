@@ -13,8 +13,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import com.snakegame.GameState;
 import com.snakegame.PictureFiles;
-import com.snakegame.control.Game;
 import com.snakegame.control.MyKeyListener;
 import com.snakegame.model.SnakeTheme;
 
@@ -164,7 +164,7 @@ public class MainWindow extends JFrame {
             panel.add(backGround);
 
             repaint();
-            table.getSnakegame().setGameover(Game.GameOver.BITE);
+            table.getSnakegame().setGameState(GameState.GAME_OVER_BY_BITE);
 
         });
     }
@@ -179,7 +179,7 @@ public class MainWindow extends JFrame {
             panel.remove(getTable());
             panel.add(backGround);
             repaint();
-            table.getSnakegame().setGameover(Game.GameOver.WALL);
+            table.getSnakegame().setGameState(GameState.GAME_OVER_BY_WALL);
         });
 
     }

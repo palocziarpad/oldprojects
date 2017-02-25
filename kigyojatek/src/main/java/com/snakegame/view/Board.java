@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.IOException;
-import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
@@ -18,6 +17,7 @@ import com.snakegame.BodyPartType;
 import com.snakegame.DirectionToPicture;
 import com.snakegame.PictureFiles;
 import com.snakegame.control.Game;
+import com.snakegame.model.Snake;
 import com.snakegame.model.SnakeBodyPart;
 import com.snakegame.model.SnakeTheme;
 
@@ -103,7 +103,7 @@ public class Board extends JPanel {
      * @throws InterruptedException
      */
     public void drawSnake(Graphics2D g2d) {
-        if (getSnakegame().getSnake().size() == 0) {
+        if (getSnakegame().getSnake().getSize() == 0) {
             logger.warn("null snake");
             return;
         }
@@ -230,17 +230,17 @@ public class Board extends JPanel {
     }
 
     private void drawHead(Graphics2D g2d) {
-        SnakeBodyPart head = getSnakegame().getSnake().getFirst();
+        SnakeBodyPart head = getSnakegame().getSnake().getHead();
         PictureFiles picture = DirectionToPicture.getPictureFromHeadDirection(head.getDirection());
         g2d.drawImage(snakeTheme.getImage(picture), point.x + head.getXCoordinate() * squarePixelSize + 1,
                 point.y + head.getYCoordinate() * squarePixelSize + 1, null);
     }
 
     private void drawTorso(Graphics2D g2d) {
-        LinkedList<SnakeBodyPart> snakeList = getSnakegame().getSnake();
+        Snake snakeList = getSnakegame().getSnake();
 
         PictureFiles picLocal;
-        for (int k = 1; k < snakeList.size() - 1; k++) {
+        for (int k = 1; k < snakeList.getSize() - 1; k++) {
             SnakeBodyPart snake = snakeList.get(k);
             if (snake.getPartType() == BodyPartType.NEWPART) {
 
@@ -260,7 +260,7 @@ public class Board extends JPanel {
     }
 
     private void drawTail(Graphics2D g2d) {
-        SnakeBodyPart tail = getSnakegame().getSnake().getLast();
+        SnakeBodyPart tail = getSnakegame().getSnake().getTail();
         PictureFiles picfile = null;
         picfile = DirectionToPicture.getPictureFromTailDirection(tail.getDirection());
         g2d.drawImage(snakeTheme.getImage(picfile), point.x + tail.getXCoordinate() * squarePixelSize + 1,

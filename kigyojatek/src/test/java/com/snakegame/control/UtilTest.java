@@ -3,6 +3,8 @@ package com.snakegame.control;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.snakegame.Util;
+
 public class UtilTest {
     @Test
     public void testRandom() {
