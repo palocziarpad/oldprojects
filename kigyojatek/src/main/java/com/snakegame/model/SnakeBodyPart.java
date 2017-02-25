@@ -1,6 +1,6 @@
 package com.snakegame.model;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import com.snakegame.BodyPartType;
 import com.snakegame.Direction;
@@ -83,15 +83,25 @@ public class SnakeBodyPart extends Item {
     }
 
     /**
+     * is the snake body part the given place
+     * 
+     * @param snakeBodyPart
+     * @return true if yes
+     */
+    public boolean isAt(byte xCoordinate, byte yCoordinate) {
+        return (xCoordinate == this.xCoordinate && yCoordinate == this.yCoordinate);
+    }
+
+    /**
      * is the snake body part the given places
      * 
-     * @param foods
+     * @param bodyPartsList
      * @return
      */
-    public int isAt(LinkedList<SnakeBodyPart> foods) {
+    public int isAt(List<SnakeBodyPart> bodyPartsList) {
         SnakeBodyPart sbp;
-        for (int k = 0; k < foods.size(); k++) {
-            sbp = foods.get(k);
+        for (int k = 0; k < bodyPartsList.size(); k++) {
+            sbp = bodyPartsList.get(k);
             if (isAt(sbp)) {
                 return k;
             }
@@ -113,11 +123,6 @@ public class SnakeBodyPart extends Item {
         this.direction = direction;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "SnakeBodyPart [direction=" + direction + ", bodyPartType=" + bodyPartType + ", xCoordinate="

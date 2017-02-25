@@ -46,7 +46,6 @@ public class Board extends JPanel {
      * 
      * @param snakeTheme
      */
-
     public Board(SnakeTheme snakeTheme) {
         snakeGame = new Game();
         this.setBackground(Color.white);
@@ -116,7 +115,7 @@ public class Board extends JPanel {
     }
 
     /***
-     * Check which slant is happening by checking three parts of the snake
+     * Check which slant is applying by checking three parts of the snake
      * 
      * @param before
      * @param current
@@ -124,14 +123,14 @@ public class Board extends JPanel {
      * @return null if no slant, else the proper picture depending on the slant
      */
     public static PictureFiles whichSlant(SnakeBodyPart before, SnakeBodyPart current, SnakeBodyPart after) {
-        boolean left = false, right = false, upper = false, downer = false;
+        boolean left = false, right = false, upper = false, bottom = false;
 
         if (before.getXCoordinate() > current.getXCoordinate())
             right = true;
         else if (before.getXCoordinate() < current.getXCoordinate())
             left = true;
         else if (before.getYCoordinate() > current.getYCoordinate())
-            downer = true;
+            bottom = true;
         else if (before.getYCoordinate() < current.getYCoordinate())
             upper = true;
 
@@ -140,17 +139,17 @@ public class Board extends JPanel {
         else if (after.getXCoordinate() < current.getXCoordinate())
             left = true;
         else if (after.getYCoordinate() > current.getYCoordinate())
-            downer = true;
+            bottom = true;
         else if (after.getYCoordinate() < current.getYCoordinate())
             upper = true;
 
         if (right && upper)
             return PictureFiles.SLANT_RIGHT_UPPER;
-        else if (left && downer)
+        else if (left && bottom)
             return PictureFiles.SLANT_LEFT_DOWNER;
         else if (left && upper)
             return PictureFiles.SLANT_LEFT_UPPER;
-        else if (right && downer)
+        else if (right && bottom)
             return PictureFiles.SLANT_RIGHT_DOWNER;
 
         return null;

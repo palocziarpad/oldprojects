@@ -75,6 +75,7 @@ public class Snake {
             } else {
                 this.getHead().setDirection(directionOfTheNextStep);
             }
+            directionOfTheNextStep = null;
         }
         setNewHeadValues(newHead);
 
@@ -207,6 +208,33 @@ public class Snake {
     public void eat(SnakeBodyPart snakeBodyPart) {
         snakeFullBody.add(snakeBodyPart);
 
+    }
+
+    /***
+     * Check if the given coordinates are at same point as one of the snake body
+     * part
+     * 
+     * @param xCoordinate
+     * @param yCoordinate
+     * @return true if yes, otherwise false
+     */
+    public boolean isCoordinatesOnSnake(byte xCoordinate, byte yCoordinate) {
+        for (SnakeBodyPart snakeBodyPart : snakeFullBody) {
+            if (snakeBodyPart.isAt(xCoordinate, yCoordinate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "Snake [snakeFullBody=" + snakeFullBody + "]";
     }
 
 }

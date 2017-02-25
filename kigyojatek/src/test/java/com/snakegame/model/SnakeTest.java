@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.snakegame.BodyPartType;
+import com.snakegame.Direction;
 
 public class SnakeTest {
     @Test
@@ -78,5 +79,25 @@ public class SnakeTest {
         boolean actual = snake.isHeadInBody();
         // THEN
         Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testDoStep() {
+        // GIVEN
+        Snake snake = new Snake();
+        SnakeBodyPart head = new SnakeBodyPart((byte) 15, (byte) 11, BodyPartType.HEAD);
+        SnakeBodyPart tail = new SnakeBodyPart((byte) 13, (byte) 11, BodyPartType.TAIL);
+        snake.eat(head);
+        snake.eat(new SnakeBodyPart((byte) 14, (byte) 11, BodyPartType.TORSO));
+        snake.eat(tail);
+        System.out.println(snake);
+        // WHEN
+        snake.doStep(Direction.UP);
+        // THEN
+        Assert.assertTrue(snake.getHead().getYCoordinate() < head.getYCoordinate());
+        Assert.assertTrue(snake.getHead().getXCoordinate() == head.getXCoordinate());
+        Assert.assertTrue(snake.getTail().getYCoordinate() != tail.getYCoordinate());
+        Assert.assertTrue(snake.getTail().getXCoordinate() != tail.getXCoordinate());
+
     }
 }

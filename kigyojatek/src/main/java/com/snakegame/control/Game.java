@@ -10,14 +10,13 @@ import com.snakegame.model.Snake;
 import com.snakegame.model.SnakeBodyPart;
 
 /**
- * The game representation
+ * The game representation. Discribes the connection between food and snake.
  *
  */
 public class Game {
 
     private static final int BONUS_FOOD_SCORE = 20;
     private static final int DEFAULT_SCORE_RISE = 10;
-    // private LinkedList<SnakeBodyPart> snake;
     private Snake snake;
     private byte tablesize;
     private int score;
@@ -60,30 +59,8 @@ public class Game {
      * Make a snake step happen
      */
     public void doStep() {
-        /**
-         * The snake tail (last element) will be the new head. First we set it
-         * to the exact place, then we will adjust it depending on the user
-         * input direction.
-         */
-        SnakeBodyPart newHead = snake.getTail();
-        newHead.setXCoordinate(snake.getHead().getXCoordinate());
-        newHead.setYCoordinate(snake.getHead().getYCoordinate());
-        newHead.setPartType(BodyPartType.HEAD);
-        if (directionOfTheNextStep != null) {
-            if (getSnake().get(1).getDirection().equals(directionOfTheNextStep.getOppositeDirection())) {
-                // if user trying to move to the opposite direction, then do
-                // nothing.
-            } else {
-                getSnake().getHead().setDirection(directionOfTheNextStep);
-            }
-            setDirection(null);
-        }
-        snake.setNewHeadValues(newHead);
-
+        snake.doStep(directionOfTheNextStep);
         eatFood();
-        snake.removeLast();
-        snake.addHead(newHead);
-
     }
 
     /***
@@ -115,18 +92,19 @@ public class Game {
             foodList.removeLast();
         }
         increaseScore();
-        /**
-         * Bonus food
-         */
+        addBonusFood();
+        setEaten(true);
+
+        return true;
+
+    }
+
+    private void addBonusFood() {
         if (score == BONUS_FOOD_SCORE) {
             foodList.addLast(new SnakeBodyPart(snake.getTail().getXCoordinate(), snake.getTail().getYCoordinate()));
             newFoodsPlace(1);
 
         }
-        setEaten(true);
-
-        return true;
-
     }
 
     /**
@@ -148,21 +126,16 @@ public class Game {
 
         boolean collison = false;
         do {
-            foodList.get(which).setState(Util.random((byte) 0, tablesize), Util.random((byte) 0, tablesize), null);
-            collison = false;
-            for (int k = 0; k < snake.getSize(); k++) {
-                if (snake.get(k).isAt(foodList.get(which))) {
-                    collison = true;
-                    break;
-                }
-            }
+            SnakeBodyPart snakeBodyPart = foodList.get(which);
+            snakeBodyPart.setState(Util.random((byte) 0, tablesize), Util.random((byte) 0, tablesize), null);
+            collison = snake.isCoordinatesOnSnake(snakeBodyPart.getXCoordinate(), snakeBodyPart.getYCoordinate());
             if (collison) {
                 continue;
             }
             for (int k = 0; k < foodList.size(); k++) {
                 if (k == which)
                     continue;
-                if (foodList.get(k).isAt(foodList.get(which))) {
+                if (foodList.get(k).isAt(snakeBodyPart)) {
                     collison = true;
                     break;
                 }
