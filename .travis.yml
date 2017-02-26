@@ -1,8 +1,11 @@
 language: java
 sudo: false
+before_install:
+- sudo apt-get update -qq
+- sudo apt-get install -qq tightvncserver
 jdk:
   - oraclejdk8
-script: cd kigyojatek; mvn test install -Dmaven.javadoc.skip=true -B -V
+script: bash cd kigyojatek; mvn test install -Dmaven.javadoc.skip=true -B -V ; cd src/test/resources/scripts; chmod a+x execute-on-vnc.sh;./execute-on-vnc.sh mvn test -Pguitest -Dmaven.javadoc.skip=true -B -V
 # safelist
 branches:
   only:

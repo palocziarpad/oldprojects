@@ -90,7 +90,6 @@ public class SnakeTest {
         snake.eat(head);
         snake.eat(new SnakeBodyPart((byte) 14, (byte) 11, BodyPartType.TORSO));
         snake.eat(tail);
-        System.out.println(snake);
         // WHEN
         snake.doStep(Direction.UP);
         // THEN
