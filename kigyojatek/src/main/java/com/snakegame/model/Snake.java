@@ -162,7 +162,7 @@ public class Snake {
      */
     public boolean isHeadInBody() {
         for (int k = 1; k < snakeFullBody.size(); k++) {
-            if (snakeFullBody.get(k).isAt(this.getHead())) {
+            if (snakeFullBody.get(k).isAtGivenCoordinate(this.getHead())) {
                 return true;
             }
         }

@@ -12,7 +12,7 @@ public class SnakeBodyPartTest {
         SnakeBodyPart part = new SnakeBodyPart(xCoordinate, yCoordinate);
         SnakeBodyPart partOther = new SnakeBodyPart(xCoordinate, yCoordinate);
         // WHEN
-        boolean actual = part.isAt(partOther);
+        boolean actual = part.isAtGivenCoordinate(partOther);
         // THEN
         Assert.assertTrue(actual, "The coordinates are the same, but still the method gives back false");
     }
@@ -25,7 +25,7 @@ public class SnakeBodyPartTest {
         SnakeBodyPart part = new SnakeBodyPart(xCoordinate, yCoordinate);
         SnakeBodyPart partOther = new SnakeBodyPart(xCoordinate, xCoordinate);
         // WHEN
-        boolean actual = part.isAt(partOther);
+        boolean actual = part.isAtGivenCoordinate(partOther);
         // THEN
         Assert.assertFalse(actual, "The coordinates are not the same, but still the method gives back true");
     }

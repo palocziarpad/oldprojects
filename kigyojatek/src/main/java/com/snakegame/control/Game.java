@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import com.snakegame.BodyPartType;
 import com.snakegame.Direction;
+import com.snakegame.FoodTypes;
 import com.snakegame.GameState;
 import com.snakegame.Util;
 import com.snakegame.model.Snake;
@@ -79,16 +80,17 @@ public class Game {
      */
     public boolean eatFood() {
         int whichfood = snake.getHead().isAt(foodList);
-        SnakeBodyPart sbp;
+        SnakeBodyPart selectedFood;
         if (whichfood <= -1) {
             return false;
         }
-        sbp = foodList.get(whichfood);
-        sbp.setDirection(snake.getTail().getDirection());
-        eatenFood.addFirst(new SnakeBodyPart(sbp.getXCoordinate(), sbp.getYCoordinate(), BodyPartType.NEWPART));
-        if (whichfood == 0) {
-            newFoodsPlace(whichfood);
-        } else if (whichfood == 1) {
+        selectedFood = foodList.get(whichfood);
+        selectedFood.setDirection(snake.getTail().getDirection());
+        eatenFood.addFirst(
+                new SnakeBodyPart(selectedFood.getXCoordinate(), selectedFood.getYCoordinate(), BodyPartType.NEWPART));
+        if (whichfood == FoodTypes.NORMAL.ordinal()) {
+            newFoodsPlace(FoodTypes.NORMAL);
+        } else if (whichfood == FoodTypes.BONUS.ordinal()) {
             foodList.removeLast();
         }
         increaseScore();
@@ -102,7 +104,7 @@ public class Game {
     private void addBonusFood() {
         if (score == BONUS_FOOD_SCORE) {
             foodList.addLast(new SnakeBodyPart(snake.getTail().getXCoordinate(), snake.getTail().getYCoordinate()));
-            newFoodsPlace(1);
+            newFoodsPlace(FoodTypes.BONUS);
 
         }
     }
@@ -122,20 +124,20 @@ public class Game {
      * @param which
      *            the type of the food (0 normal, 1 bonus)
      */
-    public void newFoodsPlace(int which) {
+    public void newFoodsPlace(FoodTypes foodtype) {
 
         boolean collison = false;
         do {
-            SnakeBodyPart snakeBodyPart = foodList.get(which);
+            SnakeBodyPart snakeBodyPart = foodList.get(foodtype.ordinal());
             snakeBodyPart.setState(Util.random((byte) 0, tablesize), Util.random((byte) 0, tablesize), null);
             collison = snake.isCoordinatesOnSnake(snakeBodyPart.getXCoordinate(), snakeBodyPart.getYCoordinate());
             if (collison) {
                 continue;
             }
             for (int k = 0; k < foodList.size(); k++) {
-                if (k == which)
+                if (k == foodtype.ordinal())
                     continue;
-                if (foodList.get(k).isAt(snakeBodyPart)) {
+                if (foodList.get(k).isAtGivenCoordinate(snakeBodyPart)) {
                     collison = true;
                     break;
                 }

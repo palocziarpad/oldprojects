@@ -78,7 +78,7 @@ public class SnakeBodyPart extends Item {
      * @param snakeBodyPart
      * @return true if yes
      */
-    public boolean isAt(SnakeBodyPart snakeBodyPart) {
+    public boolean isAtGivenCoordinate(SnakeBodyPart snakeBodyPart) {
         return (xCoordinate == snakeBodyPart.xCoordinate && yCoordinate == snakeBodyPart.yCoordinate);
     }
 
@@ -102,7 +102,7 @@ public class SnakeBodyPart extends Item {
         SnakeBodyPart sbp;
         for (int k = 0; k < bodyPartsList.size(); k++) {
             sbp = bodyPartsList.get(k);
-            if (isAt(sbp)) {
+            if (isAtGivenCoordinate(sbp)) {
                 return k;
             }
         }

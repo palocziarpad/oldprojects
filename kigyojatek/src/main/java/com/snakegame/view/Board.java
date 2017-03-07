@@ -52,7 +52,7 @@ public class Board extends JPanel {
         this.setBounds(0, 0, maxSizeOfBoardPixels, maxSizeOfBoardPixels);
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.setSize(640, 480);
-        point = new Point(0, 0);
+        this.point = new Point(0, 0);
         this.setName(BOARD_NAME);
         this.snakeTheme = snakeTheme;
     }
@@ -64,12 +64,7 @@ public class Board extends JPanel {
 
         point.x = (640 - 421) / 8;
         point.y = 10;
-        g2d.drawImage(snakeTheme.getImage(PictureFiles.GAMEBG), 0, 00, null);
-        g2d.drawImage(snakeTheme.getImage(PictureFiles.TABLE), point.x, point.y, null);
-        g2d.drawImage(snakeTheme.getImage(PictureFiles.SCORE), point.x + 421, point.y, null);
-        g2d.setBackground(Color.white);
-        g2d.setColor(Color.orange);
-
+        drawBoard(g2d);
         drawSnake(g2d);
         drawPause(g2d);
 
@@ -280,6 +275,14 @@ public class Board extends JPanel {
 
     private boolean isSlant(SnakeBodyPart before, SnakeBodyPart after) {
         return before.getXCoordinate() != after.getXCoordinate() && before.getYCoordinate() != after.getYCoordinate();
+    }
+
+    private void drawBoard(Graphics2D g2d) {
+        g2d.drawImage(snakeTheme.getImage(PictureFiles.GAMEBG), 0, 00, null);
+        g2d.drawImage(snakeTheme.getImage(PictureFiles.TABLE), point.x, point.y, null);
+        g2d.drawImage(snakeTheme.getImage(PictureFiles.SCORE), point.x + 421, point.y, null);
+        g2d.setBackground(Color.white);
+        g2d.setColor(Color.orange);
     }
 
 }

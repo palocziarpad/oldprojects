@@ -118,33 +118,10 @@ public class GameRunner implements Runnable {
 
         gameThread.start();
 
-        /**
-         * @TODO 1. legyen egy j�t�k start gomb. pipa 2. pontsz�ml�l� pipa 3.
-         *       v�ltoztathat� skinek helyett theme, pipa 4. t�bbf�le kaja 5.
-         *       ideig ott l�v� kaja 6. kaj�l�s effekt 7. k�gy� hossz ut�n
-         *       gyorsuljon pipa 8. legyenek szintek 9. j�t�km�dok 10.
-         *       pontsz�ml�l� pipa 11. norm�lisabb gui pipa 12. help men� pipa
-         *       13. score sz�ml�l� pipa 14. Image abszrakt oszt�ly 15. Enum
-         *       oszt�lyok megfelel� oszt�lyba olvadjanak be 16. K�l�nb�z� v�gek
-         *       eset�n k�l�nb�z� k�pek. 17. score t�bla, avagy toplista 18.
-         *       id�m�r� 19. costum game 20. id�re gyorsuljon 21. id�r�l elt�n�
-         *       cucc, ami pontcountert sz�mol le, ha 0ra �r elt�nik. 22.
-         *       lehessen pause-t nyomni, ha lemegy a f�kusz a j�t�kr�l akkor
-         *       autopause 23. legyenek benne achivmentek. 24. t�bb profilos
-         *       legyen 25. multiplayer legyen benne. 26. mozg� kaja 27.
-         *       akad�lyok 28. legyen ini f�jl 29. legyen zene �s hangok 30.
-         *       ev�s el�tt nyiljon ki a sz�ja 31. var�zs kaj�n�l anim�ci�t
-         *       v�lt. 32. stack overfl� bug a random miatt. jav�tva 33. bug, a
-         *       dinnye ott marad. jav�tva
-         */
-        logger.info("End of the game.");
     }
 
-    /**
-     * Buglist: 1. az �j test megt�ri a k�pet fixed 2. �j test lukat csin�l
-     * n�ha, amin �t lehet menni an�lk�l hogy v�get �rne a j�t�k 3. a dupla kaja
-     * nem figyeli, hogy ha a m�sik kaj�val volt �tk�z�s fixed 4. nincs ny� g�m
-     * 5.
+    /***
+     * Start a new game
      */
     public void newGame() {
         sleepTime = DEFAULTDELAY;
