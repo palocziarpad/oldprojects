@@ -1,6 +1,7 @@
 package com.snakegame.control;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,14 +25,20 @@ import org.assertj.swing.timing.Pause;
 import org.assertj.swing.timing.Timeout;
 import org.testng.annotations.Test;
 
+import com.snakegame.Util;
 import com.snakegame.view.Board;
 import com.snakegame.view.MainWindow;
 
 public class GameRunnerTest extends AssertJSwingTestngTestCase {
+    private static final String GUI_SCREENSHOT_OUTPUT_DIR = "target/test-output/";
     private EmergencyAbortListener listener;
 
     @Override
     public void onSetUp() {
+        File testoutput = new File(GUI_SCREENSHOT_OUTPUT_DIR);
+        if (!testoutput.exists()) {
+            testoutput.mkdir();
+        }
         listener = EmergencyAbortListener.registerInToolkit();
 
     }
@@ -45,11 +52,12 @@ public class GameRunnerTest extends AssertJSwingTestngTestCase {
         FrameFixture mainFrame = WindowFinder.findFrame(MainWindow.GAME_WINDOW_TITLE).withTimeout(5 * 1000)
                 .using(robot());
         screenshot.saveImage(screenshot.takeDesktopScreenshot(),
-                "test-output/testGameStartEndWithWallHit_screen" + df.format(new Date()) + ".png");
+                GUI_SCREENSHOT_OUTPUT_DIR + "testGameStartEndWithWallHit_screen" + df.format(new Date()) + ".png");
         JLabel backGroundPanel = mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).target();
         mainFrame.button(MainWindow.START_BUTTON_NAME).requireEnabled().requireVisible();
         mainFrame.label(MainWindow.BACKGROUND_PANEL_NAME).requireEnabled().requireVisible();
         mainFrame.button(MainWindow.START_BUTTON_NAME).click(MouseButton.LEFT_BUTTON);
+        Util.sleep(1000);
         mainFrame.button(JButtonMatcher.withName(MainWindow.START_BUTTON_NAME)).requireNotVisible();
         mainFrame.label(JLabelMatcher.withName(MainWindow.BACKGROUND_PANEL_NAME)).requireNotVisible();
         mainFrame.panel(Board.BOARD_NAME).requireEnabled().requireVisible();
@@ -87,7 +95,7 @@ public class GameRunnerTest extends AssertJSwingTestngTestCase {
         ScreenshotTaker screenshot = new ScreenshotTaker();
         DateFormat df = new SimpleDateFormat("yy_MM_dd_HH_mm_ss");
         screenshot.saveImage(screenshot.takeDesktopScreenshot(),
-                "test-output/onTearDown_screen" + df.format(new Date()) + ".png");
+                GUI_SCREENSHOT_OUTPUT_DIR + "onTearDown_screen" + df.format(new Date()) + ".png");
         listener.unregister();
     }
 
