@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/saznetro/oldprojects.svg?branch=master)](https://travis-ci.org/saznetro/oldprojects)
 # oldprojects
 Repository for my old projects
 
